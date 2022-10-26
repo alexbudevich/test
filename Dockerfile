@@ -38,6 +38,4 @@ FROM base as prod
 
 COPY --from=build /app/dist /app/dist
 
-USER node
-
 CMD ["node", "dist/main"]
