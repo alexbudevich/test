@@ -1,15 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import {Inject, Injectable} from '@nestjs/common';
 import { CreateBookmakerDto } from './dto/create-bookmaker.dto';
 import { UpdateBookmakerDto } from './dto/update-bookmaker.dto';
+import {Repository} from "typeorm";
+import {Bookmaker} from "./entities/bookmaker.entity";
 
 @Injectable()
 export class BookmakersService {
+
+  constructor(
+      @Inject('BOOKMAKER_REPOSITORY')
+      private bookmakerRepository: Repository<Bookmaker>,
+  ) {}
+
   create(createBookmakerDto: CreateBookmakerDto) {
     return 'This action adds a new bookmaker';
   }
 
   findAll() {
-    return `This action returns all bookmakers`;
+    return this.bookmakerRepository.find();
   }
 
   findOne(id: number) {
