@@ -1,15 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import {Inject, Injectable} from '@nestjs/common';
 import { CreateRoundDto } from './dto/create-round.dto';
 import { UpdateRoundDto } from './dto/update-round.dto';
+import {Repository} from "typeorm";
+import {Player} from "../players/entities/player.entity";
+import {Round} from "./entities/round.entity";
 
 @Injectable()
 export class RoundsService {
+
+  constructor(
+      @Inject('ROUND_REPOSITORY')
+      private roundRepository: Repository<Round>,
+  ) {}
   create(createRoundDto: CreateRoundDto) {
     return 'This action adds a new round';
   }
 
   findAll() {
-    return `This action returns all rounds`;
+    return this.roundRepository.find();
   }
 
   findOne(id: number) {

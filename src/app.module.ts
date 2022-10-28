@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { DatabaseModule } from './common/database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { BookmakersModule } from './modules/bookmakers/bookmakers.module';
@@ -35,7 +33,5 @@ import { VenuesModule } from './modules/venues/venues.module';
     TimeZonesModule,
     VenuesModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

@@ -1,15 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import {Inject, Injectable} from '@nestjs/common';
 import { CreateLeagueDto } from './dto/create-league.dto';
 import { UpdateLeagueDto } from './dto/update-league.dto';
+import {Repository} from "typeorm";
+import {League} from "./entities/league.entity";
 
 @Injectable()
 export class LeaguesService {
+
+  constructor(
+      @Inject('LEAGUE_REPOSITORY')
+      private leaguaRepository: Repository<League>,
+  ) {}
   create(createLeagueDto: CreateLeagueDto) {
     return 'This action adds a new league';
   }
 
   findAll() {
-    return `This action returns all leagues`;
+    return this.leaguaRepository.find();
   }
 
   findOne(id: number) {
