@@ -15,8 +15,23 @@ export class Odd {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
 
-  @Column('json', { name: 'odds', nullable: true })
-  odds: object | null;
+  @Column('character varying', { name: 'name', nullable: true, length: 50 })
+  name: string | null;
+
+  @Column('character varying', { name: 'value', nullable: true, length: 50 })
+  value: string | null;
+
+  @Column('integer', { name: 'odd', nullable: true })
+  odd: number | null;
+
+  @Column('integer', { name: 'handicap', nullable: true })
+  handicap: number | null;
+
+  @Column('boolean', { name: 'is_main', nullable: true })
+  isMain: boolean | null;
+
+  @Column('boolean', { name: 'is_suspended', nullable: true })
+  isSuspended: boolean | null;
 
   @ManyToOne(() => Bookmaker, (bookmaker) => bookmaker.odds)
   @JoinColumn([{ name: 'bookmaker_id', referencedColumnName: 'id' }])

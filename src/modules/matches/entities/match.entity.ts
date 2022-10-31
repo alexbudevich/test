@@ -13,6 +13,7 @@ import { Venue } from '../../venues/entities/venue.entity';
 import { Country } from '../../countries/entities/country.entity';
 import { Team } from '../../teams/entities/team.entity';
 import { Odd } from '../../odds/entities/odd.entity';
+import { Round } from '../../rounds/entities/round.entity';
 
 @Index('match_pkey', ['id'], { unique: true })
 @Entity('match', { schema: 'public' })
@@ -20,20 +21,33 @@ export class Match {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
 
-  @Column('timestamp with time zone', { name: 'date' })
-  date: Date;
+  @Column('timestamp with time zone', { name: 'date', nullable: true })
+  date: Date | null;
 
-  @Column('character varying', { name: 'weather', length: 50 })
-  weather: string;
+  @Column('character varying', { name: 'weather', nullable: true, length: 50 })
+  weather: string | null;
 
-  @Column('character varying', { name: 'referee', length: 50 })
-  referee: string;
+  @Column('character varying', { name: 'referee', nullable: true, length: 50 })
+  referee: string | null;
 
-  @Column('smallint', { name: 'match_score_team_home', nullable: true })
-  matchScoreTeamHome: number | null;
+  @Column('smallint', { name: 'match_score_home', nullable: true })
+  matchScoreHome: number | null;
 
-  @Column('smallint', { name: 'match_score_team_away', nullable: true })
-  matchScoreTeamAway: number | null;
+  @Column('smallint', { name: 'match_score_away', nullable: true })
+  matchScoreAway: number | null;
+
+  @Column('smallint', { name: 'elapsed', nullable: true })
+  elapsed: number | null;
+
+  @Column('character varying', {
+    name: 'status_short',
+    nullable: true,
+    length: 5,
+  })
+  statusShort: string | null;
+
+  @Column('json', { name: 'statistics', nullable: true })
+  statistics: object | null;
 
   @ManyToOne(() => Country, (country) => country.matches)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
@@ -50,6 +64,10 @@ export class Match {
   @ManyToOne(() => Player, (player) => player.matches2)
   @JoinColumn([{ name: 'player_2_id', referencedColumnName: 'id' }])
   player_2: Player;
+
+  @ManyToOne(() => Round, (round) => round.matches)
+  @JoinColumn([{ name: 'round_id', referencedColumnName: 'id' }])
+  round: Round;
 
   @ManyToOne(() => Team, (team) => team.matches)
   @JoinColumn([{ name: 'team_away_id', referencedColumnName: 'id' }])

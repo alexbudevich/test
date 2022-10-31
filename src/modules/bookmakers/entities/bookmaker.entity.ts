@@ -5,6 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Country } from '../../countries/entities/country.entity';
 import { Odd } from '../../odds/entities/odd.entity';
@@ -12,7 +13,7 @@ import { Odd } from '../../odds/entities/odd.entity';
 @Index('pk_1', ['id'], { unique: true })
 @Entity('bookmaker', { schema: 'public' })
 export class Bookmaker {
-  @Column('integer', { primary: true, name: 'id' })
+  @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
 
   @Column('character varying', { name: 'name', length: 50 })

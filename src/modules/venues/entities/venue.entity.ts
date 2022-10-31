@@ -17,23 +17,41 @@ export class Venue {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
 
-  @Column('character varying', { name: 'name', length: 50 })
-  name: string;
+  @Column('character varying', { name: 'name', nullable: true, length: 50 })
+  name: string | null;
 
-  @Column('text', { name: 'address' })
-  address: string;
+  @Column('text', { name: 'address', nullable: true })
+  address: string | null;
 
-  @Column('character varying', { name: 'city', length: 50 })
-  city: string;
+  @Column('character varying', { name: 'city', nullable: true, length: 50 })
+  city: string | null;
 
-  @Column('character varying', { name: 'capacity', length: 50 })
-  capacity: string;
+  @Column('character varying', { name: 'surface', nullable: true, length: 50 })
+  surface: string | null;
 
-  @Column('character varying', { name: 'surface', length: 50 })
-  surface: string;
+  @Column('text', { name: 'image_url', nullable: true })
+  imageUrl: string | null;
 
-  @Column('text', { name: 'image_url' })
-  imageUrl: string;
+  @Column('smallint', { name: 'capacity', nullable: true })
+  capacity: number | null;
+
+  @Column('smallint', { name: 'rank', nullable: true })
+  rank: number | null;
+
+  @Column('smallint', { name: 'played', nullable: true })
+  played: number | null;
+
+  @Column('smallint', { name: 'win', nullable: true })
+  win: number | null;
+
+  @Column('smallint', { name: 'draw', nullable: true })
+  draw: number | null;
+
+  @Column('smallint', { name: 'lose', nullable: true })
+  lose: number | null;
+
+  @Column('timestamp with time zone', { name: 'timestamp', nullable: true })
+  timestamp: Date | null;
 
   @OneToMany(() => Match, (match) => match.venue)
   matches: Match[];

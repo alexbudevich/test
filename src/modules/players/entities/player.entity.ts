@@ -10,6 +10,7 @@ import {
 import { Sport } from '../../sports/entities/sport.entity';
 import { Country } from '../../countries/entities/country.entity';
 import { Match } from '../../matches/entities/match.entity';
+import { TeamPlayer } from './team-player.entity';
 
 @Index('player_pkey', ['id'], { unique: true })
 @Entity('player', { schema: 'public' })
@@ -82,4 +83,7 @@ export class Player {
 
   @OneToMany(() => Sport, (sport) => sport.player)
   sports: Sport[];
+
+  @OneToMany(() => TeamPlayer, (teamPlayer) => teamPlayer.player)
+  teamPlayers: TeamPlayer[];
 }

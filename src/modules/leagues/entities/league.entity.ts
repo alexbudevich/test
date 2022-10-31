@@ -13,6 +13,7 @@ import { Round } from '../../rounds/entities/round.entity';
 import { Team } from '../../teams/entities/team.entity';
 import { Season } from '../../seasons/entities/season.entity';
 import { Match } from '../../matches/entities/match.entity';
+import { Week } from '../../../common/entitys/week.entity';
 
 @Index('league_pkey', ['id'], { unique: true })
 @Entity('league', { schema: 'public' })
@@ -28,9 +29,6 @@ export class League {
 
   @Column('text', { name: 'logo_url', nullable: true })
   logoUrl: string | null;
-
-  @Column('boolean', { name: 'current', nullable: true })
-  current: boolean | null;
 
   @ManyToOne(() => Country, (country) => country.leagues)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
@@ -51,4 +49,7 @@ export class League {
 
   @OneToMany(() => Team, (team) => team.league)
   teams: Team[];
+
+  @OneToMany(() => Week, (week) => week.league)
+  weeks: Week[];
 }

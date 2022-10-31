@@ -35,20 +35,14 @@ export class Sport {
   @Column('json', { name: 'statistics', nullable: true })
   statistics: object | null;
 
-  @Column('json', { name: 'odds_movement', nullable: true })
-  oddsMovement: object | null;
-
-  @Column('json', { name: 'odds_movement_timeline', nullable: true })
-  oddsMovementTimeline: object | null;
-
-  @Column('json', { name: 'odds_outright', nullable: true })
-  oddsOutright: object | null;
-
   @Column('json', { name: 'betting_offers_special_offer', nullable: true })
   bettingOffersSpecialOffer: object | null;
 
   @Column('json', { name: 'betting_offers_bonuses', nullable: true })
   bettingOffersBonuses: object | null;
+
+  @Column('smallint', { name: 'type', nullable: true })
+  type: number | null;
 
   @ManyToOne(() => Country, (country) => country.sports)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])

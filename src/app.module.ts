@@ -11,7 +11,6 @@ import { RoundsModule } from './modules/rounds/rounds.module';
 import { SeasonsModule } from './modules/seasons/seasons.module';
 import { SportsModule } from './modules/sports/sports.module';
 import { TeamsModule } from './modules/teams/teams.module';
-import { TimeZonesModule } from './modules/time-zones/time-zones.module';
 import { VenuesModule } from './modules/venues/venues.module';
 
 @Module({
@@ -30,7 +29,6 @@ import { VenuesModule } from './modules/venues/venues.module';
     SeasonsModule,
     SportsModule,
     TeamsModule,
-    TimeZonesModule,
     VenuesModule,
   ],
 })

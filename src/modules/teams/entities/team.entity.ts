@@ -12,6 +12,7 @@ import { League } from '../../leagues/entities/league.entity';
 import { Venue } from '../../venues/entities/venue.entity';
 import { Country } from '../../countries/entities/country.entity';
 import { Match } from '../../matches/entities/match.entity';
+import { TeamPlayer } from '../../players/entities/team-player.entity';
 
 @Index('team_pkey', ['id'], { unique: true })
 @Entity('team', { schema: 'public' })
@@ -33,9 +34,6 @@ export class Team {
 
   @Column('text', { name: 'logo_url', nullable: true })
   logoUrl: string | null;
-
-  @Column('json', { name: 'players', nullable: true })
-  players: object | null;
 
   @Column('json', { name: 'statistics', nullable: true })
   statistics: object | null;
@@ -60,4 +58,7 @@ export class Team {
   @ManyToOne(() => Venue, (venue) => venue.teams)
   @JoinColumn([{ name: 'venue_id', referencedColumnName: 'id' }])
   venue: Venue;
+
+  @OneToMany(() => TeamPlayer, (teamPlayer) => teamPlayer.team)
+  teamPlayers: TeamPlayer[];
 }
