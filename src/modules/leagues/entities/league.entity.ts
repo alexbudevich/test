@@ -13,7 +13,7 @@ import { Round } from '../../rounds/entities/round.entity';
 import { Team } from '../../teams/entities/team.entity';
 import { Season } from '../../seasons/entities/season.entity';
 import { Match } from '../../matches/entities/match.entity';
-import { Week } from '../../../common/entitys/week.entity';
+import { Week } from '../../../common/entities/week.entity';
 
 @Index('league_pkey', ['id'], { unique: true })
 @Entity('league', { schema: 'public' })

@@ -1,15 +1,14 @@
-import {Inject, Injectable} from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateVenueDto } from './dto/create-venue.dto';
 import { UpdateVenueDto } from './dto/update-venue.dto';
-import {Repository} from "typeorm";
-import {TimeZone} from "../time-zones/entities/time-zone.entity";
+import { Repository } from 'typeorm';
+import { Venue } from './entities/venue.entity';
 
 @Injectable()
 export class VenuesService {
-
   constructor(
-      @Inject('VENUE_REPOSITORY')
-      private venueRepository: Repository<TimeZone>,
+    @Inject('VENUE_REPOSITORY')
+    private venueRepository: Repository<Venue>,
   ) {}
   create(createVenueDto: CreateVenueDto) {
     return 'This action adds a new venue';
