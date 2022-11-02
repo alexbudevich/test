@@ -1,42 +1,18 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { SportsService } from './sports.service';
-import { CreateSportDto } from './dto/create-sport.dto';
-import { UpdateSportDto } from './dto/update-sport.dto';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('sports')
 export class SportsController {
   constructor(private readonly sportsService: SportsService) {}
 
-  @Post()
-  create(@Body() createSportDto: CreateSportDto) {
-    return this.sportsService.create(createSportDto);
-  }
-
   @Get()
-  findAll() {
-    return this.sportsService.findAll();
+  findAll(@Paginate() query: PaginateQuery) {
+    return this.sportsService.findAll(query);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.sportsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSportDto: UpdateSportDto) {
-    return this.sportsService.update(+id, updateSportDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.sportsService.remove(+id);
+  findOne(@Param('id') id: number) {
+    return this.sportsService.findOne(id);
   }
 }

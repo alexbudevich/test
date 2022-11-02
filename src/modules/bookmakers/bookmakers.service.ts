@@ -1,34 +1,14 @@
-import {Inject, Injectable} from '@nestjs/common';
-import { CreateBookmakerDto } from './dto/create-bookmaker.dto';
-import { UpdateBookmakerDto } from './dto/update-bookmaker.dto';
-import {Repository} from "typeorm";
-import {Bookmaker} from "./entities/bookmaker.entity";
+import { Inject, Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { Bookmaker } from './entities/bookmaker.entity';
+import { AbstractDomainService } from '../../common/abstract-domain.service';
 
 @Injectable()
-export class BookmakersService {
-
+export class BookmakersService extends AbstractDomainService {
   constructor(
-      @Inject('BOOKMAKER_REPOSITORY')
-      private bookmakerRepository: Repository<Bookmaker>,
-  ) {}
-
-  create(createBookmakerDto: CreateBookmakerDto) {
-    return 'This action adds a new bookmaker';
-  }
-
-  findAll() {
-    return this.bookmakerRepository.find();
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} bookmaker`;
-  }
-
-  update(id: number, updateBookmakerDto: UpdateBookmakerDto) {
-    return `This action updates a #${id} bookmaker`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} bookmaker`;
+    @Inject('BOOKMAKER_REPOSITORY')
+    repository: Repository<Bookmaker>,
+  ) {
+    super(repository);
   }
 }
