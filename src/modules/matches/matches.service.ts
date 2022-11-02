@@ -1,34 +1,14 @@
-import {Inject, Injectable} from '@nestjs/common';
-import { CreateMatchDto } from './dto/create-match.dto';
-import { UpdateMatchDto } from './dto/update-match.dto';
-import {Repository} from "typeorm";
-import {League} from "../leagues/entities/league.entity";
-import {Match} from "./entities/match.entity";
+import { Inject, Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { Match } from './entities/match.entity';
+import { AbstractDomainService } from '../../common/abstract-domain.service';
 
 @Injectable()
-export class MatchesService {
-
+export class MatchesService extends AbstractDomainService {
   constructor(
-      @Inject('MATCH_REPOSITORY')
-      private matchRepository: Repository<Match>,
-  ) {}
-  create(createMatchDto: CreateMatchDto) {
-    return 'This action adds a new match';
-  }
-
-  findAll() {
-    return this.matchRepository.find();
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} match`;
-  }
-
-  update(id: number, updateMatchDto: UpdateMatchDto) {
-    return `This action updates a #${id} match`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} match`;
+    @Inject('MATCH_REPOSITORY')
+    repository: Repository<Match>,
+  ) {
+    super(repository);
   }
 }

@@ -1,45 +1,18 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { BookmakersService } from './bookmakers.service';
-import { CreateBookmakerDto } from './dto/create-bookmaker.dto';
-import { UpdateBookmakerDto } from './dto/update-bookmaker.dto';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('bookmakers')
 export class BookmakersController {
   constructor(private readonly bookmakersService: BookmakersService) {}
 
-  @Post()
-  create(@Body() createBookmakerDto: CreateBookmakerDto) {
-    return this.bookmakersService.create(createBookmakerDto);
-  }
-
   @Get()
-  findAll() {
-    return this.bookmakersService.findAll();
+  findAll(@Paginate() query: PaginateQuery) {
+    return this.bookmakersService.findAll(query);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bookmakersService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateBookmakerDto: UpdateBookmakerDto,
-  ) {
-    return this.bookmakersService.update(+id, updateBookmakerDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.bookmakersService.remove(+id);
+  findOne(@Param('id') id: number) {
+    return this.bookmakersService.findOne(id);
   }
 }
