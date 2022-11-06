@@ -10,7 +10,6 @@ import {
 import { League } from '../../leagues/entities/league.entity';
 import { Player } from '../../players/entities/player.entity';
 import { Venue } from '../../venues/entities/venue.entity';
-import { Country } from '../../countries/entities/country.entity';
 import { Team } from '../../teams/entities/team.entity';
 import { Odd } from '../../odds/entities/odd.entity';
 import { Round } from '../../rounds/entities/round.entity';
@@ -49,9 +48,8 @@ export class Match {
   @Column('json', { name: 'statistics', nullable: true })
   statistics: object | null;
 
-  @ManyToOne(() => Country, (country) => country.matches)
-  @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
-  country: Country;
+  @Column('boolean', { name: 'is_live', nullable: true })
+  isLive: boolean | null;
 
   @ManyToOne(() => League, (league) => league.matches)
   @JoinColumn([{ name: 'league_id', referencedColumnName: 'id' }])

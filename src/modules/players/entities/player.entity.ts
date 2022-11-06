@@ -34,11 +34,11 @@ export class Player {
   @Column('smallint', { name: 'age', nullable: true })
   age: number | null;
 
-  @Column('timestamp without time zone', { name: 'birth', nullable: true })
-  birth: Date | null;
+  @Column('date', { name: 'birth', nullable: true })
+  birth: string | null;
 
-  @Column('timestamp with time zone', { name: 'date', nullable: true })
-  date: Date | null;
+  @Column('date', { name: 'date', nullable: true })
+  date: string | null;
 
   @Column('character varying', { name: 'place', nullable: true, length: 50 })
   place: string | null;
