@@ -11,7 +11,6 @@ import { Sport } from '../../sports/entities/sport.entity';
 import { Bookmaker } from '../../bookmakers/entities/bookmaker.entity';
 import { Venue } from '../../venues/entities/venue.entity';
 import { Team } from '../../teams/entities/team.entity';
-import { Match } from '../../matches/entities/match.entity';
 
 @Index('country_pkey', ['id'], { unique: true })
 @Entity('country', { schema: 'public' })
@@ -33,9 +32,6 @@ export class Country {
 
   @OneToMany(() => League, (league) => league.country)
   leagues: League[];
-
-  @OneToMany(() => Match, (match) => match.country)
-  matches: Match[];
 
   @OneToMany(() => Player, (player) => player.country)
   players: Player[];
