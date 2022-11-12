@@ -69,6 +69,13 @@ export class Bookmaker {
   @Column('json', { name: 'bank_limits_limits', nullable: true })
   bankLimitsLimits: object | null;
 
+  @Column('character varying', {
+    name: 'provider_id',
+    nullable: true,
+    length: 50,
+  })
+  providerId: string | null;
+
   @ManyToOne(() => Country, (country) => country.bookmakers)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;

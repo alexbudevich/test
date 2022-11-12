@@ -1,14 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Season } from './entities/season.entity';
-import { AbstractDomainService } from '../../common/abstract-domain.service';
+import { paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Injectable()
-export class SeasonsService extends AbstractDomainService {
+export class SeasonsService {
   constructor(
     @Inject('SEASON_REPOSITORY')
-    repository: Repository<Season>,
-  ) {
-    super(repository);
+    private repository: Repository<Season>,
+  ) {}
+
+  findAll(query: PaginateQuery) {
+    return paginate(query, this.repository, {
+      sortableColumns: ['id'],
+    });
+  }
+
+  findOne(id: number) {
+    return this.repository.findOneBy({ id: id });
   }
 }

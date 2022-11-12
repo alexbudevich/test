@@ -3,6 +3,8 @@ import {
   Entity,
   Index,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -21,7 +23,7 @@ export class League {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
 
-  @Column('character varying', { name: 'name', nullable: true, length: 50 })
+  @Column('text', { name: 'name', nullable: true })
   name: string | null;
 
   @Column('character varying', { name: 'type', nullable: true, length: 50 })
@@ -30,13 +32,30 @@ export class League {
   @Column('text', { name: 'logo_url', nullable: true })
   logoUrl: string | null;
 
+  @Column('character varying', {
+    name: 'provider_id',
+    nullable: true,
+    length: 50,
+  })
+  providerId: string | null;
+
   @ManyToOne(() => Country, (country) => country.leagues)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
 
-  @ManyToOne(() => Season, (season) => season.leagues)
-  @JoinColumn([{ name: 'season_id', referencedColumnName: 'id' }])
-  season: Season;
+  @ManyToMany(() => Season)
+  @JoinTable({
+    name: 'league_season',
+    joinColumn: {
+      name: 'league_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'season_id',
+      referencedColumnName: 'id',
+    },
+  })
+  seasons: Season[];
 
   @OneToMany(() => Match, (match) => match.league)
   matches: Match[];

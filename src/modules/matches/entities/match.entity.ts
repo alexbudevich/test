@@ -51,6 +51,13 @@ export class Match {
   @Column('boolean', { name: 'is_live', nullable: true })
   isLive: boolean | null;
 
+  @Column('character varying', {
+    name: 'provider_id',
+    nullable: true,
+    length: 50,
+  })
+  providerId: string | null;
+
   @ManyToOne(() => League, (league) => league.matches)
   @JoinColumn([{ name: 'league_id', referencedColumnName: 'id' }])
   league: League;

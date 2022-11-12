@@ -17,7 +17,7 @@ export class Venue {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
 
-  @Column('character varying', { name: 'name', nullable: true, length: 50 })
+  @Column('text', { name: 'name', nullable: true })
   name: string | null;
 
   @Column('text', { name: 'address', nullable: true })
@@ -52,6 +52,13 @@ export class Venue {
 
   @Column('timestamp with time zone', { name: 'timestamp', nullable: true })
   timestamp: Date | null;
+
+  @Column('character varying', {
+    name: 'provider_id',
+    nullable: true,
+    length: 50,
+  })
+  providerId: string | null;
 
   @OneToMany(() => Match, (match) => match.venue)
   matches: Match[];

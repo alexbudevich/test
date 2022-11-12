@@ -2,11 +2,12 @@ import {
   Column,
   Entity,
   Index,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { League } from '../../leagues/entities/league.entity';
 import { Week } from '../../../common/entities/week.entity';
+import { League } from '../../leagues/entities/league.entity';
 
 @Index('season_pkey', ['id'], { unique: true })
 @Entity('season', { schema: 'public' })
@@ -14,14 +15,17 @@ export class Season {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
 
-  @Column('smallint', { name: 'year_from', nullable: true })
-  yearFrom: number | null;
+  @Column('smallint', { name: 'year', nullable: true })
+  year: number | null;
 
-  @Column('smallint', { name: 'year_to', nullable: true })
-  yearTo: number | null;
+  @Column('character varying', { name: 'start', nullable: true, length: 50 })
+  start: string | null;
 
-  @OneToMany(() => League, (league) => league.season)
-  leagues: League[];
+  @Column('character varying', { name: 'end', nullable: true, length: 50 })
+  end: string | null;
+
+  @ManyToMany(() => League, (league) => league.seasons)
+  league: League[];
 
   @OneToMany(() => Week, (week) => week.season)
   weeks: Week[];

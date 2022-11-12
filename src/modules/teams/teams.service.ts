@@ -1,14 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Team } from './entities/team.entity';
-import { AbstractDomainService } from '../../common/abstract-domain.service';
+import { paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Injectable()
-export class TeamsService extends AbstractDomainService {
+export class TeamsService {
   constructor(
     @Inject('TEAM_REPOSITORY')
-    repository: Repository<Team>,
-  ) {
-    super(repository);
+    private repository: Repository<Team>,
+  ) {}
+
+  findAll(query: PaginateQuery) {
+    return paginate(query, this.repository, {
+      sortableColumns: ['id'],
+    });
+  }
+
+  findOne(id: number) {
+    return this.repository.findOneBy({ id: id });
   }
 }

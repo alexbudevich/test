@@ -1,14 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Bookmaker } from '../bookmakers/entities/bookmaker.entity';
-import { AbstractDomainService } from '../../common/abstract-domain.service';
+import { paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Injectable()
-export class CountriesService extends AbstractDomainService {
+export class CountriesService {
   constructor(
     @Inject('COUNTRY_REPOSITORY')
-    repository: Repository<Bookmaker>,
-  ) {
-    super(repository);
+    private repository: Repository<Bookmaker>,
+  ) {}
+
+  findAll(query: PaginateQuery) {
+    return paginate(query, this.repository, {
+      sortableColumns: ['id'],
+    });
+  }
+
+  findOne(id: number) {
+    return this.repository.findOneBy({ id: id });
   }
 }

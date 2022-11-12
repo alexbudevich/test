@@ -44,6 +44,13 @@ export class Sport {
   @Column('smallint', { name: 'type', nullable: true })
   type: number | null;
 
+  @Column('character varying', {
+    name: 'provider_id',
+    nullable: true,
+    length: 50,
+  })
+  providerId: string | null;
+
   @ManyToOne(() => Country, (country) => country.sports)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;

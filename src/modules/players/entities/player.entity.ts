@@ -3,6 +3,8 @@ import {
   Entity,
   Index,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -10,7 +12,7 @@ import {
 import { Sport } from '../../sports/entities/sport.entity';
 import { Country } from '../../countries/entities/country.entity';
 import { Match } from '../../matches/entities/match.entity';
-import { TeamPlayer } from './team-player.entity';
+import { Team } from '../../teams/entities/team.entity';
 
 @Index('player_pkey', ['id'], { unique: true })
 @Entity('player', { schema: 'public' })
@@ -71,6 +73,13 @@ export class Player {
   @Column('json', { name: 'career', nullable: true })
   career: object | null;
 
+  @Column('character varying', {
+    name: 'provider_id',
+    nullable: true,
+    length: 50,
+  })
+  providerId: string | null;
+
   @OneToMany(() => Match, (match) => match.player_1)
   matches: Match[];
 
@@ -84,6 +93,17 @@ export class Player {
   @OneToMany(() => Sport, (sport) => sport.player)
   sports: Sport[];
 
-  @OneToMany(() => TeamPlayer, (teamPlayer) => teamPlayer.player)
-  teamPlayers: TeamPlayer[];
+  @ManyToMany(() => Team)
+  @JoinTable({
+    name: 'team_player',
+    joinColumn: {
+      name: 'player_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'team_id',
+      referencedColumnName: 'id',
+    },
+  })
+  team: Team[];
 }
