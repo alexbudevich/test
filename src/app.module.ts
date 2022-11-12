@@ -12,6 +12,7 @@ import { SeasonsModule } from './modules/seasons/seasons.module';
 import { SportsModule } from './modules/sports/sports.module';
 import { TeamsModule } from './modules/teams/teams.module';
 import { VenuesModule } from './modules/venues/venues.module';
+import { HealthcheckModule } from './healthcheck/healthcheck.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { VenuesModule } from './modules/venues/venues.module';
     SportsModule,
     TeamsModule,
     VenuesModule,
+    HealthcheckModule,
   ],
 })
 export class AppModule {}
