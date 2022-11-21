@@ -13,6 +13,7 @@ import { Venue } from '../../venues/entities/venue.entity';
 import { Team } from '../../teams/entities/team.entity';
 import { Odd } from '../../odds/entities/odd.entity';
 import { Round } from '../../rounds/entities/round.entity';
+import { FootballStatistic } from '../../../common/entities/footbol-statistic.entity';
 
 @Index('match_pkey', ['id'], { unique: true })
 @Entity('match', { schema: 'public' })
@@ -57,6 +58,12 @@ export class Match {
     length: 50,
   })
   providerId: string | null;
+
+  @OneToMany(
+    () => FootballStatistic,
+    (footballStatistic) => footballStatistic.match,
+  )
+  footballStatistics: FootballStatistic[];
 
   @ManyToOne(() => League, (league) => league.matches)
   @JoinColumn([{ name: 'league_id', referencedColumnName: 'id' }])

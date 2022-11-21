@@ -10,39 +10,13 @@ import {
 import { Player } from '../../players/entities/player.entity';
 import { Country } from '../../countries/entities/country.entity';
 import { Team } from '../../teams/entities/team.entity';
+import { SportType } from '../../../common/entities/sport-type.entity';
 
 @Index('sport_pkey', ['id'], { unique: true })
 @Entity('sport', { schema: 'public' })
 export class Sport {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
-
-  @Column('character varying', { name: 'place', nullable: true, length: 50 })
-  place: string | null;
-
-  @Column('timestamp with time zone', { name: 'datetime', nullable: true })
-  datetime: Date | null;
-
-  @Column('boolean', { name: 'is_live', nullable: true })
-  isLive: boolean | null;
-
-  @Column('character varying', { name: 'referee', nullable: true, length: 50 })
-  referee: string | null;
-
-  @Column('json', { name: 'lineups', nullable: true })
-  lineups: object | null;
-
-  @Column('json', { name: 'statistics', nullable: true })
-  statistics: object | null;
-
-  @Column('json', { name: 'betting_offers_special_offer', nullable: true })
-  bettingOffersSpecialOffer: object | null;
-
-  @Column('json', { name: 'betting_offers_bonuses', nullable: true })
-  bettingOffersBonuses: object | null;
-
-  @Column('smallint', { name: 'type', nullable: true })
-  type: number | null;
 
   @Column('character varying', {
     name: 'provider_id',
@@ -66,4 +40,8 @@ export class Sport {
   @ManyToOne(() => Team, (team) => team.sports)
   @JoinColumn([{ name: 'team_id', referencedColumnName: 'id' }])
   team: Team;
+
+  @ManyToOne(() => SportType, (sportType) => sportType.sports)
+  @JoinColumn([{ name: 'type_id', referencedColumnName: 'id' }])
+  type: SportType;
 }

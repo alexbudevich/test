@@ -13,6 +13,7 @@ import { Venue } from '../../venues/entities/venue.entity';
 import { Country } from '../../countries/entities/country.entity';
 import { Match } from '../../matches/entities/match.entity';
 import { Player } from '../../players/entities/player.entity';
+import { FootballStatistic } from '../../../common/entities/footbol-statistic.entity';
 
 @Index('team_pkey', ['id'], { unique: true })
 @Entity('team', { schema: 'public' })
@@ -26,17 +27,8 @@ export class Team {
   @Column('character varying', { name: 'code', nullable: true, length: 50 })
   code: string | null;
 
-  @Column('character varying', { name: 'founded', nullable: true, length: 50 })
-  founded: string | null;
-
-  @Column('character varying', { name: 'national', nullable: true, length: 50 })
-  national: string | null;
-
   @Column('text', { name: 'logo_url', nullable: true })
   logoUrl: string | null;
-
-  @Column('json', { name: 'statistics', nullable: true })
-  statistics: object | null;
 
   @Column('character varying', {
     name: 'provider_id',
@@ -44,6 +36,18 @@ export class Team {
     length: 50,
   })
   providerId: string | null;
+
+  @Column('smallint', { name: 'founded', nullable: true })
+  founded: number | null;
+
+  @Column('boolean', { name: 'national', nullable: true })
+  national: boolean | null;
+
+  @OneToMany(
+    () => FootballStatistic,
+    (footballStatistic) => footballStatistic.team,
+  )
+  footballStatistics: FootballStatistic[];
 
   @OneToMany(() => Match, (match) => match.teamAway)
   matches: Match[];

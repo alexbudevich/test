@@ -13,6 +13,7 @@ import { Sport } from '../../sports/entities/sport.entity';
 import { Country } from '../../countries/entities/country.entity';
 import { Match } from '../../matches/entities/match.entity';
 import { Team } from '../../teams/entities/team.entity';
+import { FootballStatistic } from '../../../common/entities/footbol-statistic.entity';
 
 @Index('player_pkey', ['id'], { unique: true })
 @Entity('player', { schema: 'public' })
@@ -38,9 +39,6 @@ export class Player {
 
   @Column('date', { name: 'birth', nullable: true })
   birth: string | null;
-
-  @Column('date', { name: 'date', nullable: true })
-  date: string | null;
 
   @Column('character varying', { name: 'place', nullable: true, length: 50 })
   place: string | null;
@@ -79,6 +77,12 @@ export class Player {
     length: 50,
   })
   providerId: string | null;
+
+  @OneToMany(
+    () => FootballStatistic,
+    (footballStatistic) => footballStatistic.player,
+  )
+  footballStatistics: FootballStatistic[];
 
   @OneToMany(() => Match, (match) => match.player_1)
   matches: Match[];

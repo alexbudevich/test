@@ -35,24 +35,6 @@ export class Venue {
   @Column('smallint', { name: 'capacity', nullable: true })
   capacity: number | null;
 
-  @Column('smallint', { name: 'rank', nullable: true })
-  rank: number | null;
-
-  @Column('smallint', { name: 'played', nullable: true })
-  played: number | null;
-
-  @Column('smallint', { name: 'win', nullable: true })
-  win: number | null;
-
-  @Column('smallint', { name: 'draw', nullable: true })
-  draw: number | null;
-
-  @Column('smallint', { name: 'lose', nullable: true })
-  lose: number | null;
-
-  @Column('timestamp with time zone', { name: 'timestamp', nullable: true })
-  timestamp: Date | null;
-
   @Column('character varying', {
     name: 'provider_id',
     nullable: true,

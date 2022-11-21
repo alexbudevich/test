@@ -21,9 +21,6 @@ export class Odd {
   @Column('character varying', { name: 'value', nullable: true, length: 50 })
   value: string | null;
 
-  @Column('integer', { name: 'odd', nullable: true })
-  odd: number | null;
-
   @Column('integer', { name: 'handicap', nullable: true })
   handicap: number | null;
 
@@ -32,6 +29,16 @@ export class Odd {
 
   @Column('boolean', { name: 'is_suspended', nullable: true })
   isSuspended: boolean | null;
+
+  @Column('numeric', { name: 'odd', nullable: true })
+  odd: string | null;
+
+  @Column('character varying', {
+    name: 'provider_id',
+    nullable: true,
+    length: 50,
+  })
+  providerId: string | null;
 
   @ManyToOne(() => Bookmaker, (bookmaker) => bookmaker.odds)
   @JoinColumn([{ name: 'bookmaker_id', referencedColumnName: 'id' }])

@@ -1,17 +1,21 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { BookmakersService } from './bookmakers.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiQuery } from '@nestjs/swagger';
+import { BookmakerCriteriaDto } from './dto/bookmaker-criteria.dto';
 
 @Controller('bookmakers')
 export class BookmakersController {
   constructor(private readonly bookmakersService: BookmakersService) {}
 
-  @Get()
+  @Post('/search')
   @ApiQuery({ name: 'page', type: Number, required: false })
   @ApiQuery({ name: 'limit', type: Number, required: false })
-  findAll(@Paginate() query: PaginateQuery) {
-    return this.bookmakersService.findAll(query);
+  findByCriteria(
+    @Paginate() query: PaginateQuery,
+    @Body() criteria: BookmakerCriteriaDto,
+  ) {
+    return this.bookmakersService.searchBookmakerByCriteria(query, criteria);
   }
 
   @Get(':id')
