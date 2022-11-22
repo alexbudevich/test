@@ -35,6 +35,7 @@ export class MatchesService {
     const matchQueryBuilder = this.repository.createQueryBuilder('match');
 
     if (criteria.dateFrom && criteria.dateTo) {
+      criteria.dateFrom.setHours(0, 0, 0);
       criteria.dateTo.setHours(23, 59, 59);
       matchQueryBuilder.where({
         date: Between(
