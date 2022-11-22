@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { Match } from './entities/match.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { MatchCriteriaDto } from './dto/match-criteria.dto';
@@ -20,6 +20,7 @@ export class MatchesService {
     return paginate(query, matchCriteria, {
       relations: ['teamAway', 'teamHome'],
       sortableColumns: ['date'],
+      defaultSortBy: [['date', 'DESC']],
     });
   }
 
@@ -31,6 +32,18 @@ export class MatchesService {
   }
 
   private async getMatchCriteria(criteria: MatchCriteriaDto) {
-    return this.repository.createQueryBuilder('match');
+    const matchQueryBuilder = this.repository.createQueryBuilder('match');
+
+    if (criteria.dateFrom && criteria.dateTo) {
+      criteria.dateTo.setHours(23, 59, 59);
+      matchQueryBuilder.where({
+        date: Between(
+          criteria.dateFrom.toLocaleString(),
+          criteria.dateTo.toLocaleString(),
+        ),
+      });
+    }
+
+    return matchQueryBuilder;
   }
 }
