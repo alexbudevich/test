@@ -16,14 +16,14 @@ export class OddsService {
     const matchCriteria = await this.getOddCriteria(criteria);
 
     return paginate(query, matchCriteria, {
-      relations: ['match'],
+      relations: ['match', 'bookmaker'],
       sortableColumns: ['id'],
     });
   }
 
   findOne(id: number) {
     return this.repository.findOne({
-      relations: ['match'],
+      relations: ['match', 'bookmaker'],
       where: {
         id: id,
       },
