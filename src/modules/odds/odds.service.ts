@@ -16,15 +16,26 @@ export class OddsService {
     const matchCriteria = await this.getOddCriteria(criteria);
 
     return paginate(query, matchCriteria, {
+      relations: ['match'],
       sortableColumns: ['id'],
     });
   }
 
   findOne(id: number) {
-    return this.repository.findOneBy({ id: id });
+    return this.repository.findOne({
+      relations: ['match'],
+      where: {
+        id: id,
+      },
+    });
   }
 
-  private async getOddCriteria(criteria: BookmakerCriteriaDto) {
-    return this.repository.createQueryBuilder('odd');
+  private async getOddCriteria(criteria: OddCriteriaDto) {
+    const oddQueryBuilder = this.repository.createQueryBuilder('odd');
+
+    if (criteria.matchId) {
+      oddQueryBuilder.where('odd.match.id = :id', { id: criteria.matchId });
+    }
+    return oddQueryBuilder;
   }
 }
