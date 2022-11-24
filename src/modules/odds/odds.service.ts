@@ -3,7 +3,6 @@ import { Repository } from 'typeorm';
 import { Odd } from './entities/odd.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { OddCriteriaDto } from './dto/odd-criteria.dto';
-import { BookmakerCriteriaDto } from '../bookmakers/dto/bookmaker-criteria.dto';
 
 @Injectable()
 export class OddsService {

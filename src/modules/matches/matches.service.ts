@@ -3,6 +3,7 @@ import { Between, Repository } from 'typeorm';
 import { Match } from './entities/match.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { MatchCriteriaDto } from './dto/match-criteria.dto';
+import { OrderType } from './dto/query.dto';
 
 @Injectable()
 export class MatchesService {
@@ -18,15 +19,15 @@ export class MatchesService {
     const matchCriteria = await this.getMatchCriteria(criteria);
 
     return paginate(query, matchCriteria, {
-      relations: ['teamAway', 'teamHome'],
+      relations: ['teamAway', 'teamHome', 'league'],
       sortableColumns: ['date'],
-      defaultSortBy: [['date', 'DESC']],
+      defaultSortBy: [['date', OrderType.DESC]],
     });
   }
 
   findOne(id: number) {
     return this.repository.findOne({
-      relations: ['teamAway', 'teamHome'],
+      relations: ['teamAway', 'teamHome', 'league'],
       where: { id: id },
     });
   }
