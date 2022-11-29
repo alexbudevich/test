@@ -35,6 +35,12 @@ export class OddsService {
     if (criteria.matchId) {
       oddQueryBuilder.where('odd.match.id = :id', { id: criteria.matchId });
     }
+
+    if (criteria.bookmakerId) {
+      oddQueryBuilder.where('odd.bookmaker.id = :id', {
+        id: criteria.bookmakerId,
+      });
+    }
     return oddQueryBuilder;
   }
 }
