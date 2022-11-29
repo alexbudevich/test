@@ -105,7 +105,7 @@ export class Player {
   @JoinColumn([{ name: 'sport_type_id', referencedColumnName: 'id' }])
   sportType: SportType;
 
-  @ManyToMany(() => Team)
+  @ManyToMany(() => Team, (team) => team.players)
   @JoinTable({
     name: 'team_player',
     joinColumn: {

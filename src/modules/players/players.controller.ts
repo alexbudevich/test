@@ -1,17 +1,21 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiQuery } from '@nestjs/swagger';
+import { PlayerCriteriaDto } from './dto/player-criteria.dto';
 
 @Controller('players')
 export class PlayersController {
   constructor(private readonly playersService: PlayersService) {}
 
-  @Get()
+  @Post('/search')
   @ApiQuery({ name: 'page', type: Number, required: false })
   @ApiQuery({ name: 'limit', type: Number, required: false })
-  findAll(@Paginate() query: PaginateQuery) {
-    return this.playersService.findAll(query);
+  findByCriteria(
+    @Paginate() query: PaginateQuery,
+    @Body() criteria: PlayerCriteriaDto,
+  ) {
+    return this.playersService.searchPlayerByCriteria(query, criteria);
   }
 
   @Get(':id')

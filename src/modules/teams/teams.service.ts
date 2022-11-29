@@ -12,11 +12,17 @@ export class TeamsService {
 
   findAll(query: PaginateQuery) {
     return paginate(query, this.repository, {
+      relations: ['awayMatches', 'homeMatches', 'players'],
       sortableColumns: ['id'],
     });
   }
 
   findOne(id: number) {
-    return this.repository.findOneBy({ id: id });
+    return this.repository.findOne({
+      where: {
+        id: id,
+      },
+      relations: ['awayMatches', 'homeMatches', 'players'],
+    });
   }
 }

@@ -79,6 +79,6 @@ export class Team {
   @JoinColumn([{ name: 'venue_id', referencedColumnName: 'id' }])
   venue: Venue;
 
-  @ManyToMany(() => Player, (player) => player.team, { eager: true })
+  @ManyToMany(() => Player, (player) => player.team)
   players: Player[];
 }
