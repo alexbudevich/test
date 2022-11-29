@@ -42,6 +42,13 @@ export class Venue {
   })
   providerId: string | null;
 
+  @Column('timestamp with time zone', {
+    name: 'timestamp',
+    nullable: true,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  timestamp: Date | null;
+
   @OneToMany(() => Match, (match) => match.venue)
   matches: Match[];
 

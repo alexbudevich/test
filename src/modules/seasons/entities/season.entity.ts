@@ -24,6 +24,13 @@ export class Season {
   @Column('character varying', { name: 'end', nullable: true, length: 50 })
   end: string | null;
 
+  @Column('timestamp with time zone', {
+    name: 'timestamp',
+    nullable: true,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  timestamp: Date | null;
+
   @ManyToMany(() => League, (league) => league.seasons)
   league: League[];
 

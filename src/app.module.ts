@@ -9,7 +9,6 @@ import { MatchesModule } from './modules/matches/matches.module';
 import { PlayersModule } from './modules/players/players.module';
 import { RoundsModule } from './modules/rounds/rounds.module';
 import { SeasonsModule } from './modules/seasons/seasons.module';
-import { SportsModule } from './modules/sports/sports.module';
 import { TeamsModule } from './modules/teams/teams.module';
 import { VenuesModule } from './modules/venues/venues.module';
 import { HealthcheckModule } from './healthcheck/healthcheck.module';
@@ -28,7 +27,6 @@ import { HealthcheckModule } from './healthcheck/healthcheck.module';
     PlayersModule,
     RoundsModule,
     SeasonsModule,
-    SportsModule,
     TeamsModule,
     VenuesModule,
     HealthcheckModule,

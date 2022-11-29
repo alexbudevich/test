@@ -76,6 +76,13 @@ export class Bookmaker {
   })
   providerId: string | null;
 
+  @Column('timestamp with time zone', {
+    name: 'timestamp',
+    nullable: true,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  timestamp: Date | null;
+
   @ManyToOne(() => Country, (country) => country.bookmakers)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;

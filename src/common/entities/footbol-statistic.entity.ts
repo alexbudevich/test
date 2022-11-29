@@ -122,6 +122,13 @@ export class FootballStatistic {
   @Column('smallint', { name: 'penalty_saved', nullable: true })
   penaltySaved: number | null;
 
+  @Column('timestamp with time zone', {
+    name: 'timestamp',
+    nullable: true,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  timestamp: Date | null;
+
   @ManyToOne(() => Match, (match) => match.footballStatistics)
   @JoinColumn([{ name: 'match_id', referencedColumnName: 'id' }])
   match: Match;
