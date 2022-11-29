@@ -19,7 +19,7 @@ export class MatchesService {
     const matchCriteria = await this.getMatchCriteria(criteria);
 
     return paginate(query, matchCriteria, {
-      relations: ['teamAway', 'teamHome'],
+      relations: ['teamAway', 'teamHome', 'round'],
       sortableColumns: ['date'],
       defaultSortBy: [['date', OrderType.DESC]],
     });
@@ -27,7 +27,7 @@ export class MatchesService {
 
   findOne(id: number) {
     return this.repository.findOne({
-      relations: ['teamAway', 'teamHome', 'league'],
+      relations: ['teamAway', 'teamHome', 'league', 'round'],
       where: { id: id },
     });
   }
