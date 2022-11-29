@@ -9,13 +9,13 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Sport } from '../../sports/entities/sport.entity';
 import { Country } from '../../countries/entities/country.entity';
 import { Round } from '../../rounds/entities/round.entity';
 import { Team } from '../../teams/entities/team.entity';
 import { Season } from '../../seasons/entities/season.entity';
 import { Match } from '../../matches/entities/match.entity';
 import { Week } from '../../../common/entities/week.entity';
+import {SportType} from "../../../common/entities/sport-type.entity";
 
 @Index('league_pkey', ['id'], { unique: true })
 @Entity('league', { schema: 'public' })
@@ -39,9 +39,20 @@ export class League {
   })
   providerId: string | null;
 
+  @Column('timestamp with time zone', {
+    name: 'timestamp',
+    nullable: true,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  timestamp: Date | null;
+
   @ManyToOne(() => Country, (country) => country.leagues)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
+
+  @ManyToOne(() => SportType, (sportType) => sportType.leagues)
+  @JoinColumn([{ name: 'sport_type_id', referencedColumnName: 'id' }])
+  sportType: SportType;
 
   @ManyToMany(() => Season)
   @JoinTable({
@@ -62,9 +73,6 @@ export class League {
 
   @OneToMany(() => Round, (round) => round.league)
   rounds: Round[];
-
-  @OneToMany(() => Sport, (sport) => sport.league)
-  sports: Sport[];
 
   @OneToMany(() => Team, (team) => team.league)
   teams: Team[];

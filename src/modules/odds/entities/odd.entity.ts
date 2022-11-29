@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Bookmaker } from '../../bookmakers/entities/bookmaker.entity';
 import { Match } from '../../matches/entities/match.entity';
+import {SportType} from "../../../common/entities/sport-type.entity";
 
 @Index('odd_pkey', ['id'], { unique: true })
 @Entity('odd', { schema: 'public' })
@@ -40,6 +41,13 @@ export class Odd {
   })
   providerId: string | null;
 
+  @Column('timestamp with time zone', {
+    name: 'timestamp',
+    nullable: true,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  timestamp: Date | null;
+
   @ManyToOne(() => Bookmaker, (bookmaker) => bookmaker.odds)
   @JoinColumn([{ name: 'bookmaker_id', referencedColumnName: 'id' }])
   bookmaker: Bookmaker;
@@ -47,4 +55,8 @@ export class Odd {
   @ManyToOne(() => Match, (match) => match.odds)
   @JoinColumn([{ name: 'match_id', referencedColumnName: 'id' }])
   match: Match;
+
+  @ManyToOne(() => SportType, (sportType) => sportType.odds)
+  @JoinColumn([{ name: 'sport_type_id', referencedColumnName: 'id' }])
+  sportType: SportType;
 }

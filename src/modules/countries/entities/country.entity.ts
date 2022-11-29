@@ -7,7 +7,6 @@ import {
 } from 'typeorm';
 import { League } from '../../leagues/entities/league.entity';
 import { Player } from '../../players/entities/player.entity';
-import { Sport } from '../../sports/entities/sport.entity';
 import { Bookmaker } from '../../bookmakers/entities/bookmaker.entity';
 import { Venue } from '../../venues/entities/venue.entity';
 import { Team } from '../../teams/entities/team.entity';
@@ -35,9 +34,6 @@ export class Country {
 
   @OneToMany(() => Player, (player) => player.country)
   players: Player[];
-
-  @OneToMany(() => Sport, (sport) => sport.country)
-  sports: Sport[];
 
   @OneToMany(() => Team, (team) => team.country)
   teams: Team[];

@@ -9,11 +9,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Sport } from '../../sports/entities/sport.entity';
 import { Country } from '../../countries/entities/country.entity';
 import { Match } from '../../matches/entities/match.entity';
 import { Team } from '../../teams/entities/team.entity';
 import { FootballStatistic } from '../../../common/entities/footbol-statistic.entity';
+import { SportType } from '../../../common/entities/sport-type.entity';
 
 @Index('player_pkey', ['id'], { unique: true })
 @Entity('player', { schema: 'public' })
@@ -50,12 +50,6 @@ export class Player {
   })
   nationality: string | null;
 
-  @Column('smallint', { name: 'height', nullable: true })
-  height: number | null;
-
-  @Column('smallint', { name: 'weight', nullable: true })
-  weight: number | null;
-
   @Column('boolean', { name: 'is_injured', nullable: true })
   isInjured: boolean | null;
 
@@ -78,6 +72,19 @@ export class Player {
   })
   providerId: string | null;
 
+  @Column('text', { name: 'height', nullable: true })
+  height: string | null;
+
+  @Column('text', { name: 'weight', nullable: true })
+  weight: string | null;
+
+  @Column('timestamp with time zone', {
+    name: 'timestamp',
+    nullable: true,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  timestamp: Date | null;
+
   @OneToMany(
     () => FootballStatistic,
     (footballStatistic) => footballStatistic.player,
@@ -94,8 +101,9 @@ export class Player {
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
 
-  @OneToMany(() => Sport, (sport) => sport.player)
-  sports: Sport[];
+  @ManyToOne(() => SportType, (sportType) => sportType.players)
+  @JoinColumn([{ name: 'sport_type_id', referencedColumnName: 'id' }])
+  sportType: SportType;
 
   @ManyToMany(() => Team)
   @JoinTable({

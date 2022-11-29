@@ -14,6 +14,7 @@ import { Team } from '../../teams/entities/team.entity';
 import { Odd } from '../../odds/entities/odd.entity';
 import { Round } from '../../rounds/entities/round.entity';
 import { FootballStatistic } from '../../../common/entities/footbol-statistic.entity';
+import { SportType } from '../../../common/entities/sport-type.entity';
 
 @Index('match_pkey', ['id'], { unique: true })
 @Entity('match', { schema: 'public' })
@@ -27,7 +28,7 @@ export class Match {
   @Column('character varying', { name: 'weather', nullable: true, length: 50 })
   weather: string | null;
 
-  @Column('character varying', { name: 'referee', nullable: true, length: 50 })
+  @Column('text', { name: 'referee', nullable: true })
   referee: string | null;
 
   @Column('smallint', { name: 'match_score_home', nullable: true })
@@ -59,6 +60,13 @@ export class Match {
   })
   providerId: string | null;
 
+  @Column('timestamp with time zone', {
+    name: 'timestamp',
+    nullable: true,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  timestamp: Date | null;
+
   @OneToMany(
     () => FootballStatistic,
     (footballStatistic) => footballStatistic.match,
@@ -81,11 +89,15 @@ export class Match {
   @JoinColumn([{ name: 'round_id', referencedColumnName: 'id' }])
   round: Round;
 
-  @ManyToOne(() => Team, (team) => team.matches)
+  @ManyToOne(() => SportType, (sportType) => sportType.matches)
+  @JoinColumn([{ name: 'sport_type_id', referencedColumnName: 'id' }])
+  sportType: SportType;
+
+  @ManyToOne(() => Team, (team) => team.awayMatches)
   @JoinColumn([{ name: 'team_away_id', referencedColumnName: 'id' }])
   teamAway: Team;
 
-  @ManyToOne(() => Team, (team) => team.matches2)
+  @ManyToOne(() => Team, (team) => team.homeMatches)
   @JoinColumn([{ name: 'team_home_id', referencedColumnName: 'id' }])
   teamHome: Team;
 
