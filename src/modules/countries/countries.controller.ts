@@ -10,8 +10,13 @@ export class CountriesController {
   @Get()
   @ApiQuery({ name: 'page', type: Number, required: false })
   @ApiQuery({ name: 'limit', type: Number, required: false })
-  findAll(@Paginate() query: PaginateQuery) {
-    return this.countriesService.findAll(query);
+  findByCriteria(@Paginate() query: PaginateQuery) {
+    return this.countriesService.findByCriteria(query);
+  }
+
+  @Get('/all')
+  findAll() {
+    return this.countriesService.findAll();
   }
 
   @Get(':id')

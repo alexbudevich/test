@@ -10,7 +10,7 @@ export class CountriesService {
     private repository: Repository<Bookmaker>,
   ) {}
 
-  findAll(query: PaginateQuery) {
+  findByCriteria(query: PaginateQuery) {
     return paginate(query, this.repository, {
       sortableColumns: ['id'],
     });
@@ -18,5 +18,9 @@ export class CountriesService {
 
   findOne(id: number) {
     return this.repository.findOneBy({ id: id });
+  }
+
+  findAll() {
+    return this.repository.find();
   }
 }
