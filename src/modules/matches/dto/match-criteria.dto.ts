@@ -17,4 +17,7 @@ export class MatchCriteriaDto {
 
   @ApiProperty()
   leagueId: number;
+
+  @ApiProperty()
+  countryId: number;
 }

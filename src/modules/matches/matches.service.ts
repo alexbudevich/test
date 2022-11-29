@@ -36,12 +36,13 @@ export class MatchesService {
     const matchQueryBuilder = this.repository
       .createQueryBuilder('match')
       .leftJoinAndSelect('match.league', 'league')
-      .leftJoinAndSelect('league.country', 'country');
+      .leftJoinAndSelect('league.country', 'country')
+      .where('true');
 
     if (criteria.dateFrom && criteria.dateTo) {
       criteria.dateFrom.setHours(0, 0, 0);
       criteria.dateTo.setHours(23, 59, 59);
-      matchQueryBuilder.where({
+      matchQueryBuilder.andWhere({
         date: Between(
           criteria.dateFrom.toLocaleString(),
           criteria.dateTo.toLocaleString(),
@@ -50,8 +51,14 @@ export class MatchesService {
     }
 
     if (criteria.leagueId) {
-      matchQueryBuilder.where('match.league.id = :id', {
+      matchQueryBuilder.andWhere('match.league.id = :id', {
         id: criteria.leagueId,
+      });
+    }
+
+    if (criteria.countryId) {
+      matchQueryBuilder.andWhere('country.id = :id', {
+        id: criteria.countryId,
       });
     }
 
