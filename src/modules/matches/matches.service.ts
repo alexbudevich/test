@@ -49,6 +49,12 @@ export class MatchesService {
       });
     }
 
+    if (criteria.leagueId) {
+      matchQueryBuilder.where('match.league.id = :id', {
+        id: criteria.leagueId,
+      });
+    }
+
     return matchQueryBuilder;
   }
 }

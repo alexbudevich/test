@@ -14,4 +14,7 @@ export class MatchCriteriaDto {
   @IsDate()
   @IsOptional()
   dateTo?: Date;
+
+  @ApiProperty()
+  leagueId: number;
 }
