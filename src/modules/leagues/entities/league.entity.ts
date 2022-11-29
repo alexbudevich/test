@@ -15,7 +15,7 @@ import { Team } from '../../teams/entities/team.entity';
 import { Season } from '../../seasons/entities/season.entity';
 import { Match } from '../../matches/entities/match.entity';
 import { Week } from '../../../common/entities/week.entity';
-import {SportType} from "../../../common/entities/sport-type.entity";
+import { SportType } from '../../../common/entities/sport-type.entity';
 
 @Index('league_pkey', ['id'], { unique: true })
 @Entity('league', { schema: 'public' })
@@ -46,7 +46,7 @@ export class League {
   })
   timestamp: Date | null;
 
-  @ManyToOne(() => Country, (country) => country.leagues)
+  @ManyToOne(() => Country, (country) => country.leagues, { eager: true })
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
 

@@ -19,7 +19,7 @@ export class MatchesService {
     const matchCriteria = await this.getMatchCriteria(criteria);
 
     return paginate(query, matchCriteria, {
-      relations: ['teamAway', 'teamHome', 'league'],
+      relations: ['teamAway', 'teamHome'],
       sortableColumns: ['date'],
       defaultSortBy: [['date', OrderType.DESC]],
     });
@@ -33,7 +33,10 @@ export class MatchesService {
   }
 
   private async getMatchCriteria(criteria: MatchCriteriaDto) {
-    const matchQueryBuilder = this.repository.createQueryBuilder('match');
+    const matchQueryBuilder = this.repository
+      .createQueryBuilder('match')
+      .leftJoinAndSelect('match.league', 'league')
+      .leftJoinAndSelect('league.country', 'country');
 
     if (criteria.dateFrom && criteria.dateTo) {
       criteria.dateFrom.setHours(0, 0, 0);
