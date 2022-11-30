@@ -46,6 +46,9 @@ export class League {
   })
   timestamp: Date | null;
 
+  @Column('json', { name: 'standings', nullable: true })
+  standings: object | null;
+
   @ManyToOne(() => Country, (country) => country.leagues, { eager: true })
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
