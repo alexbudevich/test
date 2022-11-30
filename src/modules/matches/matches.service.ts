@@ -62,6 +62,18 @@ export class MatchesService {
       });
     }
 
+    if (criteria.isLive) {
+      matchQueryBuilder.andWhere('match.isLive = :isLive', {
+        isLive: criteria.isLive,
+      });
+    }
+
+    if (criteria.statusShort && criteria.statusShort.length !== 0) {
+      matchQueryBuilder.andWhere('match.statusShort in (:...statusShort)', {
+        statusShort: criteria.statusShort,
+      });
+    }
+
     return matchQueryBuilder;
   }
 }
