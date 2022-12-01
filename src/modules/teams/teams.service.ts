@@ -34,36 +34,38 @@ export class TeamsService {
       .leftJoinAndSelect('player.footballStatistics', 'footballStatistic')
       .where({ id: id })
       .getOne();
-    team.teamTopScore = [];
-    for (const player of team.players) {
-      const teamTopScore = {
-        player: { ...player, footballStatistics: null, statistics: null },
-        totalMatches: 0,
-        goalsAssists: 0,
-        goalsTotal: 0,
-      } as TeamTopScore;
+    if (team) {
+      team.teamTopScore = [];
+      for (const player of team.players) {
+        const teamTopScore = {
+          player: { ...player, footballStatistics: null, statistics: null },
+          totalMatches: 0,
+          goalsAssists: 0,
+          goalsTotal: 0,
+        } as TeamTopScore;
 
-      player.footballStatistics &&
-        player.footballStatistics.length &&
-        player.footballStatistics.forEach((statistics) => {
-          teamTopScore.totalMatches++;
-          teamTopScore.goalsTotal += statistics.goalsTotal
-            ? statistics.goalsTotal
-            : 0;
-          teamTopScore.goalsAssists += statistics.goalsAssists
-            ? statistics.goalsAssists
-            : 0;
-        });
+        player.footballStatistics &&
+          player.footballStatistics.length &&
+          player.footballStatistics.forEach((statistics) => {
+            teamTopScore.totalMatches++;
+            teamTopScore.goalsTotal += statistics.goalsTotal
+              ? statistics.goalsTotal
+              : 0;
+            teamTopScore.goalsAssists += statistics.goalsAssists
+              ? statistics.goalsAssists
+              : 0;
+          });
 
-      team.teamTopScore.push(teamTopScore);
+        team.teamTopScore.push(teamTopScore);
+      }
+
+      team.players = team.players.map((player) => {
+        return { ...player, footballStatistics: null, statistics: null };
+      });
+
+      team.teamTopScore.sort((a, b) => b.goalsTotal - a.goalsTotal);
     }
 
-    team.players = team.players.map((player) => {
-      return { ...player, footballStatistics: null, statistics: null };
-    });
-
-    team.teamTopScore.sort((a, b) => b.goalsTotal - a.goalsTotal);
-
-    return { ...team, footballStatistics: null };
+    return team;
   }
 }

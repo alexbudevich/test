@@ -16,6 +16,7 @@ import { Player } from '../../players/entities/player.entity';
 import { FootballStatistic } from '../../../common/entities/footbol-statistic.entity';
 import { SportType } from '../../../common/entities/sport-type.entity';
 import { TeamTopScore } from '../dto/team-top-score.dto';
+import { Exclude } from 'class-transformer';
 
 @Index('team_pkey', ['id'], { unique: true })
 @Entity('team', { schema: 'public' })
@@ -56,6 +57,7 @@ export class Team {
     () => FootballStatistic,
     (footballStatistic) => footballStatistic.team,
   )
+  @Exclude()
   footballStatistics: FootballStatistic[];
 
   teamTopScore: TeamTopScore[];
