@@ -18,4 +18,9 @@ export class TeamsController {
   findOne(@Param('id') id: number) {
     return this.teamsService.findOne(id);
   }
+
+  @Get('statistic/:id')
+  teamStatistic(@Param('id') id: number) {
+    return this.teamsService.teamStatistic(id);
+  }
 }
