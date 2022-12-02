@@ -5,6 +5,18 @@ import { paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Injectable()
 export class CountriesService {
+  private topCountries: string[] = [
+    'World',
+    'England',
+    'Spain',
+    'Italy',
+    'Germany',
+    'France',
+    'Brazil',
+    'Austria',
+    'Portugal',
+    'Belgium',
+  ];
   constructor(
     @Inject('COUNTRY_REPOSITORY')
     private repository: Repository<Bookmaker>,
@@ -22,5 +34,14 @@ export class CountriesService {
 
   findAll() {
     return this.repository.find();
+  }
+
+  async findTopCountries() {
+    return await this.repository
+      .createQueryBuilder('country')
+      .where('country.name in (:...countries)', {
+        countries: this.topCountries,
+      })
+      .getMany();
   }
 }

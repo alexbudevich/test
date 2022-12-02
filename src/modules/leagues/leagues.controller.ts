@@ -14,6 +14,11 @@ export class LeaguesController {
     return this.leaguesService.findAll(query);
   }
 
+  @Get('/top-leagues')
+  findTopLeagues() {
+    return this.leaguesService.findTopLeagues();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.leaguesService.findOne(id);

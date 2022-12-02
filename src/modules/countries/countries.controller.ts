@@ -19,6 +19,11 @@ export class CountriesController {
     return this.countriesService.findAll();
   }
 
+  @Get('/top-countries')
+  findTopCountries() {
+    return this.countriesService.findTopCountries();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.countriesService.findOne(id);
