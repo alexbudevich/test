@@ -7,6 +7,44 @@ import { OrderType } from './dto/query.dto';
 
 @Injectable()
 export class MatchesService {
+  private topLeagues: string[] = [
+    'World Cup 2022',
+    'Premier League',
+    'La Liga',
+    'Serie A',
+    'Bundesliga',
+    'Ligue 1',
+    'Serie A',
+    'Bundesliga',
+    'Primeira Liga',
+    'Jupiler Pro League',
+    'UEFA Champions League',
+    'Serie B',
+    'Serie C',
+    'Serie D',
+    'Championship',
+    'CONCACAF Champions League',
+    'CONCACAF League',
+    'CONMEBOL Libertadores',
+    'Copa America',
+    'UEFA Europa League',
+    'FA Cup',
+    'UEFA Europa Conference League',
+    'Copa Do Brasil',
+  ];
+
+  private topCountries: string[] = [
+    'World',
+    'England',
+    'Spain',
+    'Italy',
+    'Germany',
+    'France',
+    'Brazil',
+    'Austria',
+    'Portugal',
+    'Belgium',
+  ];
   constructor(
     @Inject('MATCH_REPOSITORY')
     private repository: Repository<Match>,
@@ -18,11 +56,16 @@ export class MatchesService {
   ) {
     const matchCriteria = await this.getMatchCriteria(criteria);
 
-    return paginate(query, matchCriteria, {
+    const matches = await paginate(query, matchCriteria, {
       relations: ['teamAway', 'teamHome', 'round'],
       sortableColumns: ['date'],
       defaultSortBy: [['date', OrderType.DESC]],
     });
+
+    matches.data.map((match) => {
+      match.league = { ...match.league, standings: null };
+    });
+    return matches;
   }
 
   findOne(id: number) {
@@ -71,6 +114,15 @@ export class MatchesService {
     if (criteria.statusShort && criteria.statusShort.length !== 0) {
       matchQueryBuilder.andWhere('match.statusShort in (:...statusShort)', {
         statusShort: criteria.statusShort,
+      });
+    }
+
+    if (criteria.isTop) {
+      matchQueryBuilder.andWhere('league.name in (:...leagues)', {
+        leagues: this.topLeagues,
+      });
+      matchQueryBuilder.andWhere('country.name in (:...countries)', {
+        countries: this.topCountries,
       });
     }
 

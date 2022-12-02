@@ -41,6 +41,11 @@ export class MatchCriteriaDto {
   @IsOptional()
   isLive: boolean;
 
+  @IsBoolean()
+  @ApiProperty()
+  @IsOptional()
+  isTop: boolean;
+
   @IsEnum(StatusShortType, { each: true })
   @IsOptional()
   @ApiProperty({
