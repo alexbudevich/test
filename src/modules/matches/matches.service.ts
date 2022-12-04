@@ -5,6 +5,7 @@ import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { MatchCriteriaDto } from './dto/match-criteria.dto';
 import { OrderType } from './dto/query.dto';
 import axios from 'axios';
+import { RapidApiResponses } from '../../common/rapid-api.response';
 
 @Injectable()
 export class MatchesService {
@@ -73,28 +74,39 @@ export class MatchesService {
     const match = await this.repository.findOne({
       where: { id: id },
     });
-    const axiosResponse = await axios.post(
-      'https://rsurlj2vk5.execute-api.us-east-1.amazonaws.com/development/matchById',
-      {
-        matchId: match.providerId,
-        rKey: process.env.RKEY,
-        rHost: process.env.RHOST,
-        pHost: process.env.PROXY_HOST,
-        pPort: Number(process.env.PROXY_PORT),
-        pUser: process.env.PROXY_USER,
-        pPassword: process.env.PROXY_PASSWORD,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-    console.log(axiosResponse);
 
-    if (axiosResponse.data && axiosResponse.data?.response[0]?.events) {
-      match.statistics = axiosResponse.data?.response[0]?.events;
-      await this.repository.save(match);
+    try {
+      if (match) {
+        const axiosResponse = await axios.get(
+          'https://api-football-v1.p.rapidapi.com/v3/fixtures?id=' +
+            match.providerId,
+          {
+            headers: {
+              'x-rapidapi-host': process.env.RHOST,
+              'x-rapidapi-key': process.env.RKEY,
+            },
+          },
+        );
+
+        if (
+          axiosResponse.data &&
+          (axiosResponse.data
+            .response as RapidApiResponses.Fixtures.Fixtures.Response[])
+        ) {
+          const fixtures = axiosResponse.data
+            .response as RapidApiResponses.Fixtures.Fixtures.Response[];
+          for (const fixture of fixtures) {
+            const events = fixture.events;
+            if (events) {
+              match.statistics = JSON.parse(JSON.stringify(events));
+              await this.repository.save(match);
+              break;
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
 
     return this.repository.findOne({
