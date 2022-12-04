@@ -37,7 +37,10 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "typeorm": "^0.3.10"
+    "typeorm": "^0.3.10",
+    "axios": "^0.25.0",
+    "axios-cookiejar-support": "^1.0.1",
+    "axios-https-proxy-fix": "^0.17.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

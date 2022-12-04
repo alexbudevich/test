@@ -43,6 +43,18 @@ secrets: # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
     secretsmanager: 'betting-staging:DATABASE_PASSWORD::'
   DATABASE_DATABASE:
     secretsmanager: 'betting-staging:DATABASE_DATABASE::'
+  RKEY:
+    secretsmanager: 'betting-staging:RKEY::'
+  RHOST:
+    secretsmanager: 'betting-staging:RHOST::'
+  PROXY_HOST:
+    secretsmanager: 'betting-staging:PROXY_HOST::'
+  PROXY_PORT:
+    secretsmanager: 'betting-staging:PROXY_PORT::'
+  PROXY_USER:
+    secretsmanager: 'betting-staging:PROXY_USER::'
+  PROXY_PASSWORD:
+    secretsmanager: 'betting-staging:PROXY_PASSWORD::'
 
 # You can override any of the values defined above by environment.
 #environments:

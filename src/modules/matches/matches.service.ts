@@ -4,6 +4,7 @@ import { Match } from './entities/match.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { MatchCriteriaDto } from './dto/match-criteria.dto';
 import { OrderType } from './dto/query.dto';
+import axios from 'axios';
 
 @Injectable()
 export class MatchesService {
@@ -68,7 +69,34 @@ export class MatchesService {
     return matches;
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
+    const match = await this.repository.findOne({
+      where: { id: id },
+    });
+    const axiosResponse = await axios.post(
+      'https://rsurlj2vk5.execute-api.us-east-1.amazonaws.com/development/matchById',
+      {
+        matchId: match.providerId,
+        rKey: process.env.RKEY,
+        rHost: process.env.RHOST,
+        pHost: process.env.PROXY_HOST,
+        pPort: Number(process.env.PROXY_PORT),
+        pUser: process.env.PROXY_USER,
+        pPassword: process.env.PROXY_PASSWORD,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    console.log(axiosResponse);
+
+    if (axiosResponse.data && axiosResponse.data?.response[0]?.events) {
+      match.statistics = axiosResponse.data?.response[0]?.events;
+      await this.repository.save(match);
+    }
+
     return this.repository.findOne({
       relations: ['teamAway', 'teamHome', 'league', 'round'],
       where: { id: id },
