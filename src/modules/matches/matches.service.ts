@@ -158,12 +158,14 @@ export class MatchesService {
     }
 
     if (criteria.isTop) {
-      matchQueryBuilder.andWhere('league.name in (:...leagues)', {
-        leagues: this.topLeagues,
-      });
-      matchQueryBuilder.andWhere('country.name in (:...countries)', {
-        countries: this.topCountries,
-      });
+      matchQueryBuilder
+        .addSelect(
+          `case when league.name IN (${this.topLeagues
+            .map((league) => `'${league}'`)
+            .join(',')}) then 0 else 1 end`,
+          '_rank',
+        )
+        .orderBy('_rank', 'ASC');
     }
 
     return matchQueryBuilder;
