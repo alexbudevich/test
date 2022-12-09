@@ -16,6 +16,7 @@ import { FootballStatistic } from '../../../common/entities/footbol-statistic.en
 import { SportType } from '../../../common/entities/sport-type.entity';
 
 @Index('player_pkey', ['id'], { unique: true })
+@Index('player_slug_idx', ['slug'], {})
 @Entity('player', { schema: 'public' })
 export class Player {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
@@ -84,6 +85,12 @@ export class Player {
     default: () => 'CURRENT_TIMESTAMP',
   })
   timestamp: Date | null;
+
+  @Column('text', { name: 'slug', nullable: true })
+  slug: string | null;
+
+  @Column('text', { name: 's3_photo_url', nullable: true })
+  s3PhotoUrl: string | null;
 
   @OneToMany(
     () => FootballStatistic,

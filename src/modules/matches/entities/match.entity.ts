@@ -17,6 +17,7 @@ import { FootballStatistic } from '../../../common/entities/footbol-statistic.en
 import { SportType } from '../../../common/entities/sport-type.entity';
 
 @Index('match_pkey', ['id'], { unique: true })
+@Index('match_slug_idx', ['slug'], {})
 @Entity('match', { schema: 'public' })
 export class Match {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
@@ -66,6 +67,9 @@ export class Match {
     default: () => 'CURRENT_TIMESTAMP',
   })
   timestamp: Date | null;
+
+  @Column('text', { name: 'slug', nullable: true })
+  slug: string | null;
 
   @OneToMany(
     () => FootballStatistic,

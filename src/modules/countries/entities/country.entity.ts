@@ -12,6 +12,7 @@ import { Venue } from '../../venues/entities/venue.entity';
 import { Team } from '../../teams/entities/team.entity';
 
 @Index('country_pkey', ['id'], { unique: true })
+@Index('country_slug_idx', ['slug'], {})
 @Entity('country', { schema: 'public' })
 export class Country {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
@@ -25,6 +26,12 @@ export class Country {
 
   @Column('text', { name: 'flag_url', nullable: true })
   flagUrl: string | null;
+
+  @Column('text', { name: 'slug', nullable: true })
+  slug: string | null;
+
+  @Column('text', { name: 's3_flag_url', nullable: true })
+  s3FlagUrl: string | null;
 
   @OneToMany(() => Bookmaker, (bookmaker) => bookmaker.country)
   bookmakers: Bookmaker[];

@@ -19,6 +19,7 @@ import { TeamTopScore } from '../dto/team-top-score.dto';
 import { Exclude } from 'class-transformer';
 
 @Index('team_pkey', ['id'], { unique: true })
+@Index('team_slug_idx', ['slug'], {})
 @Entity('team', { schema: 'public' })
 export class Team {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
@@ -52,6 +53,12 @@ export class Team {
     default: () => 'CURRENT_TIMESTAMP',
   })
   timestamp: Date | null;
+
+  @Column('text', { name: 'slug', nullable: true })
+  slug: string | null;
+
+  @Column('text', { name: 's3_logo_url', nullable: true })
+  s3LogoUrl: string | null;
 
   @OneToMany(
     () => FootballStatistic,

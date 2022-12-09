@@ -12,6 +12,7 @@ import { Team } from '../../teams/entities/team.entity';
 import { Match } from '../../matches/entities/match.entity';
 
 @Index('venue_pkey', ['id'], { unique: true })
+@Index('venue_slug_idx', ['slug'], {})
 @Entity('venue', { schema: 'public' })
 export class Venue {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
@@ -48,6 +49,12 @@ export class Venue {
     default: () => 'CURRENT_TIMESTAMP',
   })
   timestamp: Date | null;
+
+  @Column('text', { name: 'slug', nullable: true })
+  slug: string | null;
+
+  @Column('text', { name: 's3_image_url', nullable: true })
+  s3ImageUrl: string | null;
 
   @OneToMany(() => Match, (match) => match.venue)
   matches: Match[];

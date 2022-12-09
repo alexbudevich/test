@@ -11,10 +11,14 @@ import { Player } from '../../modules/players/entities/player.entity';
 import { Team } from '../../modules/teams/entities/team.entity';
 
 @Index('statistic_pkey', ['id'], { unique: true })
+@Index('football_statistic_player_id_idx', ['playerId'], {})
 @Entity('football_statistic', { schema: 'public' })
 export class FootballStatistic {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
+
+  @PrimaryGeneratedColumn({ type: 'integer', name: 'player_id' })
+  playerId: number;
 
   @Column('smallint', { name: 'games_number', nullable: true })
   gamesNumber: number | null;

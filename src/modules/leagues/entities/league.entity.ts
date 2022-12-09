@@ -18,6 +18,7 @@ import { Week } from '../../../common/entities/week.entity';
 import { SportType } from '../../../common/entities/sport-type.entity';
 
 @Index('league_pkey', ['id'], { unique: true })
+@Index('league_slug_idx', ['slug'], {})
 @Entity('league', { schema: 'public' })
 export class League {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
@@ -49,7 +50,13 @@ export class League {
   @Column('json', { name: 'standings', nullable: true })
   standings: object | null;
 
-  @ManyToOne(() => Country, (country) => country.leagues, { eager: true })
+  @Column('text', { name: 'slug', nullable: true })
+  slug: string | null;
+
+  @Column('text', { name: 's3_logo_url', nullable: true })
+  s3LogoUrl: string | null;
+
+  @ManyToOne(() => Country, (country) => country.leagues)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
 

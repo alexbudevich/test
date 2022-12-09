@@ -10,6 +10,7 @@ import { Week } from '../../../common/entities/week.entity';
 import { League } from '../../leagues/entities/league.entity';
 
 @Index('season_pkey', ['id'], { unique: true })
+@Index('season_slug_idx', ['slug'], {})
 @Entity('season', { schema: 'public' })
 export class Season {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
@@ -30,6 +31,9 @@ export class Season {
     default: () => 'CURRENT_TIMESTAMP',
   })
   timestamp: Date | null;
+
+  @Column('text', { name: 'slug', nullable: true })
+  slug: string | null;
 
   @ManyToMany(() => League, (league) => league.seasons)
   league: League[];

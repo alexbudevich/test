@@ -11,6 +11,7 @@ import { Country } from '../../countries/entities/country.entity';
 import { Odd } from '../../odds/entities/odd.entity';
 
 @Index('pk_1', ['id'], { unique: true })
+@Index('bookmaker_slug_idx', ['slug'], {})
 @Entity('bookmaker', { schema: 'public' })
 export class Bookmaker {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
@@ -82,6 +83,12 @@ export class Bookmaker {
     default: () => 'CURRENT_TIMESTAMP',
   })
   timestamp: Date | null;
+
+  @Column('text', { name: 'slug', nullable: true })
+  slug: string | null;
+
+  @Column('text', { name: 's3_logo_url', nullable: true })
+  s3LogoUrl: string | null;
 
   @ManyToOne(() => Country, (country) => country.bookmakers)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])

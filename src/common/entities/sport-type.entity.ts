@@ -12,6 +12,7 @@ import { Player } from '../../modules/players/entities/player.entity';
 import { Team } from '../../modules/teams/entities/team.entity';
 
 @Index('sport_type_pkey', ['id'], { unique: true })
+@Index('sport_type_slug_idx', ['slug'], {})
 @Entity('sport_type', { schema: 'public' })
 export class SportType {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
@@ -19,6 +20,9 @@ export class SportType {
 
   @Column('character varying', { name: 'name', nullable: true, length: 50 })
   name: string | null;
+
+  @Column('text', { name: 'slug', nullable: true })
+  slug: string | null;
 
   @OneToMany(() => League, (league) => league.sportType)
   leagues: League[];
