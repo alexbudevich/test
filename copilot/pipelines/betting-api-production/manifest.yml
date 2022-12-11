@@ -1,9 +1,9 @@
-# The manifest for the "staging" pipeline.
+# The manifest for the "betting-api-production" pipeline.
 # This YAML file defines your pipeline: the source repository it tracks and the order of the environments to deploy to.
 # For more info: https://aws.github.io/copilot-cli/docs/manifest/pipeline/
 
 # The name of the pipeline.
-name: staging
+name: betting-api-production
 
 # The version of the schema used in this template.
 version: 1
@@ -24,13 +24,13 @@ source:
 stages:
   - # The name of the environment.
     name: staging
-    deployments:
-      deploy-env:
-        template_path: infrastructure/staging.env.yml
-        template_config: infrastructure/staging.env.params.json
-        stack_name: api-staging
-    # Optional: flag for manual approval action before deployment.
-    # requires_approval: true
-    # Optional: use test commands to validate this stage of your build.
-    # test_commands: [echo 'running tests', make test]
+#    deployments:
+#      deploy-env:
+#        template_path: infrastructure/staging.env.yml
+#        template_config: infrastructure/staging.env.params.json
+#        stack_name: api-staging
+#    # Optional: flag for manual approval action before deployment.
+#    # requires_approval: true
+#    # Optional: use test commands to validate this stage of your build.
+#    # test_commands: [echo 'running tests', make test]
 
