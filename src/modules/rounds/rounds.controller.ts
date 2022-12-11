@@ -15,7 +15,12 @@ export class RoundsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.roundsService.findOne(id);
+  getById(@Param('id') id: number) {
+    return this.roundsService.getById(id);
+  }
+
+  @Get('slug/:slug')
+  getBySlug(@Param('slug') slug: string) {
+    return this.roundsService.getBySlug(slug);
   }
 }

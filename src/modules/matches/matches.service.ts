@@ -1,5 +1,5 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { Between, Repository } from 'typeorm';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Between, LessThan, MoreThan, Repository } from 'typeorm';
 import { Match } from './entities/match.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { MatchCriteriaDto } from './dto/match-criteria.dto';
@@ -70,11 +70,78 @@ export class MatchesService {
     return matches;
   }
 
-  async findOne(id: number) {
+  async getById(id: number) {
     const match = await this.repository.findOne({
       where: { id: id },
     });
 
+    await this.updateStatistic(match);
+
+    return this.repository.findOne({
+      relations: ['teamAway', 'teamHome', 'league', 'round'],
+      where: { id: id },
+    });
+  }
+
+  async getBySlug(slug: string) {
+    let match = await this.repository.findOne({
+      where: {
+        slug: slug,
+        isLive: true,
+      },
+    });
+
+    if (!match) {
+      const currentDate = new Date();
+      const matchBefore = await this.repository.findOne({
+        where: {
+          slug: slug,
+          date: LessThan(currentDate),
+        },
+        order: {
+          date: 'ASC',
+        },
+      });
+      const matchAfter = await this.repository.findOne({
+        where: {
+          slug: slug,
+          date: MoreThan(currentDate),
+        },
+        order: {
+          date: 'ASC',
+        },
+      });
+
+      if (matchAfter || matchBefore) {
+        if (matchAfter && matchBefore) {
+          const timeMatchBefore =
+            currentDate.valueOf() - matchBefore.date.valueOf();
+          const timeMatchAfter =
+            matchAfter.date.valueOf() - currentDate.valueOf();
+          match = timeMatchBefore < timeMatchAfter ? matchBefore : matchAfter;
+        } else {
+          if (!matchAfter) {
+            match = matchBefore;
+          } else {
+            match = matchAfter;
+          }
+        }
+      }
+    }
+
+    if (!match) {
+      throw new NotFoundException(`Match '${slug}' not found!`);
+    }
+
+    await this.updateStatistic(match);
+
+    return this.repository.findOne({
+      relations: ['teamAway', 'teamHome', 'league', 'round'],
+      where: { id: match.id },
+    });
+  }
+
+  private async updateStatistic(match: Match) {
     try {
       if (match) {
         const axiosResponse = await axios.get(
@@ -108,11 +175,6 @@ export class MatchesService {
     } catch (error) {
       console.log(error);
     }
-
-    return this.repository.findOne({
-      relations: ['teamAway', 'teamHome', 'league', 'round'],
-      where: { id: id },
-    });
   }
 
   private async getMatchCriteria(criteria: MatchCriteriaDto) {
