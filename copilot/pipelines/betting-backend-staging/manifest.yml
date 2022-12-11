@@ -1,9 +1,9 @@
-# The manifest for the "betting-api-production" pipeline.
+# The manifest for the "betting-backend-staging" pipeline.
 # This YAML file defines your pipeline: the source repository it tracks and the order of the environments to deploy to.
 # For more info: https://aws.github.io/copilot-cli/docs/manifest/pipeline/
 
 # The name of the pipeline.
-name: betting-api-production
+name: betting-backend-staging
 
 # The version of the schema used in this template.
 version: 1
@@ -15,7 +15,7 @@ source:
   provider: GitHub
   # Additional properties that further specify the location of the artifacts.
   properties:
-    branch: main
+    branch: staging
     repository: https://github.com/mvvbet/betting-backend
     # Optional: specify the name of an existing CodeStar Connections connection.
     # connection_name: a-connection
@@ -23,14 +23,14 @@ source:
 # This section defines the order of the environments your pipeline will deploy to.
 stages:
   - # The name of the environment.
-    name: staging
-#    deployments:
-#      deploy-env:
-#        template_path: infrastructure/staging.env.yml
-#        template_config: infrastructure/staging.env.params.json
-#        stack_name: api-staging
-#    # Optional: flag for manual approval action before deployment.
-#    # requires_approval: true
-#    # Optional: use test commands to validate this stage of your build.
-#    # test_commands: [echo 'running tests', make test]
+    name: betting-api-staging
+    deployments:
+      deploy-env:
+        template_path: infrastructure/betting-api-staging.env.yml
+        template_config: infrastructure/betting-api-staging.env.params.json
+        stack_name: betting-api-staging-betting-api-staging
+    # Optional: flag for manual approval action before deployment.
+    # requires_approval: true
+    # Optional: use test commands to validate this stage of your build.
+    # test_commands: [echo 'running tests', make test]
 
