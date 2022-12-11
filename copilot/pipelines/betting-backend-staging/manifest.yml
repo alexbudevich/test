@@ -24,11 +24,11 @@ source:
 stages:
   - # The name of the environment.
     name: betting-api-staging
-    deployments:
-      deploy-env:
-        template_path: infrastructure/betting-api-staging.env.yml
-        template_config: infrastructure/betting-api-staging.env.params.json
-        stack_name: betting-api-staging-betting-api-staging
+#    deployments:
+#      deploy-env:
+#        template_path: infrastructure/betting-api-staging.env.yml
+#        template_config: infrastructure/betting-api-staging.env.params.json
+#        stack_name: betting-api-staging-betting-api-staging
     # Optional: flag for manual approval action before deployment.
     # requires_approval: true
     # Optional: use test commands to validate this stage of your build.
