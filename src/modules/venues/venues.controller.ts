@@ -15,7 +15,12 @@ export class VenuesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.venuesService.findOne(id);
+  getById(@Param('id') id: number) {
+    return this.venuesService.getById(id);
+  }
+
+  @Get('slug/:slug')
+  getBySlug(@Param('slug') slug: string) {
+    return this.venuesService.getBySlug(slug);
   }
 }

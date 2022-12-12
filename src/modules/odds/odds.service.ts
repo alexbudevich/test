@@ -20,12 +20,17 @@ export class OddsService {
     });
   }
 
-  findOne(id: number) {
+  betById(id: number) {
     return this.repository.findOne({
       relations: ['match', 'bookmaker'],
-      where: {
-        id: id,
-      },
+      where: { id },
+    });
+  }
+
+  getBySlug(slug: string) {
+    return this.repository.findOne({
+      relations: ['match', 'bookmaker'],
+      where: { slug },
     });
   }
 
