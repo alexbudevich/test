@@ -93,13 +93,15 @@ export class MatchesService {
 
     if (!match) {
       const currentDate = new Date();
+      const dateInPast = new Date();
+      dateInPast.setDate(dateInPast.getDate() - 1);
       const matchBefore = await this.repository.findOne({
         where: {
           slug: slug,
-          date: LessThan(currentDate),
+          date: Between(dateInPast, currentDate),
         },
         order: {
-          date: 'ASC',
+          date: 'DESC',
         },
       });
       const matchAfter = await this.repository.findOne({
@@ -126,6 +128,16 @@ export class MatchesService {
             match = matchAfter;
           }
         }
+      } else {
+        match = await this.repository.findOne({
+          where: {
+            slug: slug,
+            date: LessThan(currentDate),
+          },
+          order: {
+            date: 'DESC',
+          },
+        });
       }
     }
 
