@@ -24,7 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Bettin API Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Installation
 
