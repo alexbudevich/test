@@ -55,16 +55,11 @@ export class LeaguesService {
     });
   }
 
-  getById(id: number) {
+  findOne(id: number) {
     return this.repository.findOne({
-      where: { id },
-      relations: ['country'],
-    });
-  }
-
-  getBySlug(slug: string) {
-    return this.repository.findOne({
-      where: { slug },
+      where: {
+        id: id,
+      },
       relations: ['country'],
     });
   }

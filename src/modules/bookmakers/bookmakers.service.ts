@@ -22,12 +22,8 @@ export class BookmakersService {
     });
   }
 
-  getById(id: number) {
-    return this.repository.findOneBy({ id });
-  }
-
-  getBySlug(slug: string) {
-    return this.repository.findOneBy({ slug });
+  findOne(id: number) {
+    return this.repository.findOneBy({ id: id });
   }
 
   private async getBookmakerCriteria(criteria: BookmakerCriteriaDto) {

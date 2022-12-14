@@ -1,9 +1,9 @@
-# The manifest for the "betting-api-staging-service" service.
+# The manifest for the "betting-api" service.
 # Read the full specification for the "Load Balanced Web Service" type at:
 #  https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/
 
 # Your service name will be used in naming your resources like log groups, ECS services, etc.
-name: betting-api-staging-service
+name: betting-api
 type: Load Balanced Web Service
 
 # Distribute traffic to your service.
@@ -34,28 +34,27 @@ exec: true     # Enable running commands in your container.
 #secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
 secrets: # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
   DATABASE_HOST:
-    secretsmanager: 'betting-api-staging:DATABASE_HOST::'
+    secretsmanager: 'betting-staging:DATABASE_HOST::'
   DATABASE_PORT:
-    secretsmanager: 'betting-api-staging:DATABASE_PORT::'
+    secretsmanager: 'betting-staging:DATABASE_PORT::'
   DATABASE_USERNAME:
-    secretsmanager: 'betting-api-staging:DATABASE_USERNAME::'
+    secretsmanager: 'betting-staging:DATABASE_USERNAME::'
   DATABASE_PASSWORD:
-    secretsmanager: 'betting-api-staging:DATABASE_PASSWORD::'
+    secretsmanager: 'betting-staging:DATABASE_PASSWORD::'
   DATABASE_DATABASE:
-    secretsmanager: 'betting-api-staging:DATABASE_DATABASE::'
+    secretsmanager: 'betting-staging:DATABASE_DATABASE::'
   RKEY:
-    secretsmanager: 'betting-api-staging:RKEY::'
+    secretsmanager: 'betting-staging:RKEY::'
   RHOST:
-    secretsmanager: 'betting-api-staging:RHOST::'
+    secretsmanager: 'betting-staging:RHOST::'
   PROXY_HOST:
-    secretsmanager: 'betting-api-staging:PROXY_HOST::'
+    secretsmanager: 'betting-staging:PROXY_HOST::'
   PROXY_PORT:
-    secretsmanager: 'betting-api-staging:PROXY_PORT::'
+    secretsmanager: 'betting-staging:PROXY_PORT::'
   PROXY_USER:
-    secretsmanager: 'betting-api-staging:PROXY_USER::'
+    secretsmanager: 'betting-staging:PROXY_USER::'
   PROXY_PASSWORD:
-    secretsmanager: 'betting-api-staging:PROXY_PASSWORD::'
-
+    secretsmanager: 'betting-staging:PROXY_PASSWORD::'
 
 # You can override any of the values defined above by environment.
 #environments:

@@ -19,12 +19,7 @@ export class BookmakersController {
   }
 
   @Get(':id')
-  getById(@Param('id') id: number) {
-    return this.bookmakersService.getById(id);
-  }
-
-  @Get('slug/:slug')
-  getBySlug(@Param('slug') slug: string) {
-    return this.bookmakersService.getBySlug(slug);
+  findOne(@Param('id') id: number) {
+    return this.bookmakersService.findOne(id);
   }
 }

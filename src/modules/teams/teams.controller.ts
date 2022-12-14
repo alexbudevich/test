@@ -15,13 +15,8 @@ export class TeamsController {
   }
 
   @Get(':id')
-  getById(@Param('id') id: number) {
-    return this.teamsService.getById(id);
-  }
-
-  @Get('slug/:slug')
-  getBySlug(@Param('slug') slug: string) {
-    return this.teamsService.getBySlug(slug);
+  findOne(@Param('id') id: number) {
+    return this.teamsService.findOne(id);
   }
 
   @Get('statistic/:id')

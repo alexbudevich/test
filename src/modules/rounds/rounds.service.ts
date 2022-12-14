@@ -16,11 +16,7 @@ export class RoundsService {
     });
   }
 
-  getById(id: number) {
+  findOne(id: number) {
     return this.repository.findOneBy({ id: id });
-  }
-
-  getBySlug(slug: string) {
-    return this.repository.findOneBy({ slug });
   }
 }

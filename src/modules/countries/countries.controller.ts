@@ -25,12 +25,7 @@ export class CountriesController {
   }
 
   @Get(':id')
-  getById(@Param('id') id: number) {
-    return this.countriesService.getById(id);
-  }
-
-  @Get('slug/:slug')
-  getBySlug(@Param('slug') slug: string) {
-    return this.countriesService.getBySlug(slug);
+  findOne(@Param('id') id: number) {
+    return this.countriesService.findOne(id);
   }
 }
