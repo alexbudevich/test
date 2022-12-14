@@ -3,8 +3,8 @@ import {
   IsBoolean,
   IsDate,
   IsEnum,
-  IsNumber,
   IsOptional,
+  IsString,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -26,15 +26,15 @@ export class MatchCriteriaDto {
   @IsOptional()
   dateTo?: Date;
 
-  @IsNumber()
+  @IsString()
   @ApiProperty()
   @IsOptional()
-  leagueId: number;
+  league: string;
 
-  @IsNumber()
+  @IsString()
   @ApiProperty()
   @IsOptional()
-  countryId: number;
+  country: string;
 
   @IsBoolean()
   @ApiProperty()

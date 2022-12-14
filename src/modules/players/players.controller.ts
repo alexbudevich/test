@@ -19,7 +19,12 @@ export class PlayersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.playersService.findOne(id);
+  getById(@Param('id') id: number) {
+    return this.playersService.getById(id);
+  }
+
+  @Get('slug/:slug')
+  getBySlug(@Param('slug') slug: string) {
+    return this.playersService.getBySlug(slug);
   }
 }

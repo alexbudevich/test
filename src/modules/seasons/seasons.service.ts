@@ -16,7 +16,11 @@ export class SeasonsService {
     });
   }
 
-  findOne(id: number) {
+  getById(id: number) {
     return this.repository.findOneBy({ id: id });
+  }
+
+  getBySlug(slug: string) {
+    return this.repository.findOneBy({ slug });
   }
 }
