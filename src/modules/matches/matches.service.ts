@@ -208,14 +208,14 @@ export class MatchesService {
     }
 
     if (criteria.league) {
-      matchQueryBuilder.andWhere('league.slug = :slug', {
-        slug: criteria.league,
+      matchQueryBuilder.andWhere('league.slug = :leagueSlug', {
+        leagueSlug: criteria.league,
       });
     }
 
     if (criteria.country) {
-      matchQueryBuilder.andWhere('country.slug = :slug', {
-        slug: criteria.country,
+      matchQueryBuilder.andWhere('country.slug = :countrySlug', {
+        countrySlug: criteria.country,
       });
     }
 

@@ -38,8 +38,8 @@ export class OddsService {
     }
 
     if (criteria.bookmaker) {
-      oddQueryBuilder.where('odd.bookmaker.slug = :slug', {
-        slug: criteria.bookmaker,
+      oddQueryBuilder.where('odd.bookmaker.slug = :bookmakerSlug', {
+        bookmakerSlug: criteria.bookmaker,
       });
     }
     return oddQueryBuilder;
