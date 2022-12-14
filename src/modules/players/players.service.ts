@@ -19,8 +19,12 @@ export class PlayersService {
     });
   }
 
-  findOne(id: number) {
+  getById(id: number) {
     return this.repository.findOneBy({ id: id });
+  }
+
+  getBySlug(slug: string) {
+    return this.repository.findOneBy({ slug });
   }
 
   private async getPlayerCriteria(search: PlayerCriteriaDto) {

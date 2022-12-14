@@ -28,8 +28,12 @@ export class CountriesService {
     });
   }
 
-  findOne(id: number) {
-    return this.repository.findOneBy({ id: id });
+  getById(id: number) {
+    return this.repository.findOneBy({ id });
+  }
+
+  getBySlug(slug: string) {
+    return this.repository.findOneBy({ slug });
   }
 
   findAll() {
