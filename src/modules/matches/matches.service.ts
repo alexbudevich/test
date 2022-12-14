@@ -207,15 +207,15 @@ export class MatchesService {
       });
     }
 
-    if (criteria.leagueId) {
-      matchQueryBuilder.andWhere('match.league.id = :id', {
-        id: criteria.leagueId,
+    if (criteria.league) {
+      matchQueryBuilder.andWhere('match.league.slug = :slug', {
+        slug: criteria.league,
       });
     }
 
-    if (criteria.countryId) {
-      matchQueryBuilder.andWhere('country.id = :id', {
-        id: criteria.countryId,
+    if (criteria.country) {
+      matchQueryBuilder.andWhere('country.slug = :slug', {
+        slug: criteria.country,
       });
     }
 
@@ -234,11 +234,10 @@ export class MatchesService {
     if (criteria.isTop) {
       matchQueryBuilder
         .addSelect(
-          `case when league.name IN (${this.topLeagues
-            .map((league) => `'${league}'`)
-            .join(',')}) then 0 else 1 end`,
+          `case when league.name IN (:...topLeagues) then 0 else 1 end`,
           '_rank',
         )
+        .setParameter('topLeagues', this.topLeagues)
         .orderBy('_rank', 'ASC');
     }
 
