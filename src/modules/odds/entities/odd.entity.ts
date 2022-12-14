@@ -28,9 +28,6 @@ export class Odd {
   @Column('character varying', { name: 'name', nullable: true, length: 50 })
   name: string | null;
 
-  @Column('character varying', { name: 'slug', unique: true, nullable: true })
-  slug: string | null;
-
   @Column('character varying', { name: 'value', nullable: true, length: 50 })
   value: string | null;
 

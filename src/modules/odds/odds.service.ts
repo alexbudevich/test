@@ -3,12 +3,14 @@ import { Repository } from 'typeorm';
 import { Odd } from './entities/odd.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { OddCriteriaDto } from './dto/odd-criteria.dto';
+import { MatchesService } from '../matches/matches.service';
 
 @Injectable()
 export class OddsService {
   constructor(
     @Inject('ODD_REPOSITORY')
     private repository: Repository<Odd>,
+    private matchesService: MatchesService,
   ) {}
 
   async searchOddByCriteria(query: PaginateQuery, criteria: OddCriteriaDto) {
@@ -27,23 +29,17 @@ export class OddsService {
     });
   }
 
-  getBySlug(slug: string) {
-    return this.repository.findOne({
-      relations: ['match', 'bookmaker'],
-      where: { slug },
-    });
-  }
-
   private async getOddCriteria(criteria: OddCriteriaDto) {
     const oddQueryBuilder = this.repository.createQueryBuilder('odd');
 
-    if (criteria.matchId) {
-      oddQueryBuilder.where('odd.match.id = :id', { id: criteria.matchId });
+    if (criteria.match) {
+      const match = await this.matchesService.getBySlug(criteria.match);
+      oddQueryBuilder.where('odd.match.id = :id', { id: match.id });
     }
 
-    if (criteria.bookmakerId) {
-      oddQueryBuilder.where('odd.bookmaker.id = :id', {
-        id: criteria.bookmakerId,
+    if (criteria.bookmaker) {
+      oddQueryBuilder.where('odd.bookmaker.slug = :slug', {
+        slug: criteria.bookmaker,
       });
     }
     return oddQueryBuilder;

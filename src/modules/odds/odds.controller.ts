@@ -22,9 +22,4 @@ export class OddsController {
   betById(@Param('id') id: number) {
     return this.oddsService.betById(id);
   }
-
-  @Get('slug/:slug')
-  getBySlug(@Param('slug') slug: string) {
-    return this.oddsService.getBySlug(slug);
-  }
 }
