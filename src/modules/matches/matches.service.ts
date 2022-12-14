@@ -208,7 +208,7 @@ export class MatchesService {
     }
 
     if (criteria.league) {
-      matchQueryBuilder.andWhere('match.league.slug = :slug', {
+      matchQueryBuilder.andWhere('league.slug = :slug', {
         slug: criteria.league,
       });
     }
