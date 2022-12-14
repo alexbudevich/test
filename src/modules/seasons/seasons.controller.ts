@@ -15,12 +15,7 @@ export class SeasonsController {
   }
 
   @Get(':id')
-  getById(@Param('id') id: number) {
-    return this.seasonsService.getById(id);
-  }
-
-  @Get('slug/:slug')
-  getBySlug(@Param('slug') slug: string) {
-    return this.seasonsService.getBySlug(slug);
+  findOne(@Param('id') id: number) {
+    return this.seasonsService.findOne(id);
   }
 }

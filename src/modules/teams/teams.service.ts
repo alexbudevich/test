@@ -18,19 +18,10 @@ export class TeamsService {
     });
   }
 
-  getById(id: number) {
+  findOne(id: number) {
     return this.repository.findOne({
       where: {
         id: id,
-      },
-      relations: ['players'],
-    });
-  }
-
-  getBySlug(slug: string) {
-    return this.repository.findOne({
-      where: {
-        slug,
       },
       relations: ['players'],
     });

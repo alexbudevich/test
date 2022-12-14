@@ -19,7 +19,7 @@ export class OddsController {
   }
 
   @Get(':id')
-  betById(@Param('id') id: number) {
-    return this.oddsService.betById(id);
+  findOne(@Param('id') id: number) {
+    return this.oddsService.findOne(id);
   }
 }

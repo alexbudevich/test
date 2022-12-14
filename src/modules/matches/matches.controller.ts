@@ -19,12 +19,7 @@ export class MatchesController {
   }
 
   @Get(':id')
-  getById(@Param('id') id: number) {
-    return this.matchesService.getById(id);
-  }
-
-  @Get('slug/:slug')
-  getBySlug(@Param('slug') slug: string) {
-    return this.matchesService.getBySlug(slug);
+  findOne(@Param('id') id: number) {
+    return this.matchesService.findOne(id);
   }
 }

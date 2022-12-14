@@ -20,12 +20,7 @@ export class LeaguesController {
   }
 
   @Get(':id')
-  getById(@Param('id') id: number) {
-    return this.leaguesService.getById(id);
-  }
-
-  @Get('slug/:slug')
-  getBySlug(@Param('slug') slug: string) {
-    return this.leaguesService.getBySlug(slug);
+  findOne(@Param('id') id: number) {
+    return this.leaguesService.findOne(id);
   }
 }

@@ -1,14 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
 
 export class OddCriteriaDto {
-  @IsString()
   @ApiProperty()
-  @IsOptional()
-  match: string;
+  matchId: number;
 
-  @IsString()
   @ApiProperty()
-  @IsOptional()
-  bookmaker: string;
+  bookmakerId: number;
 }

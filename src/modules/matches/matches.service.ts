@@ -1,5 +1,5 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Between, LessThan, MoreThan, Repository } from 'typeorm';
+import { Inject, Injectable } from '@nestjs/common';
+import { Between, Repository } from 'typeorm';
 import { Match } from './entities/match.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { MatchCriteriaDto } from './dto/match-criteria.dto';
@@ -70,90 +70,11 @@ export class MatchesService {
     return matches;
   }
 
-  async getById(id: number) {
+  async findOne(id: number) {
     const match = await this.repository.findOne({
       where: { id: id },
     });
 
-    await this.updateStatistic(match);
-
-    return this.repository.findOne({
-      relations: ['teamAway', 'teamHome', 'league', 'round'],
-      where: { id: id },
-    });
-  }
-
-  async getBySlug(slug: string) {
-    let match = await this.repository.findOne({
-      where: {
-        slug: slug,
-        isLive: true,
-      },
-    });
-
-    if (!match) {
-      const currentDate = new Date();
-      const dateInPast = new Date();
-      dateInPast.setDate(dateInPast.getDate() - 1);
-      const matchBefore = await this.repository.findOne({
-        where: {
-          slug: slug,
-          date: Between(dateInPast, currentDate),
-        },
-        order: {
-          date: 'DESC',
-        },
-      });
-      const matchAfter = await this.repository.findOne({
-        where: {
-          slug: slug,
-          date: MoreThan(currentDate),
-        },
-        order: {
-          date: 'ASC',
-        },
-      });
-
-      if (matchAfter || matchBefore) {
-        if (matchAfter && matchBefore) {
-          const timeMatchBefore =
-            currentDate.valueOf() - matchBefore.date.valueOf();
-          const timeMatchAfter =
-            matchAfter.date.valueOf() - currentDate.valueOf();
-          match = timeMatchBefore < timeMatchAfter ? matchBefore : matchAfter;
-        } else {
-          if (!matchAfter) {
-            match = matchBefore;
-          } else {
-            match = matchAfter;
-          }
-        }
-      } else {
-        match = await this.repository.findOne({
-          where: {
-            slug: slug,
-            date: LessThan(currentDate),
-          },
-          order: {
-            date: 'DESC',
-          },
-        });
-      }
-    }
-
-    if (!match) {
-      throw new NotFoundException(`Match '${slug}' not found!`);
-    }
-
-    await this.updateStatistic(match);
-
-    return this.repository.findOne({
-      relations: ['teamAway', 'teamHome', 'league', 'round'],
-      where: { id: match.id },
-    });
-  }
-
-  private async updateStatistic(match: Match) {
     try {
       if (match) {
         const axiosResponse = await axios.get(
@@ -187,6 +108,11 @@ export class MatchesService {
     } catch (error) {
       console.log(error);
     }
+
+    return this.repository.findOne({
+      relations: ['teamAway', 'teamHome', 'league', 'round'],
+      where: { id: id },
+    });
   }
 
   private async getMatchCriteria(criteria: MatchCriteriaDto) {
@@ -207,15 +133,15 @@ export class MatchesService {
       });
     }
 
-    if (criteria.league) {
-      matchQueryBuilder.andWhere('league.slug = :leagueSlug', {
-        leagueSlug: criteria.league,
+    if (criteria.leagueId) {
+      matchQueryBuilder.andWhere('match.league.id = :id', {
+        id: criteria.leagueId,
       });
     }
 
-    if (criteria.country) {
-      matchQueryBuilder.andWhere('country.slug = :countrySlug', {
-        countrySlug: criteria.country,
+    if (criteria.countryId) {
+      matchQueryBuilder.andWhere('country.id = :id', {
+        id: criteria.countryId,
       });
     }
 
@@ -234,10 +160,11 @@ export class MatchesService {
     if (criteria.isTop) {
       matchQueryBuilder
         .addSelect(
-          `case when league.name IN (:...topLeagues) then 0 else 1 end`,
+          `case when league.name IN (${this.topLeagues
+            .map((league) => `'${league}'`)
+            .join(',')}) then 0 else 1 end`,
           '_rank',
         )
-        .setParameter('topLeagues', this.topLeagues)
         .orderBy('_rank', 'ASC');
     }
 
