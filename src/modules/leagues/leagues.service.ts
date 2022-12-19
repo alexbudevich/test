@@ -62,11 +62,17 @@ export class LeaguesService {
     });
   }
 
-  getBySlug(slug: string) {
-    return this.repository.findOne({
-      where: { slug },
-      relations: ['country'],
-    });
+  getBySlug(countrySlug: string, leagueSlug: string) {
+    return this.repository
+      .createQueryBuilder('league')
+      .leftJoinAndSelect('league.country', 'country')
+      .where('league.slug = :leagueSlug', {
+        leagueSlug: leagueSlug,
+      })
+      .andWhere('country.slug = :countrySlug', {
+        countrySlug: countrySlug,
+      })
+      .getOne();
   }
 
   async findTopLeagues() {
