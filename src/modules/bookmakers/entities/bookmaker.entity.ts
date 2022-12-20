@@ -35,40 +35,11 @@ export class Bookmaker {
   @Column('numeric', { name: 'payout_speed', nullable: true })
   payoutSpeed: string | null;
 
-  @Column('text', { name: 'apps', nullable: true, array: true })
-  apps: string[] | null;
-
-  @Column('boolean', { name: 'cashout', nullable: true })
-  cashout: boolean | null;
-
-  @Column('boolean', { name: 'live_stream', nullable: true })
-  liveStream: boolean | null;
-
-  @Column('boolean', { name: 'bet_builder', nullable: true })
-  betBuilder: boolean | null;
-
   @Column('json', { name: 'overview', nullable: true })
   overview: object | null;
 
   @Column('json', { name: 'bonus_offer', nullable: true })
   bonusOffer: object | null;
-
-  @Column('text', {
-    name: 'bank_limits_payment_methods',
-    nullable: true,
-    array: true,
-  })
-  bankLimitsPaymentMethods: string[] | null;
-
-  @Column('text', {
-    name: 'bank_limits_accept_currencies',
-    nullable: true,
-    array: true,
-  })
-  bankLimitsAcceptCurrencies: string[] | null;
-
-  @Column('json', { name: 'bank_limits_limits', nullable: true })
-  bankLimitsLimits: object | null;
 
   @Column('character varying', {
     name: 'provider_id',
@@ -89,6 +60,42 @@ export class Bookmaker {
 
   @Column('text', { name: 's3_logo_url', nullable: true })
   s3LogoUrl: string | null;
+
+  @Column('numeric', { name: 'rating', nullable: true })
+  rating: string | null;
+
+  @Column('text', { name: 'aff_link', nullable: true })
+  affLink: string | null;
+
+  @Column('boolean', { name: 'high_payout', nullable: true })
+  highPayout: boolean | null;
+
+  @Column('boolean', { name: 'live_stream', nullable: true })
+  liveStream: boolean | null;
+
+  @Column('boolean', { name: 'bet_builder', nullable: true })
+  betBuilder: boolean | null;
+
+  @Column('boolean', { name: 'cash_out', nullable: true })
+  cashOut: boolean | null;
+
+  @Column('boolean', { name: 'live_chat', nullable: true })
+  liveChat: boolean | null;
+
+  @Column('boolean', { name: 'casino', nullable: true })
+  casino: boolean | null;
+
+  @Column('boolean', { name: 'poker', nullable: true })
+  poker: boolean | null;
+
+  @Column('boolean', { name: 'mobile', nullable: true })
+  mobile: boolean | null;
+
+  @Column('boolean', { name: 'android', nullable: true })
+  android: boolean | null;
+
+  @Column('boolean', { name: 'ios', nullable: true })
+  ios: boolean | null;
 
   @ManyToOne(() => Country, (country) => country.bookmakers)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
