@@ -1,10 +1,19 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { BookmakersService } from './bookmakers.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiQuery } from '@nestjs/swagger';
 import { BookmakerCriteriaDto } from './dto/bookmaker-criteria.dto';
+import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
 @Controller('bookmakers')
+@UseInterceptors(NotFoundInterceptor)
 export class BookmakersController {
   constructor(private readonly bookmakersService: BookmakersService) {}
 

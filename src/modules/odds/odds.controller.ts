@@ -1,8 +1,16 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { OddsService } from './odds.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiQuery } from '@nestjs/swagger';
 import { OddCriteriaDto } from './dto/odd-criteria.dto';
+import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
 @Controller('odds')
 export class OddsController {
@@ -19,6 +27,7 @@ export class OddsController {
   }
 
   @Get(':id')
+  @UseInterceptors(NotFoundInterceptor)
   betById(@Param('id') id: number) {
     return this.oddsService.betById(id);
   }

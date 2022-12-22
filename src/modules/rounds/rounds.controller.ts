@@ -1,7 +1,8 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { RoundsService } from './rounds.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiQuery } from '@nestjs/swagger';
+import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
 @Controller('rounds')
 export class RoundsController {
@@ -15,11 +16,13 @@ export class RoundsController {
   }
 
   @Get(':id')
+  @UseInterceptors(NotFoundInterceptor)
   getById(@Param('id') id: number) {
     return this.roundsService.getById(id);
   }
 
   @Get('slug/:slug')
+  @UseInterceptors(NotFoundInterceptor)
   getBySlug(@Param('slug') slug: string) {
     return this.roundsService.getBySlug(slug);
   }

@@ -1,7 +1,8 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { TeamsService } from './teams.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiQuery } from '@nestjs/swagger';
+import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
 @Controller('teams')
 export class TeamsController {
@@ -15,16 +16,19 @@ export class TeamsController {
   }
 
   @Get(':id')
+  @UseInterceptors(NotFoundInterceptor)
   getById(@Param('id') id: number) {
     return this.teamsService.getById(id);
   }
 
   @Get('slug/:slug')
+  @UseInterceptors(NotFoundInterceptor)
   getBySlug(@Param('slug') slug: string) {
     return this.teamsService.getBySlug(slug);
   }
 
   @Get('statistic/:id')
+  @UseInterceptors(NotFoundInterceptor)
   teamStatistic(@Param('id') id: number) {
     return this.teamsService.teamStatistic(id);
   }
