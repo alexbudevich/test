@@ -26,9 +26,12 @@ export class LeaguesController {
     return this.leaguesService.getById(id);
   }
 
-  @Get('slug/:slug')
+  @Get('slug/:countrySlug/:leagueSlug')
   @UseInterceptors(NotFoundInterceptor)
-  getBySlug(@Param('slug') slug: string) {
-    return this.leaguesService.getBySlug(slug);
+  getBySlug(
+    @Param('countrySlug') countrySlug: string,
+    @Param('leagueSlug') leagueSlug: string,
+  ) {
+    return this.leaguesService.getBySlug(countrySlug, leagueSlug);
   }
 }
