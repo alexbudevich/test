@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseInterceptors } from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiQuery } from '@nestjs/swagger';
 import { PlayerCriteriaDto } from './dto/player-criteria.dto';
+import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
 @Controller('players')
 export class PlayersController {
@@ -19,11 +20,13 @@ export class PlayersController {
   }
 
   @Get(':id')
+  @UseInterceptors(NotFoundInterceptor)
   getById(@Param('id') id: number) {
     return this.playersService.getById(id);
   }
 
   @Get('slug/:slug')
+  @UseInterceptors(NotFoundInterceptor)
   getBySlug(@Param('slug') slug: string) {
     return this.playersService.getBySlug(slug);
   }
