@@ -33,7 +33,10 @@ export class OddsService {
     const oddQueryBuilder = this.repository.createQueryBuilder('odd');
 
     if (criteria.match) {
-      const match = await this.matchesService.getBySlug(criteria.match);
+      const match = await this.matchesService.getBySlug(
+        criteria.match,
+        criteria.sport,
+      );
       oddQueryBuilder.where('odd.match.id = :id', { id: match.id });
     }
 
