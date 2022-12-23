@@ -54,4 +54,9 @@ export class MatchCriteriaDto {
     example: [StatusShortType.FT, StatusShortType.NS],
   })
   statusShort: StatusShortType[];
+
+  @IsString()
+  @ApiProperty()
+  @IsOptional()
+  sport: string;
 }

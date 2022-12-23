@@ -5,11 +5,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { League } from '../../modules/leagues/entities/league.entity';
-import { Match } from '../../modules/matches/entities/match.entity';
-import { Odd } from '../../modules/odds/entities/odd.entity';
-import { Player } from '../../modules/players/entities/player.entity';
-import { Team } from '../../modules/teams/entities/team.entity';
+import { League } from '../../leagues/entities/league.entity';
+import { Match } from '../../matches/entities/match.entity';
+import { Odd } from '../../odds/entities/odd.entity';
+import { Player } from '../../players/entities/player.entity';
+import { Team } from '../../teams/entities/team.entity';
 
 @Index('sport_type_pkey', ['id'], { unique: true })
 @Index('sport_type_slug_idx', ['slug'], {})

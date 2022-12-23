@@ -6,6 +6,9 @@ import { MatchCriteriaDto } from './dto/match-criteria.dto';
 import { OrderType } from './dto/query.dto';
 import axios from 'axios';
 import { RapidApiResponses } from '../../common/rapid-api.response';
+import { Country } from '../countries/entities/country.entity';
+import { League } from '../leagues/entities/league.entity';
+import { SportType } from '../sports/entities/sport-type.entity';
 
 @Injectable()
 export class MatchesService {
@@ -50,12 +53,20 @@ export class MatchesService {
   constructor(
     @Inject('MATCH_REPOSITORY')
     private repository: Repository<Match>,
+    @Inject('COUNTRY_REPOSITORY')
+    private countryRepository: Repository<Country>,
+    @Inject('LEAGUE_REPOSITORY')
+    private leagueRepository: Repository<League>,
+    @Inject('SPORT_REPOSITORY')
+    private sportTypeRepository: Repository<SportType>,
   ) {}
 
   async searchMatchByCriteria(
     query: PaginateQuery,
     criteria: MatchCriteriaDto,
   ) {
+    await this.checkFor404Error(criteria);
+
     const matchCriteria = await this.getMatchCriteria(criteria);
 
     const matches = await paginate(query, matchCriteria, {
@@ -67,6 +78,7 @@ export class MatchesService {
     matches.data.map((match) => {
       match.league = { ...match.league, standings: null };
     });
+
     return matches;
   }
 
@@ -241,6 +253,61 @@ export class MatchesService {
         .orderBy('_rank', 'ASC');
     }
 
+    if (criteria.sport) {
+      matchQueryBuilder
+        .leftJoin('match.sportType', 'sportType')
+        .andWhere('sportType.slug = :sportType', { sportType: criteria.sport });
+    }
+
     return matchQueryBuilder;
+  }
+
+  private async checkFor404Error(criteria: MatchCriteriaDto) {
+    if (criteria.sport) {
+      const sportType = await this.sportTypeRepository.findOne({
+        where: {
+          slug: criteria.sport,
+        },
+      });
+      if (!sportType) {
+        throw new NotFoundException('sportType');
+      }
+    }
+
+    if (criteria.country || criteria.league) {
+      if (criteria.country && criteria.league) {
+        const leagueCountry = await this.leagueRepository
+          .createQueryBuilder('league')
+          .leftJoin('league.country', 'country')
+          .where('league.slug = :leagueSlug', { leagueSlug: criteria.league })
+          .andWhere('country.slug = :countrySlug', {
+            countrySlug: criteria.country,
+          })
+          .getOne();
+        if (!leagueCountry) {
+          throw new NotFoundException('leagueCountry');
+        }
+      } else {
+        if (criteria.country) {
+          const country = await this.countryRepository.findOne({
+            where: {
+              slug: criteria.country,
+            },
+          });
+          if (!country) {
+            throw new NotFoundException('country');
+          }
+        } else {
+          const league = await this.leagueRepository.findOne({
+            where: {
+              slug: criteria.league,
+            },
+          });
+          if (!league) {
+            throw new NotFoundException('league');
+          }
+        }
+      }
+    }
   }
 }
