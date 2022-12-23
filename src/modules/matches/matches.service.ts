@@ -95,10 +95,13 @@ export class MatchesService {
     });
   }
 
-  async getBySlug(slug: string) {
+  async getBySlug(matchSlug: string, sportSlug: string) {
     let match = await this.repository.findOne({
       where: {
-        slug: slug,
+        slug: matchSlug,
+        sportType: {
+          slug: sportSlug,
+        },
         isLive: true,
       },
     });
@@ -109,7 +112,10 @@ export class MatchesService {
       dateInPast.setDate(dateInPast.getDate() - 1);
       const matchBefore = await this.repository.findOne({
         where: {
-          slug: slug,
+          slug: matchSlug,
+          sportType: {
+            slug: sportSlug,
+          },
           date: Between(dateInPast, currentDate),
         },
         order: {
@@ -118,7 +124,10 @@ export class MatchesService {
       });
       const matchAfter = await this.repository.findOne({
         where: {
-          slug: slug,
+          slug: matchSlug,
+          sportType: {
+            slug: sportSlug,
+          },
           date: MoreThan(currentDate),
         },
         order: {
@@ -143,7 +152,10 @@ export class MatchesService {
       } else {
         match = await this.repository.findOne({
           where: {
-            slug: slug,
+            slug: matchSlug,
+            sportType: {
+              slug: sportSlug,
+            },
             date: LessThan(currentDate),
           },
           order: {
@@ -154,7 +166,7 @@ export class MatchesService {
     }
 
     if (!match) {
-      throw new NotFoundException(`Match '${slug}' not found!`);
+      throw new NotFoundException();
     }
 
     await this.updateStatistic(match);
