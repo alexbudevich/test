@@ -14,7 +14,7 @@ import { Country } from '../../countries/entities/country.entity';
 import { Match } from '../../matches/entities/match.entity';
 import { Player } from '../../players/entities/player.entity';
 import { FootballStatistic } from '../../../common/entities/footbol-statistic.entity';
-import { SportType } from '../../../common/entities/sport-type.entity';
+import { SportType } from '../../sports/entities/sport-type.entity';
 import { TeamTopScore } from '../dto/team-top-score.dto';
 import { Exclude } from 'class-transformer';
 

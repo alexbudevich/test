@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { DatabaseModule } from './common/database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { BookmakersModule } from './modules/bookmakers/bookmakers.module';
@@ -12,6 +12,8 @@ import { SeasonsModule } from './modules/seasons/seasons.module';
 import { TeamsModule } from './modules/teams/teams.module';
 import { VenuesModule } from './modules/venues/venues.module';
 import { HealthcheckModule } from './healthcheck/healthcheck.module';
+import { LoggerMiddleware } from './common/middlewares/logger-middleware';
+import { SportsModule } from './modules/sports/sports.module';
 
 @Module({
   imports: [
@@ -30,6 +32,11 @@ import { HealthcheckModule } from './healthcheck/healthcheck.module';
     TeamsModule,
     VenuesModule,
     HealthcheckModule,
+    SportsModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
