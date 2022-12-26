@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Bookmaker } from '../bookmakers/entities/bookmaker.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
+import { Country } from './entities/country.entity';
 
 @Injectable()
 export class CountriesService {
@@ -19,7 +19,7 @@ export class CountriesService {
   ];
   constructor(
     @Inject('COUNTRY_REPOSITORY')
-    private repository: Repository<Bookmaker>,
+    private repository: Repository<Country>,
   ) {}
 
   findByCriteria(query: PaginateQuery) {

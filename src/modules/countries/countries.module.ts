@@ -8,5 +8,6 @@ import { countryProviders } from './country.providers';
   imports: [DatabaseModule],
   controllers: [CountriesController],
   providers: [CountriesService, ...countryProviders],
+  exports: [...countryProviders],
 })
 export class CountriesModule {}

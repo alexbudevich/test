@@ -1,9 +1,17 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { MatchesService } from './matches.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiQuery } from '@nestjs/swagger';
 import { MatchCriteriaDto } from './dto/match-criteria.dto';
 import { QueryDTO } from './dto/query.dto';
+import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
 @Controller('matches')
 export class MatchesController {
@@ -19,12 +27,17 @@ export class MatchesController {
   }
 
   @Get(':id')
+  @UseInterceptors(NotFoundInterceptor)
   getById(@Param('id') id: number) {
     return this.matchesService.getById(id);
   }
 
-  @Get('slug/:slug')
-  getBySlug(@Param('slug') slug: string) {
-    return this.matchesService.getBySlug(slug);
+  @Get(':sportSlug/:matchSlug')
+  @UseInterceptors(NotFoundInterceptor)
+  getBySlug(
+    @Param('sportSlug') sportSlug: string,
+    @Param('matchSlug') matchSlug: string,
+  ) {
+    return this.matchesService.getBySlug(matchSlug, sportSlug);
   }
 }
