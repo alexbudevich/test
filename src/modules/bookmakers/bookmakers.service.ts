@@ -18,7 +18,7 @@ export class BookmakersService {
     const matchCriteria = await this.getBookmakerCriteria(criteria);
 
     return paginate(query, matchCriteria, {
-      sortableColumns: ['id'],
+      sortableColumns: ['rank'],
     });
   }
 

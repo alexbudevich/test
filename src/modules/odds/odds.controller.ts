@@ -26,6 +26,11 @@ export class OddsController {
     return this.oddsService.searchOddByCriteria(query, criteria);
   }
 
+  @Get(':sport/:match')
+  getMatchOdds(@Param('sport') sport: string, @Param('match') match: string) {
+    return this.oddsService.getMatchOdds(sport, match);
+  }
+
   @Get(':id')
   @UseInterceptors(NotFoundInterceptor)
   betById(@Param('id') id: number) {
