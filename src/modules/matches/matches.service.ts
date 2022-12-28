@@ -38,18 +38,6 @@ export class MatchesService {
     'Copa Do Brasil',
   ];
 
-  private topCountries: string[] = [
-    'World',
-    'England',
-    'Spain',
-    'Italy',
-    'Germany',
-    'France',
-    'Brazil',
-    'Austria',
-    'Portugal',
-    'Belgium',
-  ];
   constructor(
     @Inject('MATCH_REPOSITORY')
     private repository: Repository<Match>,
@@ -95,7 +83,7 @@ export class MatchesService {
     });
   }
 
-  async getBySlug(matchSlug: string, sportSlug: string) {
+  async getBySlug(sportSlug: string, matchSlug: string) {
     let match = await this.repository.findOne({
       where: {
         slug: matchSlug,

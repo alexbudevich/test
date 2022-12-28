@@ -48,6 +48,9 @@ export class OddsService {
 
     return await this.bookmakerRepository.find({
       relations: ['odds'],
+      order: {
+        rank: 'ASC',
+      },
       where: {
         odds: {
           matchId: matchEntity.id,
@@ -56,4 +59,51 @@ export class OddsService {
     });
   }
 
+  async getTopMatchOdds(sport: string, match: string) {
+    const matchEntity = await this.matchesService.getBySlug(sport, match);
+
+    const oddSelectQueryBuilder = this.getTopOddSelectQueryBuilder();
+
+    const oddHome = await oddSelectQueryBuilder
+      .setParameter('matchId', matchEntity.id)
+      .setParameter('value', 'Home')
+      .getOne();
+
+    const oddDraw = await oddSelectQueryBuilder
+      .setParameter('matchId', matchEntity.id)
+      .setParameter('value', 'Draw')
+      .getOne();
+
+    const oddAway = await oddSelectQueryBuilder
+      .setParameter('matchId', matchEntity.id)
+      .setParameter('value', 'Away')
+      .getOne();
+
+    return [oddHome, oddDraw, oddAway];
+  }
+
+  private getTopOddSelectQueryBuilder() {
+    return this.repository
+      .createQueryBuilder('odd')
+      .leftJoinAndSelect('odd.bookmaker', 'bookmaker')
+      .leftJoin(
+        (qb) =>
+          qb
+            .select([
+              'od1.value as od1_value',
+              'od1.match_id',
+              'max(od1.odd) as MaxOdd',
+            ])
+            .from(Odd, 'od1')
+            .groupBy('od1.value')
+            .where('od1.match_id = :matchId')
+            .addGroupBy('od1.match_id'),
+        'od1',
+        'odd.match_id = od1.match_id and odd.value=od1_value and odd.odd=od1.MaxOdd',
+      )
+      .where('odd.match_id = :matchId')
+      .andWhere('odd.value= :value')
+      .andWhere('odd.odd = od1.MaxOdd')
+      .orderBy('bookmaker.rank');
+  }
 }

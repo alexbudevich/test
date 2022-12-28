@@ -38,6 +38,6 @@ export class MatchesController {
     @Param('sportSlug') sportSlug: string,
     @Param('matchSlug') matchSlug: string,
   ) {
-    return this.matchesService.getBySlug(matchSlug, sportSlug);
+    return this.matchesService.getBySlug(sportSlug, matchSlug);
   }
 }
