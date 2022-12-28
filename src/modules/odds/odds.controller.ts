@@ -27,8 +27,14 @@ export class OddsController {
   }
 
   @Get(':sport/:match')
-  getMatchOdds(@Param('sport') sport: string, @Param('match') match: string) {
-    return this.oddsService.getMatchOdds(sport, match);
+  @ApiQuery({ name: 'page', type: Number, required: false })
+  @ApiQuery({ name: 'limit', type: Number, required: false })
+  getMatchOdds(
+    @Paginate() query: PaginateQuery,
+    @Param('sport') sport: string,
+    @Param('match') match: string,
+  ) {
+    return this.oddsService.getMatchOdds(query, sport, match);
   }
 
   @Get(':sport/:match/top')

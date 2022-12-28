@@ -43,19 +43,17 @@ export class OddsService {
     return oddQueryBuilder;
   }
 
-  async getMatchOdds(sport: string, match: string) {
+  async getMatchOdds(query: PaginateQuery, sport: string, match: string) {
     const matchEntity = await this.matchesService.getBySlug(sport, match);
 
-    return await this.bookmakerRepository.find({
-      relations: ['odds'],
-      order: {
-        rank: 'ASC',
-      },
-      where: {
-        odds: {
-          matchId: matchEntity.id,
-        },
-      },
+    const bookmakerSelectQueryBuilder = this.bookmakerRepository
+      .createQueryBuilder('bookmaker')
+      .leftJoinAndSelect('bookmaker.odds', 'odd')
+      .leftJoin('odd.match', 'match')
+      .where('match.id = :matchId', { matchId: matchEntity.id });
+
+    return paginate(query, bookmakerSelectQueryBuilder, {
+      sortableColumns: ['rank'],
     });
   }
 
