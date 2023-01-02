@@ -56,6 +56,9 @@ export class League {
   @Column('text', { name: 's3_logo_url', nullable: true })
   s3LogoUrl: string | null;
 
+  @Column('text', { name: 'description', nullable: true })
+  description: string | null;
+
   @ManyToOne(() => Country, (country) => country.leagues)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
