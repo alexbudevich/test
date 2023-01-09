@@ -23,11 +23,19 @@ export class BookmakersService {
   }
 
   getById(id: number) {
-    return this.repository.findOneBy({ id });
+    return this.repository
+      .createQueryBuilder('bookmaker')
+      .addSelect('bookmaker.description')
+      .where('bookmaker.id = :id', { id })
+      .getOne();
   }
 
   getBySlug(slug: string) {
-    return this.repository.findOneBy({ slug });
+    return this.repository
+      .createQueryBuilder('bookmaker')
+      .addSelect('bookmaker.description')
+      .where('bookmaker.slug = :slug', { slug })
+      .getOne();
   }
 
   private async getBookmakerCriteria(criteria: BookmakerCriteriaDto) {
