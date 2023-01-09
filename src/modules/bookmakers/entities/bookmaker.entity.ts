@@ -97,6 +97,15 @@ export class Bookmaker {
   @Column('boolean', { name: 'ios', nullable: true })
   ios: boolean | null;
 
+  @Column('boolean', { name: 'support_email', nullable: true })
+  supportEmail: boolean | null;
+
+  @Column('boolean', { name: 'support_phone', nullable: true })
+  supportPhone: boolean | null;
+
+  @Column('text', { name: 'description', nullable: true, select: false })
+  description: string | null;
+
   @ManyToOne(() => Country, (country) => country.bookmakers)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
