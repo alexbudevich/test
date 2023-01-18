@@ -169,8 +169,7 @@ export class MatchesService {
     try {
       if (match) {
         const axiosResponse = await axios.get(
-          'https://api-football-v1.p.rapidapi.com/v3/fixtures?id=' +
-            match.providerId,
+          'https://v3.football.api-sports.io/fixtures?id=' + match.providerId,
           {
             headers: {
               'x-rapidapi-host': process.env.RHOST,
