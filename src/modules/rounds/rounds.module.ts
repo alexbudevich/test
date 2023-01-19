@@ -1,15 +1,12 @@
 import { Module } from '@nestjs/common';
 import { RoundsService } from './rounds.service';
 import { RoundsController } from './rounds.controller';
-import {roundProviders} from "./round.providers";
-import {DatabaseModule} from "../../common/database/database.module";
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Round } from './entities/round.entity';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [TypeOrmModule.forFeature([Round])],
   controllers: [RoundsController],
-  providers: [
-      RoundsService,
-      ...roundProviders
-  ],
+  providers: [RoundsService],
 })
 export class RoundsModule {}

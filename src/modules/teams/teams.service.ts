@@ -1,13 +1,14 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Team } from './entities/team.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { TeamTopScore } from './dto/team-top-score.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class TeamsService {
   constructor(
-    @Inject('TEAM_REPOSITORY')
+    @InjectRepository(Team)
     private repository: Repository<Team>,
   ) {}
 

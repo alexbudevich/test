@@ -1,7 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { League } from './entities/league.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class LeaguesService {
@@ -44,7 +45,7 @@ export class LeaguesService {
     'Belgium',
   ];
   constructor(
-    @Inject('LEAGUE_REPOSITORY')
+    @InjectRepository(League)
     private repository: Repository<League>,
   ) {}
 

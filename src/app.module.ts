@@ -1,5 +1,4 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { DatabaseModule } from './common/database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { BookmakersModule } from './modules/bookmakers/bookmakers.module';
 import { CountriesModule } from './modules/countries/countries.module';
@@ -13,14 +12,20 @@ import { TeamsModule } from './modules/teams/teams.module';
 import { VenuesModule } from './modules/venues/venues.module';
 import { HealthcheckModule } from './healthcheck/healthcheck.module';
 import { LoggerMiddleware } from './common/middlewares/logger-middleware';
-import { SportsModule } from './modules/sports/sports.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ApiConfigService, AppConfigModule } from './config';
 
 @Module({
   imports: [
+    TypeOrmModule.forRootAsync({
+      imports: [AppConfigModule],
+      useFactory: (configService: ApiConfigService) =>
+        configService.postgresConfig,
+      inject: [ApiConfigService],
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    DatabaseModule,
     BookmakersModule,
     CountriesModule,
     OddsModule,
@@ -32,7 +37,6 @@ import { SportsModule } from './modules/sports/sports.module';
     TeamsModule,
     VenuesModule,
     HealthcheckModule,
-    SportsModule,
   ],
 })
 export class AppModule implements NestModule {

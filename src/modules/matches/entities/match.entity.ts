@@ -14,7 +14,7 @@ import { Team } from '../../teams/entities/team.entity';
 import { Odd } from '../../odds/entities/odd.entity';
 import { Round } from '../../rounds/entities/round.entity';
 import { FootballStatistic } from '../../../common/entities/footbol-statistic.entity';
-import { SportType } from '../../sports/entities/sport-type.entity';
+import { SportType } from '../../../common/entities/sport-type.entity';
 
 @Index('match_pkey', ['id'], { unique: true })
 @Index('match_slug_idx', ['slug'], {})

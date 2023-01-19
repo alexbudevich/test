@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { BookmakersService } from './bookmakers.service';
 import { BookmakersController } from './bookmakers.controller';
-import { bookmakerProviders } from './bookmaker.providers';
-import { DatabaseModule } from '../../common/database/database.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Bookmaker } from './entities/bookmaker.entity';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [TypeOrmModule.forFeature([Bookmaker])],
   controllers: [BookmakersController],
-  providers: [BookmakersService, ...bookmakerProviders],
-  exports: [...bookmakerProviders],
+  providers: [BookmakersService],
+  exports: [],
 })
 export class BookmakersModule {}

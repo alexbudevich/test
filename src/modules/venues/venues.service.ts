@@ -1,12 +1,13 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Venue } from './entities/venue.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class VenuesService {
   constructor(
-    @Inject('VENUE_REPOSITORY')
+    @InjectRepository(Venue)
     private repository: Repository<Venue>,
   ) {}
 

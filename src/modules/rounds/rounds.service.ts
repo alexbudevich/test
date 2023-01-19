@@ -1,12 +1,13 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Round } from './entities/round.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class RoundsService {
   constructor(
-    @Inject('ROUND_REPOSITORY')
+    @InjectRepository(Round)
     private repository: Repository<Round>,
   ) {}
 

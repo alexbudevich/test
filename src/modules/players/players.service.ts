@@ -1,13 +1,14 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Player } from './entities/player.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { PlayerCriteriaDto } from './dto/player-criteria.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class PlayersService {
   constructor(
-    @Inject('PLAYER_REPOSITORY')
+    @InjectRepository(Player)
     private repository: Repository<Player>,
   ) {}
 

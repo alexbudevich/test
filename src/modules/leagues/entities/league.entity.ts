@@ -15,7 +15,7 @@ import { Team } from '../../teams/entities/team.entity';
 import { Season } from '../../seasons/entities/season.entity';
 import { Match } from '../../matches/entities/match.entity';
 import { Week } from '../../../common/entities/week.entity';
-import { SportType } from '../../sports/entities/sport-type.entity';
+import { SportType } from '../../../common/entities/sport-type.entity';
 
 @Index('league_pkey', ['id'], { unique: true })
 @Index('league_slug_idx', ['slug'], {})

@@ -1,7 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { Country } from './entities/country.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class CountriesService {
@@ -18,7 +19,7 @@ export class CountriesService {
     'Belgium',
   ];
   constructor(
-    @Inject('COUNTRY_REPOSITORY')
+    @InjectRepository(Country)
     private repository: Repository<Country>,
   ) {}
 

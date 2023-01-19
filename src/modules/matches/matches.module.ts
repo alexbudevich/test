@@ -1,16 +1,22 @@
 import { Module } from '@nestjs/common';
 import { MatchesService } from './matches.service';
 import { MatchesController } from './matches.controller';
-import { matchProviders } from './match.providers';
-import { DatabaseModule } from '../../common/database/database.module';
 import { CountriesModule } from '../countries/countries.module';
 import { LeaguesModule } from '../leagues/leagues.module';
-import { SportsModule } from '../sports/sports.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Match } from './entities/match.entity';
+import { Country } from '../countries/entities/country.entity';
+import { League } from '../leagues/entities/league.entity';
+import { SportType } from '../../common/entities/sport-type.entity';
 
 @Module({
-  imports: [DatabaseModule, CountriesModule, LeaguesModule, SportsModule],
+  imports: [
+    TypeOrmModule.forFeature([Match, Country, League, SportType]),
+    CountriesModule,
+    LeaguesModule,
+  ],
   controllers: [MatchesController],
-  providers: [MatchesService, ...matchProviders],
+  providers: [MatchesService],
   exports: [MatchesService],
 })
 export class MatchesModule {}

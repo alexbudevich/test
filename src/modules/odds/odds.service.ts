@@ -1,17 +1,18 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Odd } from './entities/odd.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { OddCriteriaDto } from './dto/odd-criteria.dto';
 import { MatchesService } from '../matches/matches.service';
 import { Bookmaker } from '../bookmakers/entities/bookmaker.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class OddsService {
   constructor(
-    @Inject('ODD_REPOSITORY')
+    @InjectRepository(Odd)
     private repository: Repository<Odd>,
-    @Inject('BOOKMAKER_REPOSITORY')
+    @InjectRepository(Bookmaker)
     private bookmakerRepository: Repository<Bookmaker>,
     private matchesService: MatchesService,
   ) {}
@@ -33,10 +34,12 @@ export class OddsService {
   }
 
   private async getOddCriteria(criteria: OddCriteriaDto) {
-    const oddQueryBuilder = this.repository.createQueryBuilder('odd');
+    const oddQueryBuilder = this.repository
+      .createQueryBuilder('odd')
+      .leftJoin('odd.bookmaker', 'bookmaker');
 
     if (criteria.bookmaker) {
-      oddQueryBuilder.where('odd.bookmaker.slug = :bookmaker', {
+      oddQueryBuilder.where('bookmaker.slug = :bookmaker', {
         bookmaker: criteria.bookmaker,
       });
     }

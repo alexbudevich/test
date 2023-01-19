@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Between, LessThan, MoreThan, Repository } from 'typeorm';
 import { Match } from './entities/match.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
@@ -8,7 +8,8 @@ import axios from 'axios';
 import { RapidApiResponses } from '../../common/rapid-api.response';
 import { Country } from '../countries/entities/country.entity';
 import { League } from '../leagues/entities/league.entity';
-import { SportType } from '../sports/entities/sport-type.entity';
+import { SportType } from '../../common/entities/sport-type.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class MatchesService {
@@ -39,13 +40,13 @@ export class MatchesService {
   ];
 
   constructor(
-    @Inject('MATCH_REPOSITORY')
+    @InjectRepository(Match)
     private repository: Repository<Match>,
-    @Inject('COUNTRY_REPOSITORY')
+    @InjectRepository(Country)
     private countryRepository: Repository<Country>,
-    @Inject('LEAGUE_REPOSITORY')
+    @InjectRepository(League)
     private leagueRepository: Repository<League>,
-    @Inject('SPORT_REPOSITORY')
+    @InjectRepository(SportType)
     private sportTypeRepository: Repository<SportType>,
   ) {}
 
