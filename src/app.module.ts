@@ -14,9 +14,21 @@ import { VenuesModule } from './modules/venues/venues.module';
 import { HealthcheckModule } from './healthcheck/healthcheck.module';
 import { LoggerMiddleware } from './common/middlewares/logger-middleware';
 import { SportsModule } from './modules/sports/sports.module';
+import {APP_GUARD} from '@nestjs/core';
+import {ThrottlerGuard, ThrottlerModule} from '@nestjs/throttler';
 
 @Module({
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }
+  ],
   imports: [
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 3,
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
