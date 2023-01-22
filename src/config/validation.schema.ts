@@ -7,4 +7,5 @@ export default () =>
     DATABASE_USERNAME: Joi.string().default(''),
     DATABASE_PASSWORD: Joi.string().default(''),
     DATABASE_DATABASE: Joi.string().default(''),
+    BD_MIGRATION_RUN: Joi.boolean().default(false),
   });

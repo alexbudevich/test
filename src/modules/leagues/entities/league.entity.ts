@@ -59,6 +59,12 @@ export class League {
   @Column('text', { name: 'description', nullable: true })
   description: string | null;
 
+  @Column('timestamp with time zone', { name: 'season_start', nullable: true })
+  seasonStart: Date | null;
+
+  @Column('timestamp with time zone', { name: 'season_end', nullable: true })
+  seasonEnd: Date | null;
+
   @ManyToOne(() => Country, (country) => country.leagues)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;

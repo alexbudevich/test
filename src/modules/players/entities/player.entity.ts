@@ -13,7 +13,7 @@ import { Country } from '../../countries/entities/country.entity';
 import { Match } from '../../matches/entities/match.entity';
 import { Team } from '../../teams/entities/team.entity';
 import { FootballStatistic } from '../../../common/entities/footbol-statistic.entity';
-import { SportType } from '../../../common/entities/sport-type.entity';
+import {SportType} from "../../../common/entities/sport-type.entity";
 
 @Index('player_pkey', ['id'], { unique: true })
 @Index('player_slug_idx', ['slug'], {})
