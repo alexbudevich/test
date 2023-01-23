@@ -55,7 +55,8 @@ secrets: # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
     secretsmanager: 'betting-api-staging:PROXY_USER::'
   PROXY_PASSWORD:
     secretsmanager: 'betting-api-staging:PROXY_PASSWORD::'
-
+  BD_MIGRATION_RUN:
+    secretsmanager: 'betting-api-staging:BD_MIGRATION_RUN::'
 
 # You can override any of the values defined above by environment.
 #environments:
