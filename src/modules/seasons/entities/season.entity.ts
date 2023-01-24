@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Week } from '../../../common/entities/week.entity';
-import { League } from '../../leagues/entities/league.entity';
+import { League } from '../../football/leagues/entities/league.entity';
 
 @Index('season_pkey', ['id'], { unique: true })
 @Index('season_slug_idx', ['slug'], {})

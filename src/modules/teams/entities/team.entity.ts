@@ -8,10 +8,10 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { League } from '../../leagues/entities/league.entity';
-import { Venue } from '../../venues/entities/venue.entity';
+import { League } from '../../football/leagues/entities/league.entity';
+import { Venue } from '../../football/venues/entities/venue.entity';
 import { Country } from '../../countries/entities/country.entity';
-import { Match } from '../../matches/entities/match.entity';
+import { Match } from '../../football/matches/entities/match.entity';
 import { Player } from '../../players/entities/player.entity';
 import { FootballStatistic } from '../../../common/entities/footbol-statistic.entity';
 import { SportType } from '../../../common/entities/sport-type.entity';
@@ -75,7 +75,6 @@ export class Team {
   @OneToMany(() => Match, (match) => match.teamHome)
   homeMatches: Match[];
 
-  @ManyToOne(() => Country, (country) => country.teams)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
 
@@ -83,7 +82,6 @@ export class Team {
   @JoinColumn([{ name: 'league_id', referencedColumnName: 'id' }])
   league: League;
 
-  @ManyToOne(() => SportType, (sportType) => sportType.teams)
   @JoinColumn([{ name: 'sport_type_id', referencedColumnName: 'id' }])
   sportType: SportType;
 

@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Match } from '../../modules/matches/entities/match.entity';
+import { Match } from '../../modules/football/matches/entities/match.entity';
 import { Player } from '../../modules/players/entities/player.entity';
 import { Team } from '../../modules/teams/entities/team.entity';
 

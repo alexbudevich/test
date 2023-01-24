@@ -1,15 +1,10 @@
 import {
   Column,
   Entity,
-  Index,
-  OneToMany,
+  Index, OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { League } from '../../leagues/entities/league.entity';
-import { Player } from '../../players/entities/player.entity';
-import { Bookmaker } from '../../bookmakers/entities/bookmaker.entity';
-import { Venue } from '../../venues/entities/venue.entity';
-import { Team } from '../../teams/entities/team.entity';
+import {Bookmaker} from "../../bookmakers/entities/bookmaker.entity";
 
 @Index('country_pkey', ['id'], { unique: true })
 @Index('country_slug_idx', ['slug'], {})
@@ -35,16 +30,4 @@ export class Country {
 
   @OneToMany(() => Bookmaker, (bookmaker) => bookmaker.country)
   bookmakers: Bookmaker[];
-
-  @OneToMany(() => League, (league) => league.country)
-  leagues: League[];
-
-  @OneToMany(() => Player, (player) => player.country)
-  players: Player[];
-
-  @OneToMany(() => Team, (team) => team.country)
-  teams: Team[];
-
-  @OneToMany(() => Venue, (venue) => venue.country)
-  venues: Venue[];
 }

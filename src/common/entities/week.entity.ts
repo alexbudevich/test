@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { League } from '../../modules/leagues/entities/league.entity';
+import { League } from '../../modules/football/leagues/entities/league.entity';
 import { Season } from '../../modules/seasons/entities/season.entity';
 
 @Index('week_pkey', ['id'], { unique: true })

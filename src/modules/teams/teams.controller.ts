@@ -1,10 +1,11 @@
 import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { TeamsService } from './teams.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { ApiQuery } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
 @Controller('teams')
+@ApiTags('Common')
 export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}
 

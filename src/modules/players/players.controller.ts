@@ -1,11 +1,19 @@
-import { Body, Controller, Get, Param, Post, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { ApiQuery } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { PlayerCriteriaDto } from './dto/player-criteria.dto';
 import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
 @Controller('players')
+@ApiTags('Common')
 export class PlayersController {
   constructor(private readonly playersService: PlayersService) {}
 
