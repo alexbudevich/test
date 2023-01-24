@@ -13,7 +13,7 @@ import { MatchCriteriaDto } from './dto/match-criteria.dto';
 import { QueryDTO } from './dto/query.dto';
 import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
-@Controller('matches')
+@Controller(':sport/matches')
 export class MatchesController {
   constructor(private readonly matchesService: MatchesService) {}
 
@@ -24,12 +24,6 @@ export class MatchesController {
     @Body() criteria: MatchCriteriaDto,
   ) {
     return this.matchesService.searchMatchByCriteria(query, criteria);
-  }
-
-  @Get(':id')
-  @UseInterceptors(NotFoundInterceptor)
-  getById(@Param('id') id: number) {
-    return this.matchesService.getById(id);
   }
 
   @Get(':sport/:match')
