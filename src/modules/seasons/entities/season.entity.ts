@@ -16,8 +16,8 @@ export class Season {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
 
-  @Column('smallint', { name: 'year', nullable: true })
-  year: number | null;
+  @Column('character varying', { name: 'year', nullable: true })
+  year: string | null;
 
   @Column('character varying', { name: 'start', nullable: true, length: 50 })
   start: string | null;

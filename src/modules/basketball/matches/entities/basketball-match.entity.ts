@@ -11,8 +11,8 @@ import {
 } from 'typeorm';
 import { BasketballLeague } from '../../leagues/entities/basketball-league.entity';
 import { SportType } from '../../../../common/entities/sport-type.entity';
-import { Team } from '../../../teams/entities/team.entity';
 import { BasketballOdd } from '../../odds/entities/basketball-odd.entity';
+import { BasketballTeam } from '../../teams/entities/basketball-team.entity';
 
 @Index('basketball_match_pkey', ['id'], { unique: true })
 @Index('basketball_match_slug_idx', ['slug'], {})
@@ -66,16 +66,17 @@ export class BasketballMatch {
   @JoinColumn([{ name: 'league_id', referencedColumnName: 'id' }])
   league: BasketballLeague;
 
+  @ManyToOne(() => SportType)
   @JoinColumn([{ name: 'sport_type_id', referencedColumnName: 'id' }])
   sport: SportType;
 
-  @ManyToOne(() => Team, (team) => team.awayMatches)
+  @ManyToOne(() => BasketballTeam, (team) => team.awayMatches)
   @JoinColumn([{ name: 'team_away_id', referencedColumnName: 'id' }])
-  teamAway: Team;
+  teamAway: BasketballTeam;
 
-  @ManyToOne(() => Team, (team) => team.homeMatches)
+  @ManyToOne(() => BasketballTeam, (team) => team.homeMatches)
   @JoinColumn([{ name: 'team_home_id', referencedColumnName: 'id' }])
-  teamHome: Team;
+  teamHome: BasketballTeam;
 
   @OneToMany(() => BasketballOdd, (odd) => odd.match)
   odds: BasketballOdd[];

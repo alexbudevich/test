@@ -66,7 +66,7 @@ export class BasketballOdd {
   @JoinColumn([{ name: 'bookmaker_id', referencedColumnName: 'id' }])
   bookmaker: Bookmaker;
 
-  @ManyToOne(() => Match, (match) => match.odds)
+  @ManyToOne(() => BasketballMatch, (match) => match.odds)
   @JoinColumn([{ name: 'match_id', referencedColumnName: 'id' }])
   match: BasketballMatch;
 

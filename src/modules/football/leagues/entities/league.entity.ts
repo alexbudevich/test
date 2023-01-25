@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import { Country } from '../../../countries/entities/country.entity';
 import { Round } from '../../rounds/entities/round.entity';
-import { Team } from '../../../teams/entities/team.entity';
+import { Team } from '../../teams/entities/team.entity';
 import { Season } from '../../../seasons/entities/season.entity';
 import { Match } from '../../matches/entities/match.entity';
 import { Week } from '../../../../common/entities/week.entity';

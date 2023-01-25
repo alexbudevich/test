@@ -8,9 +8,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { League } from '../../leagues/entities/league.entity';
-import { Player } from '../../../players/entities/player.entity';
+import { Player } from '../../players/entities/player.entity';
 import { Venue } from '../../venues/entities/venue.entity';
-import { Team } from '../../../teams/entities/team.entity';
+import { Team } from '../../teams/entities/team.entity';
 import { Odd } from '../../odds/entities/odd.entity';
 import { Round } from '../../rounds/entities/round.entity';
 import { FootballStatistic } from '../../../../common/entities/footbol-statistic.entity';

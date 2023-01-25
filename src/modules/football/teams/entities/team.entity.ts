@@ -8,13 +8,13 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { League } from '../../football/leagues/entities/league.entity';
-import { Venue } from '../../football/venues/entities/venue.entity';
-import { Country } from '../../countries/entities/country.entity';
-import { Match } from '../../football/matches/entities/match.entity';
+import { League } from '../../leagues/entities/league.entity';
+import { Venue } from '../../venues/entities/venue.entity';
+import { Country } from '../../../countries/entities/country.entity';
+import { Match } from '../../matches/entities/match.entity';
 import { Player } from '../../players/entities/player.entity';
-import { FootballStatistic } from '../../../common/entities/footbol-statistic.entity';
-import { SportType } from '../../../common/entities/sport-type.entity';
+import { FootballStatistic } from '../../../../common/entities/footbol-statistic.entity';
+import { SportType } from '../../../../common/entities/sport-type.entity';
 import { TeamTopScore } from '../dto/team-top-score.dto';
 import { Exclude } from 'class-transformer';
 

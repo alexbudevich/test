@@ -4,7 +4,8 @@ import {
   Index,
   JoinColumn,
   JoinTable,
-  ManyToMany, ManyToOne,
+  ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -13,6 +14,7 @@ import { SportType } from '../../../../common/entities/sport-type.entity';
 import { Week } from '../../../../common/entities/week.entity';
 import { Country } from '../../../countries/entities/country.entity';
 import { Season } from '../../../seasons/entities/season.entity';
+import { BasketballTeam } from '../../teams/entities/basketball-team.entity';
 
 @Index('basketball_league_pkey', ['id'], { unique: true })
 @Index('basketball_league_slug_idx', ['slug'], {})
@@ -86,6 +88,9 @@ export class BasketballLeague {
 
   @OneToMany(() => BasketballMatch, (match) => match.league)
   matches: BasketballMatch[];
+
+  @OneToMany(() => BasketballTeam, (team) => team.league)
+  teams: BasketballTeam[];
 
   @OneToMany(() => Week, (week) => week.league)
   weeks: Week[];

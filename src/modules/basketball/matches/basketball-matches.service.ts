@@ -8,6 +8,7 @@ import { BasketballLeague } from '../leagues/entities/basketball-league.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Country } from '../../countries/entities/country.entity';
 import { SportType } from '../../../common/entities/sport-type.entity';
+import { TeamMatchDto } from './dto/team-match.dto';
 
 @Injectable()
 export class BasketballMatchesService {
@@ -149,6 +150,34 @@ export class BasketballMatchesService {
     return this.repository.findOne({
       relations: ['teamAway', 'teamHome', 'league', 'round'],
       where: { id: matchEntity.id },
+    });
+  }
+
+  async getMatchesByTeam(
+    team: string,
+    query: PaginateQuery,
+    criteria: TeamMatchDto,
+  ) {
+    const matchQueryBuilder = this.repository
+      .createQueryBuilder('match')
+      .leftJoinAndSelect('match.teamHome', 'teamHome')
+      .leftJoinAndSelect('match.teamAway', 'teamAway')
+      .where('teamHome.slug = :teamHome', { teamHome: team })
+      .orWhere('teamAway.slug = :teamAway', { teamAway: team });
+
+    criteria.latestThen &&
+      matchQueryBuilder.andWhere('match.date <: :lessDate', {
+        lessDate: criteria.latestThen,
+      });
+
+    criteria.latestThen &&
+      matchQueryBuilder.andWhere('match.date >: :grateDate', {
+        grateDate: criteria.greatestThen,
+      });
+
+    return await paginate(query, matchQueryBuilder, {
+      sortableColumns: ['date'],
+      defaultSortBy: [['date', OrderType.DESC]],
     });
   }
 

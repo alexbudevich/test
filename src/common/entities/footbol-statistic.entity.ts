@@ -7,8 +7,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Match } from '../../modules/football/matches/entities/match.entity';
-import { Player } from '../../modules/players/entities/player.entity';
-import { Team } from '../../modules/teams/entities/team.entity';
+import { Player } from '../../modules/football/players/entities/player.entity';
+import { Team } from '../../modules/football/teams/entities/team.entity';
 
 @Index('statistic_pkey', ['id'], { unique: true })
 @Index('football_statistic_player_id_idx', ['playerId'], {})

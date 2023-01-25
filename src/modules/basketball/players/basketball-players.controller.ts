@@ -6,16 +6,16 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { PlayersService } from './players.service';
+import { BasketballPlayersService } from './basketball-players.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { PlayerCriteriaDto } from './dto/player-criteria.dto';
-import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
+import { NotFoundInterceptor } from '../../../common/interseptor/not-found-interceptor';
 
-@Controller('players')
-@ApiTags('Common')
-export class PlayersController {
-  constructor(private readonly playersService: PlayersService) {}
+@Controller('basketball/players')
+@ApiTags('Basketball')
+export class BasketballPlayersController {
+  constructor(private readonly playersService: BasketballPlayersService) {}
 
   @Post('/search')
   @ApiQuery({ name: 'page', type: Number, required: false })

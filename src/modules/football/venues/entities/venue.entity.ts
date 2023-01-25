@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Country } from '../../../countries/entities/country.entity';
-import { Team } from '../../../teams/entities/team.entity';
+import { Team } from '../../teams/entities/team.entity';
 import { Match } from '../../matches/entities/match.entity';
 
 @Index('venue_pkey', ['id'], { unique: true })

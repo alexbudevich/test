@@ -1,13 +1,13 @@
 import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
-import { TeamsService } from './teams.service';
+import { BasketballTeamsService } from './basketball-teams.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
-import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
+import { NotFoundInterceptor } from '../../../common/interseptor/not-found-interceptor';
 
-@Controller('teams')
-@ApiTags('Common')
-export class TeamsController {
-  constructor(private readonly teamsService: TeamsService) {}
+@Controller('basketball/teams')
+@ApiTags('Basketball')
+export class BasketballTeamsController {
+  constructor(private readonly teamsService: BasketballTeamsService) {}
 
   @Get()
   @ApiQuery({ name: 'page', type: Number, required: false })
@@ -26,11 +26,5 @@ export class TeamsController {
   @UseInterceptors(NotFoundInterceptor)
   getBySlug(@Param('slug') slug: string) {
     return this.teamsService.getBySlug(slug);
-  }
-
-  @Get('statistic/:id')
-  @UseInterceptors(NotFoundInterceptor)
-  teamStatistic(@Param('id') id: number) {
-    return this.teamsService.teamStatistic(id);
   }
 }
