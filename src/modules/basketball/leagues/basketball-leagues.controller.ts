@@ -21,7 +21,7 @@ export class BasketballLeaguesController {
     return this.leaguesService.findTopLeagues();
   }
 
-  @Get('slug/:country/:league')
+  @Get(':country/:league')
   @UseInterceptors(NotFoundInterceptor)
   getBySlug(
     @Param('country') country: string,

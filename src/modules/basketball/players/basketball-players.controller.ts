@@ -27,13 +27,7 @@ export class BasketballPlayersController {
     return this.playersService.searchPlayerByCriteria(query, criteria);
   }
 
-  @Get(':id')
-  @UseInterceptors(NotFoundInterceptor)
-  getById(@Param('id') id: number) {
-    return this.playersService.getById(id);
-  }
-
-  @Get('slug/:slug')
+  @Get(':slug')
   @UseInterceptors(NotFoundInterceptor)
   getBySlug(@Param('slug') slug: string) {
     return this.playersService.getBySlug(slug);

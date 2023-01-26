@@ -19,22 +19,18 @@ export class BasketballOddsController {
     return this.oddsService.searchOddByCriteria(query, criteria);
   }
 
-  @Get(':sport/:match')
+  @Get(':match')
   @ApiQuery({ name: 'page', type: Number, required: false })
   @ApiQuery({ name: 'limit', type: Number, required: false })
   getMatchOdds(
     @Paginate() query: PaginateQuery,
-    @Param('sport') sport: string,
     @Param('match') match: string,
   ) {
-    return this.oddsService.getMatchOdds(query, sport, match);
+    return this.oddsService.getMatchOdds(query, match);
   }
 
-  @Get(':sport/:match/top')
-  getTopMatchOdds(
-    @Param('sport') sport: string,
-    @Param('match') match: string,
-  ) {
-    return this.oddsService.getTopMatchOdds(sport, match);
+  @Get(':match/top')
+  getTopMatchOdds(@Param('match') match: string) {
+    return this.oddsService.getTopMatchOdds(match);
   }
 }

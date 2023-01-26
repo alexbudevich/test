@@ -16,13 +16,7 @@ export class BasketballTeamsController {
     return this.teamsService.findAll(query);
   }
 
-  @Get(':id')
-  @UseInterceptors(NotFoundInterceptor)
-  getById(@Param('id') id: number) {
-    return this.teamsService.getById(id);
-  }
-
-  @Get('slug/:slug')
+  @Get(':slug')
   @UseInterceptors(NotFoundInterceptor)
   getBySlug(@Param('slug') slug: string) {
     return this.teamsService.getBySlug(slug);

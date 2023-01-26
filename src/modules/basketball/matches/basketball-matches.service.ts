@@ -162,18 +162,22 @@ export class BasketballMatchesService {
       .createQueryBuilder('match')
       .leftJoinAndSelect('match.teamHome', 'teamHome')
       .leftJoinAndSelect('match.teamAway', 'teamAway')
-      .where('teamHome.slug = :teamHome', { teamHome: team })
-      .orWhere('teamAway.slug = :teamAway', { teamAway: team });
-
-    criteria.latestThen &&
-      matchQueryBuilder.andWhere('match.date <: :lessDate', {
-        lessDate: criteria.latestThen,
+      .where('(teamHome.slug = :teamHome OR teamAway.slug = :teamAway)', {
+        teamHome: team,
+        teamAway: team,
       });
 
     criteria.latestThen &&
-      matchQueryBuilder.andWhere('match.date >: :grateDate', {
-        grateDate: criteria.greatestThen,
-      });
+      matchQueryBuilder.andWhere(
+        'CAST(match.date as date) <= CAST(:latestThen as date)',
+        { latestThen: criteria.latestThen },
+      );
+
+    criteria.greatestThen &&
+      matchQueryBuilder.andWhere(
+        'CAST(match.date as date) >= CAST(:greatestThen as date)',
+        { greatestThen: criteria.greatestThen },
+      );
 
     return await paginate(query, matchQueryBuilder, {
       sortableColumns: ['date'],
