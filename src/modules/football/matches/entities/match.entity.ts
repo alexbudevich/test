@@ -89,11 +89,23 @@ export class Match {
   sportType: SportType;
 
   @ManyToOne(() => Team, (team) => team.awayMatches)
-  @JoinColumn([{ name: 'team_away_id', referencedColumnName: 'id' }])
+  @JoinColumn([
+    {
+      name: 'team_away_id',
+      referencedColumnName: 'id',
+      foreignKeyConstraintName: 'FK_team_away',
+    },
+  ])
   teamAway: Team;
 
   @ManyToOne(() => Team, (team) => team.homeMatches)
-  @JoinColumn([{ name: 'team_home_id', referencedColumnName: 'id' }])
+  @JoinColumn([
+    {
+      name: 'team_home_id',
+      referencedColumnName: 'id',
+      foreignKeyConstraintName: 'FK_team_home',
+    },
+  ])
   teamHome: Team;
 
   @ManyToOne(() => Venue, (venue) => venue.matches)
