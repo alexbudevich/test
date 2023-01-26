@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Between, LessThan, MoreThan, Repository } from 'typeorm';
 import { BasketballMatch } from './entities/basketball-match.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
-import { MatchCriteriaDto } from './dto/match-criteria.dto';
+import { MatchCriteriaDto } from '../../../common/dto/match-criteria.dto';
 import { OrderType } from '../../../common/dto/query.dto';
 import { BasketballLeague } from '../leagues/entities/basketball-league.entity';
 import { InjectRepository } from '@nestjs/typeorm';

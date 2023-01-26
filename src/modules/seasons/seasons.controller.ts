@@ -1,7 +1,7 @@
 import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { SeasonsService } from './seasons.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
 @Controller('seasons')
@@ -17,6 +17,7 @@ export class SeasonsController {
   }
 
   @Get(':id')
+  @ApiOperation({ deprecated: true })
   @UseInterceptors(NotFoundInterceptor)
   getById(@Param('id') id: number) {
     return this.seasonsService.getById(id);

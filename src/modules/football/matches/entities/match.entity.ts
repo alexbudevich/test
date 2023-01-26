@@ -93,6 +93,7 @@ export class Match {
   @JoinColumn([{ name: 'round_id', referencedColumnName: 'id' }])
   round: Round;
 
+  @ManyToOne(() => SportType)
   @JoinColumn([{ name: 'sport_type_id', referencedColumnName: 'id' }])
   sportType: SportType;
 

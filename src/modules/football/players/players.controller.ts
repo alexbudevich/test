@@ -8,11 +8,11 @@ import {
 } from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { PlayerCriteriaDto } from './dto/player-criteria.dto';
 import { NotFoundInterceptor } from '../../../common/interseptor/not-found-interceptor';
 
-@Controller('players')
+@Controller('football/players')
 @ApiTags('Football')
 export class PlayersController {
   constructor(private readonly playersService: PlayersService) {}
@@ -28,6 +28,7 @@ export class PlayersController {
   }
 
   @Get(':id')
+  @ApiOperation({ deprecated: true })
   @UseInterceptors(NotFoundInterceptor)
   getById(@Param('id') id: number) {
     return this.playersService.getById(id);

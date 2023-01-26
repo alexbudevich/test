@@ -1,10 +1,10 @@
 import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { RoundsService } from './rounds.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import {ApiQuery, ApiTags} from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { NotFoundInterceptor } from '../../../common/interseptor/not-found-interceptor';
 
-@Controller('rounds')
+@Controller('football/rounds')
 @ApiTags('Football')
 export class RoundsController {
   constructor(private readonly roundsService: RoundsService) {}
@@ -17,6 +17,7 @@ export class RoundsController {
   }
 
   @Get(':id')
+  @ApiOperation({ deprecated: true })
   @UseInterceptors(NotFoundInterceptor)
   getById(@Param('id') id: number) {
     return this.roundsService.getById(id);

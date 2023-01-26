@@ -46,8 +46,8 @@ export class OddsService {
     return oddQueryBuilder;
   }
 
-  async getMatchOdds(query: PaginateQuery, sport: string, match: string) {
-    const matchEntity = await this.matchesService.getBySlug(sport, match);
+  async getMatchOdds(query: PaginateQuery, match: string) {
+    const matchEntity = await this.matchesService.getBySlug('football', match);
 
     const bookmakerSelectQueryBuilder = this.bookmakerRepository
       .createQueryBuilder('bookmaker')
@@ -60,8 +60,8 @@ export class OddsService {
     });
   }
 
-  async getTopMatchOdds(sport: string, match: string) {
-    const matchEntity = await this.matchesService.getBySlug(sport, match);
+  async getTopMatchOdds(match: string) {
+    const matchEntity = await this.matchesService.getBySlug('football', match);
 
     const oddSelectQueryBuilder = this.getTopOddSelectQueryBuilder();
 

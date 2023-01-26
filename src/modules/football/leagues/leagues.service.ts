@@ -63,15 +63,15 @@ export class LeaguesService {
     });
   }
 
-  getBySlug(countrySlug: string, leagueSlug: string) {
+  getBySlug(country: string, league: string) {
     return this.repository
       .createQueryBuilder('league')
       .leftJoinAndSelect('league.country', 'country')
       .where('league.slug = :leagueSlug', {
-        leagueSlug: leagueSlug,
+        leagueSlug: league,
       })
       .andWhere('country.slug = :countrySlug', {
-        countrySlug: countrySlug,
+        countrySlug: country,
       })
       .getOne();
   }

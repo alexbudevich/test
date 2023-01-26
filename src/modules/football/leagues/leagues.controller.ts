@@ -1,10 +1,10 @@
 import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { LeaguesService } from './leagues.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { NotFoundInterceptor } from '../../../common/interseptor/not-found-interceptor';
 
-@Controller('leagues')
+@Controller('football/leagues')
 @ApiTags('Football')
 export class LeaguesController {
   constructor(private readonly leaguesService: LeaguesService) {}
@@ -22,17 +22,18 @@ export class LeaguesController {
   }
 
   @Get(':id')
+  @ApiOperation({ deprecated: true })
   @UseInterceptors(NotFoundInterceptor)
   getById(@Param('id') id: number) {
     return this.leaguesService.getById(id);
   }
 
-  @Get('slug/:countrySlug/:leagueSlug')
+  @Get('slug/:country/:league')
   @UseInterceptors(NotFoundInterceptor)
   getBySlug(
-    @Param('countrySlug') countrySlug: string,
-    @Param('leagueSlug') leagueSlug: string,
+    @Param('country') country: string,
+    @Param('league') league: string,
   ) {
-    return this.leaguesService.getBySlug(countrySlug, leagueSlug);
+    return this.leaguesService.getBySlug(country, league);
   }
 }

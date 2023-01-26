@@ -1,7 +1,7 @@
 import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { CountriesService } from './countries.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import {ApiQuery, ApiTags} from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
 @Controller('countries')
@@ -28,6 +28,7 @@ export class CountriesController {
 
   @Get(':id')
   @UseInterceptors(NotFoundInterceptor)
+  @ApiOperation({ deprecated: true })
   getById(@Param('id') id: number) {
     return this.countriesService.getById(id);
   }

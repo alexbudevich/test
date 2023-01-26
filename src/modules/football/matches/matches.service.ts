@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Between, LessThan, MoreThan, Repository } from 'typeorm';
 import { Match } from './entities/match.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
-import { MatchCriteriaDto } from './dto/match-criteria.dto';
 import { OrderType } from './dto/query.dto';
 import axios from 'axios';
 import { RapidApiResponses } from '../../../common/rapid-api.response';
@@ -10,6 +9,7 @@ import { Country } from '../../countries/entities/country.entity';
 import { League } from '../leagues/entities/league.entity';
 import { SportType } from '../../../common/entities/sport-type.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { MatchCriteriaDto } from '../../../common/dto/match-criteria.dto';
 
 @Injectable()
 export class MatchesService {
@@ -209,14 +209,13 @@ export class MatchesService {
       .where('true');
 
     if (criteria.dateFrom && criteria.dateTo) {
-      criteria.dateFrom.setHours(0, 0, 0);
-      criteria.dateTo.setHours(23, 59, 59);
-      matchQueryBuilder.andWhere({
-        date: Between(
-          criteria.dateFrom.toLocaleString(),
-          criteria.dateTo.toLocaleString(),
-        ),
-      });
+      matchQueryBuilder.andWhere(
+        'CAST(match.date as date) BETWEEN CAST(:dateFrom as date) AND CAST(:dateTo as date)',
+        {
+          dateFrom: criteria.dateFrom,
+          dateTo: criteria.dateTo,
+        },
+      );
     }
 
     if (criteria.league) {

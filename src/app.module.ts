@@ -18,8 +18,12 @@ import { BasketballLeaguesModule } from './modules/basketball/leagues/basketball
 import { BasketballMatchesModule } from './modules/basketball/matches/basketball-matches.module';
 import { BasketballOddsModule } from './modules/basketball/odds/basketball-odds.module';
 import { BasketballTeamsModule } from './modules/basketball/teams/basketball-teams.module';
-import { BasketballPlayer } from './modules/basketball/players/entities/basketball-player.entity';
 import { BasketballPlayersModule } from './modules/basketball/players/basketball-players.module';
+import { BasketballUrlValidatorMiddleware } from './common/middlewares/basketball-url-valitador.middleware';
+import { Country } from './modules/countries/entities/country.entity';
+import { BasketballLeague } from './modules/basketball/leagues/entities/basketball-league.entity';
+import { League } from './modules/football/leagues/entities/league.entity';
+import { FootballUrlValidatorMiddleware } from './common/middlewares/football-url-valitador.middleware';
 
 @Module({
   imports: [
@@ -32,6 +36,7 @@ import { BasketballPlayersModule } from './modules/basketball/players/basketball
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    TypeOrmModule.forFeature([Country, League, BasketballLeague]),
     BookmakersModule,
     CountriesModule,
     OddsModule,
@@ -53,5 +58,12 @@ import { BasketballPlayersModule } from './modules/basketball/players/basketball
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*');
+    consumer
+      .apply(BasketballUrlValidatorMiddleware)
+      .exclude('basketball/matches/team/*')
+      .forRoutes('basketball/matches/*/search');
+    consumer
+      .apply(FootballUrlValidatorMiddleware)
+      .forRoutes('football/matches/*/search');
   }
 }

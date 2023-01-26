@@ -27,12 +27,12 @@ export class MatchCriteriaDto {
   dateTo?: Date;
 
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ deprecated: true })
   @IsOptional()
   league: string;
 
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ deprecated: true })
   @IsOptional()
   country: string;
 
@@ -56,7 +56,7 @@ export class MatchCriteriaDto {
   statusShort: StatusShortType[];
 
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ deprecated: true })
   @IsOptional()
   sport: string;
 }

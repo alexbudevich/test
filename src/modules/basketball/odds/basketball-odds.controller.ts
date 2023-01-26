@@ -1,4 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { BasketballOddsService } from './basketball-odds.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
