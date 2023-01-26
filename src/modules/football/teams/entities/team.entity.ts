@@ -75,6 +75,7 @@ export class Team {
   @OneToMany(() => Match, (match) => match.teamHome)
   homeMatches: Match[];
 
+  @ManyToOne(() => Country)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
 
@@ -82,6 +83,7 @@ export class Team {
   @JoinColumn([{ name: 'league_id', referencedColumnName: 'id' }])
   league: League;
 
+  @ManyToOne(() => SportType)
   @JoinColumn([{ name: 'sport_type_id', referencedColumnName: 'id' }])
   sportType: SportType;
 

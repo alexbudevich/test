@@ -13,7 +13,7 @@ import { Country } from '../../../countries/entities/country.entity';
 import { Match } from '../../matches/entities/match.entity';
 import { Team } from '../../teams/entities/team.entity';
 import { FootballStatistic } from '../../../../common/entities/footbol-statistic.entity';
-import {SportType} from "../../../../common/entities/sport-type.entity";
+import { SportType } from '../../../../common/entities/sport-type.entity';
 
 @Index('player_pkey', ['id'], { unique: true })
 @Index('player_slug_idx', ['slug'], {})
@@ -104,9 +104,11 @@ export class Player {
   @OneToMany(() => Match, (match) => match.player_2)
   matches2: Match[];
 
+  @ManyToOne(() => Country)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
 
+  @ManyToOne(() => SportType)
   @JoinColumn([{ name: 'sport_type_id', referencedColumnName: 'id' }])
   sportType: SportType;
 

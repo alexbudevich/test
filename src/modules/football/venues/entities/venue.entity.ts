@@ -62,6 +62,7 @@ export class Venue {
   @OneToMany(() => Team, (team) => team.venue)
   teams: Team[];
 
+  @ManyToOne(() => Country)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
 }

@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Bookmaker } from '../../../bookmakers/entities/bookmaker.entity';
 import { Match } from '../../matches/entities/match.entity';
-import {SportType} from "../../../../common/entities/sport-type.entity";
+import { SportType } from '../../../../common/entities/sport-type.entity';
 
 @Index('odd_bookmaker_id_idx', ['bookmakerId'], {})
 @Index('odd_match_id_bookmaker_id_idx', ['bookmakerId', 'matchId'], {})
@@ -65,6 +65,7 @@ export class Odd {
   @JoinColumn([{ name: 'match_id', referencedColumnName: 'id' }])
   match: Match;
 
+  @ManyToOne(() => SportType)
   @JoinColumn([{ name: 'sport_type_id', referencedColumnName: 'id' }])
   sportType: SportType;
 }
