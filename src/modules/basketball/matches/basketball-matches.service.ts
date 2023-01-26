@@ -12,6 +12,8 @@ import { TeamMatchDto } from './dto/team-match.dto';
 
 @Injectable()
 export class BasketballMatchesService {
+  private readonly BASKETBALL_SLUG = 'basketball';
+
   private topLeagues: string[] = [
     'World Cup 2022',
     'Premier League',
@@ -69,8 +71,6 @@ export class BasketballMatchesService {
 
     return matches;
   }
-
-  private readonly BASKETBALL_SLUG = 'basketball';
 
   async getBySlug(match: string) {
     let matchEntity = await this.repository.findOne({
@@ -148,7 +148,7 @@ export class BasketballMatchesService {
     }
 
     return this.repository.findOne({
-      relations: ['teamAway', 'teamHome', 'league', 'round'],
+      relations: ['teamAway', 'teamHome', 'league'],
       where: { id: matchEntity.id },
     });
   }
