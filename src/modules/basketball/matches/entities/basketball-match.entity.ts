@@ -14,7 +14,6 @@ import { SportType } from '../../../../common/entities/sport-type.entity';
 import { BasketballOdd } from '../../odds/entities/basketball-odd.entity';
 import { BasketballTeam } from '../../teams/entities/basketball-team.entity';
 
-@Index('basketball_match_pkey', ['id'], { unique: true })
 @Index('basketball_match_slug_idx', ['slug'], {})
 @Entity('basketball_match', { schema: 'public' })
 export class BasketballMatch {

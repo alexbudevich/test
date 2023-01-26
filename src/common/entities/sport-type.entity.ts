@@ -1,6 +1,5 @@
 import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
-@Index('sport_type_pkey', ['id'], { unique: true })
 @Index('sport_type_slug_idx', ['slug'], {})
 @Entity('sport_type', { schema: 'public' })
 export class SportType {

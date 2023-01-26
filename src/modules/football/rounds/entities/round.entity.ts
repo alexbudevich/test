@@ -10,7 +10,6 @@ import {
 import { League } from '../../leagues/entities/league.entity';
 import { Match } from '../../matches/entities/match.entity';
 
-@Index('round_pkey', ['id'], { unique: true })
 @Index('round_slug_idx', ['slug'], {})
 @Entity('round', { schema: 'public' })
 export class Round {

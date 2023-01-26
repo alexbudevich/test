@@ -17,7 +17,6 @@ import { Match } from '../../matches/entities/match.entity';
 import { Week } from '../../../../common/entities/week.entity';
 import { SportType } from '../../../../common/entities/sport-type.entity';
 
-@Index('league_pkey', ['id'], { unique: true })
 @Index('league_slug_idx', ['slug'], {})
 @Entity('league', { schema: 'public' })
 export class League {
@@ -75,7 +74,7 @@ export class League {
 
   @ManyToMany(() => Season)
   @JoinTable({
-    name: 'league_season',
+    name: 'new_league_season',
     joinColumn: {
       name: 'league_id',
       referencedColumnName: 'id',

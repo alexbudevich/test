@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -9,7 +8,6 @@ import {
 import { League } from '../../modules/football/leagues/entities/league.entity';
 import { Season } from '../../modules/seasons/entities/season.entity';
 
-@Index('week_pkey', ['id'], { unique: true })
 @Entity('week', { schema: 'public' })
 export class Week {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })

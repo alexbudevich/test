@@ -12,7 +12,6 @@ import { SportType } from '../../../../common/entities/sport-type.entity';
 
 @Index('odd_bookmaker_id_idx', ['bookmakerId'], {})
 @Index('odd_match_id_bookmaker_id_idx', ['bookmakerId', 'matchId'], {})
-@Index('odd_pkey', ['id'], { unique: true })
 @Index('odd_match_id_idx', ['matchId'], {})
 @Entity('odd', { schema: 'public' })
 export class Odd {

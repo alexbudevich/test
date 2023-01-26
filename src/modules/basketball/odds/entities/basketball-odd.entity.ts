@@ -9,7 +9,6 @@ import {
 import { BasketballMatch } from '../../matches/entities/basketball-match.entity';
 import { Bookmaker } from '../../../bookmakers/entities/bookmaker.entity';
 import { SportType } from '../../../../common/entities/sport-type.entity';
-import { Match } from '../../../football/matches/entities/match.entity';
 
 @Index('basketball_odd_bookmaker_id_idx', ['bookmakerId'], {})
 @Index(
@@ -17,7 +16,6 @@ import { Match } from '../../../football/matches/entities/match.entity';
   ['bookmakerId', 'matchId'],
   {},
 )
-@Index('basketball_odd_pkey', ['id'], { unique: true })
 @Index('basketball_odd_match_id_idx', ['matchId'], {})
 @Entity('basketball_odd', { schema: 'public' })
 export class BasketballOdd {

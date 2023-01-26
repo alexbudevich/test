@@ -15,7 +15,6 @@ import { Team } from '../../teams/entities/team.entity';
 import { FootballStatistic } from '../../../../common/entities/footbol-statistic.entity';
 import { SportType } from '../../../../common/entities/sport-type.entity';
 
-@Index('player_pkey', ['id'], { unique: true })
 @Index('player_slug_idx', ['slug'], {})
 @Entity('player', { schema: 'public' })
 export class Player {
@@ -98,12 +97,6 @@ export class Player {
   )
   footballStatistics: FootballStatistic[];
 
-  @OneToMany(() => Match, (match) => match.player_1)
-  matches: Match[];
-
-  @OneToMany(() => Match, (match) => match.player_2)
-  matches2: Match[];
-
   @ManyToOne(() => Country)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
@@ -114,7 +107,7 @@ export class Player {
 
   @ManyToMany(() => Team, (team) => team.players)
   @JoinTable({
-    name: 'team_player',
+    name: 'new_team_player',
     joinColumn: {
       name: 'player_id',
       referencedColumnName: 'id',

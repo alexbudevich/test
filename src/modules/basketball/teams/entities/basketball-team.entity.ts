@@ -9,15 +9,12 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Player } from '../../../football/players/entities/player.entity';
-import { FootballStatistic } from '../../../../common/entities/footbol-statistic.entity';
 import { SportType } from '../../../../common/entities/sport-type.entity';
-import { TeamTopScore } from '../dto/team-top-score.dto';
-import { Exclude } from 'class-transformer';
 import { BasketballMatch } from '../../matches/entities/basketball-match.entity';
 import { Country } from '../../../countries/entities/country.entity';
 import { BasketballLeague } from '../../leagues/entities/basketball-league.entity';
+import {BasketballPlayer} from "../../players/entities/basketball-player.entity";
 
-@Index('basketball_team_pkey', ['id'], { unique: true })
 @Index('basketball_team_slug_idx', ['slug'], {})
 @Entity('basketball_team', { schema: 'public' })
 export class BasketballTeam {
@@ -75,6 +72,6 @@ export class BasketballTeam {
   @JoinColumn([{ name: 'sport_type_id', referencedColumnName: 'id' }])
   sportType: SportType;
 
-  @ManyToMany(() => Player, (player) => player.team)
-  players: Player[];
+  @ManyToMany(() => BasketballPlayer, (player) => player.team)
+  players: BasketballPlayer[];
 }

@@ -11,7 +11,6 @@ import { Country } from '../../../countries/entities/country.entity';
 import { SportType } from '../../../../common/entities/sport-type.entity';
 import { BasketballTeam } from '../../teams/entities/basketball-team.entity';
 
-@Index('basketball_player_pkey', ['id'], { unique: true })
 @Index('basketball_player_slug_idx', ['slug'], {})
 @Entity('basketball_player', { schema: 'public' })
 export class BasketballPlayer {

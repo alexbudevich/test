@@ -1,12 +1,12 @@
 import {
   Column,
   Entity,
-  Index, OneToMany,
+  Index,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import {Bookmaker} from "../../bookmakers/entities/bookmaker.entity";
+import { Bookmaker } from '../../bookmakers/entities/bookmaker.entity';
 
-@Index('country_pkey', ['id'], { unique: true })
 @Index('country_slug_idx', ['slug'], {})
 @Entity('country', { schema: 'public' })
 export class Country {

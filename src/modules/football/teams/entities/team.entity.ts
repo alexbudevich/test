@@ -18,7 +18,6 @@ import { SportType } from '../../../../common/entities/sport-type.entity';
 import { TeamTopScore } from '../dto/team-top-score.dto';
 import { Exclude } from 'class-transformer';
 
-@Index('team_pkey', ['id'], { unique: true })
 @Index('team_slug_idx', ['slug'], {})
 @Entity('team', { schema: 'public' })
 export class Team {

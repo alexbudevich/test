@@ -11,7 +11,6 @@ import { Country } from '../../../countries/entities/country.entity';
 import { Team } from '../../teams/entities/team.entity';
 import { Match } from '../../matches/entities/match.entity';
 
-@Index('venue_pkey', ['id'], { unique: true })
 @Index('venue_slug_idx', ['slug'], {})
 @Entity('venue', { schema: 'public' })
 export class Venue {

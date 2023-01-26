@@ -16,7 +16,6 @@ import { Round } from '../../rounds/entities/round.entity';
 import { FootballStatistic } from '../../../../common/entities/footbol-statistic.entity';
 import { SportType } from '../../../../common/entities/sport-type.entity';
 
-@Index('match_pkey', ['id'], { unique: true })
 @Index('match_slug_idx', ['slug'], {})
 @Entity('match', { schema: 'public' })
 export class Match {
@@ -80,14 +79,6 @@ export class Match {
   @ManyToOne(() => League, (league) => league.matches)
   @JoinColumn([{ name: 'league_id', referencedColumnName: 'id' }])
   league: League;
-
-  @ManyToOne(() => Player, (player) => player.matches)
-  @JoinColumn([{ name: 'player_1_id', referencedColumnName: 'id' }])
-  player_1: Player;
-
-  @ManyToOne(() => Player, (player) => player.matches2)
-  @JoinColumn([{ name: 'player_2_id', referencedColumnName: 'id' }])
-  player_2: Player;
 
   @ManyToOne(() => Round, (round) => round.matches)
   @JoinColumn([{ name: 'round_id', referencedColumnName: 'id' }])

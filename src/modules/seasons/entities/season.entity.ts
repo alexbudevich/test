@@ -9,7 +9,6 @@ import {
 import { Week } from '../../../common/entities/week.entity';
 import { League } from '../../football/leagues/entities/league.entity';
 
-@Index('season_pkey', ['id'], { unique: true })
 @Index('season_slug_idx', ['slug'], {})
 @Entity('season', { schema: 'public' })
 export class Season {
