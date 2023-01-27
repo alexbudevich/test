@@ -14,32 +14,6 @@ import { TeamMatchDto } from './dto/team-match.dto';
 export class BasketballMatchesService {
   private readonly BASKETBALL_SLUG = 'basketball';
 
-  private topLeagues: string[] = [
-    'World Cup 2022',
-    'Premier League',
-    'La Liga',
-    'Serie A',
-    'Bundesliga',
-    'Ligue 1',
-    'Serie A',
-    'Bundesliga',
-    'Primeira Liga',
-    'Jupiler Pro League',
-    'UEFA Champions League',
-    'Serie B',
-    'Serie C',
-    'Serie D',
-    'Championship',
-    'CONCACAF Champions League',
-    'CONCACAF League',
-    'CONMEBOL Libertadores',
-    'Copa America',
-    'UEFA Europa League',
-    'FA Cup',
-    'UEFA Europa Conference League',
-    'Copa Do Brasil',
-  ];
-
   constructor(
     @InjectRepository(BasketballMatch)
     private repository: Repository<BasketballMatch>,
@@ -185,7 +159,7 @@ export class BasketballMatchesService {
     });
   }
 
-  private async getMatchCriteria(criteria: MatchCriteriaDto) {
+  private async getMatchCriteria(criteria: Omit<MatchCriteriaDto, 'isTop'>) {
     const matchQueryBuilder = this.repository
       .createQueryBuilder('match')
       .leftJoinAndSelect('match.league', 'league')
@@ -193,14 +167,13 @@ export class BasketballMatchesService {
       .where('true');
 
     if (criteria.dateFrom && criteria.dateTo) {
-      criteria.dateFrom.setHours(0, 0, 0);
-      criteria.dateTo.setHours(23, 59, 59);
-      matchQueryBuilder.andWhere({
-        date: Between(
-          criteria.dateFrom.toLocaleString(),
-          criteria.dateTo.toLocaleString(),
-        ),
-      });
+      matchQueryBuilder.andWhere(
+        'CAST(match.date as date) BETWEEN CAST(:dateFrom as date) AND CAST(:dateTo as date)',
+        {
+          dateFrom: criteria.dateFrom,
+          dateTo: criteria.dateTo,
+        },
+      );
     }
 
     if (criteria.league) {
@@ -227,16 +200,6 @@ export class BasketballMatchesService {
       });
     }
 
-    if (criteria.isTop) {
-      matchQueryBuilder
-        .addSelect(
-          `case when league.name IN (:...topLeagues) then 0 else 1 end`,
-          '_rank',
-        )
-        .setParameter('topLeagues', this.topLeagues)
-        .orderBy('_rank', 'ASC');
-    }
-
     if (criteria.sport) {
       matchQueryBuilder
         .leftJoin('match.sport', 'sport')
@@ -246,7 +209,7 @@ export class BasketballMatchesService {
     return matchQueryBuilder;
   }
 
-  private async checkFor404Error(criteria: MatchCriteriaDto) {
+  private async checkFor404Error(criteria: Omit<MatchCriteriaDto, 'isTop'>) {
     if (criteria.sport) {
       const sport = await this.sportRepository.findOne({
         where: {

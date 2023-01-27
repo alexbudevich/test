@@ -57,6 +57,9 @@ export class BasketballLeague {
   @Column('text', { name: 'description', nullable: true })
   description: string | null;
 
+  @Column('text', { name: 'metadata', nullable: true })
+  metadata: string | null;
+
   @Column('timestamp with time zone', { name: 'season_start', nullable: true })
   seasonStart: Date | null;
 

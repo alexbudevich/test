@@ -19,6 +19,15 @@ import { TeamMatchDto } from './dto/team-match.dto';
 export class BasketballMatchesController {
   constructor(private readonly matchesService: BasketballMatchesService) {}
 
+  @Post('/search')
+  @ApiQuery({ type: QueryDTO, required: false })
+  findByCriteria(
+    @Paginate() query: PaginateQuery,
+    @Body() criteria: MatchCriteriaDto,
+  ) {
+    return this.matchesService.searchMatchByCriteria(query, criteria);
+  }
+
   @Post(':country/search')
   @ApiQuery({ type: QueryDTO, required: false })
   findByCriteriaWithCountry(

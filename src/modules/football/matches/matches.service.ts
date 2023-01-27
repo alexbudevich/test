@@ -84,12 +84,12 @@ export class MatchesService {
     });
   }
 
-  async getBySlug(sportSlug: string, matchSlug: string) {
+  async getBySlug(matchSlug: string) {
     let match = await this.repository.findOne({
       where: {
         slug: matchSlug,
         sportType: {
-          slug: sportSlug,
+          slug: 'football',
         },
         isLive: true,
       },
@@ -103,7 +103,7 @@ export class MatchesService {
         where: {
           slug: matchSlug,
           sportType: {
-            slug: sportSlug,
+            slug: 'football',
           },
           date: Between(dateInPast, currentDate),
         },
@@ -115,7 +115,7 @@ export class MatchesService {
         where: {
           slug: matchSlug,
           sportType: {
-            slug: sportSlug,
+            slug: 'football',
           },
           date: MoreThan(currentDate),
         },
@@ -143,7 +143,7 @@ export class MatchesService {
           where: {
             slug: matchSlug,
             sportType: {
-              slug: sportSlug,
+              slug: 'football',
             },
             date: LessThan(currentDate),
           },

@@ -19,7 +19,6 @@ export class MatchesController {
   constructor(private readonly matchesService: MatchesService) {}
 
   @Post('/search')
-  @ApiOperation({ deprecated: true })
   @ApiQuery({ type: QueryDTO, required: false })
   findByCriteria(
     @Paginate() query: PaginateQuery,
@@ -52,15 +51,9 @@ export class MatchesController {
     return this.matchesService.searchMatchByCriteria(query, criteria);
   }
 
-  @Get(':id')
+  @Get(':match')
   @UseInterceptors(NotFoundInterceptor)
-  getById(@Param('id') id: number) {
-    return this.matchesService.getById(id);
-  }
-
-  @Get(':sport/:match')
-  @UseInterceptors(NotFoundInterceptor)
-  getBySlug(@Param('sport') sport: string, @Param('match') match: string) {
-    return this.matchesService.getBySlug(sport, match);
+  getBySlug(@Param('match') match: string) {
+    return this.matchesService.getBySlug(match);
   }
 }

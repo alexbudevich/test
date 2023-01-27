@@ -47,7 +47,7 @@ export class OddsService {
   }
 
   async getMatchOdds(query: PaginateQuery, match: string) {
-    const matchEntity = await this.matchesService.getBySlug('football', match);
+    const matchEntity = await this.matchesService.getBySlug(match);
 
     const bookmakerSelectQueryBuilder = this.bookmakerRepository
       .createQueryBuilder('bookmaker')
@@ -61,7 +61,7 @@ export class OddsService {
   }
 
   async getTopMatchOdds(match: string) {
-    const matchEntity = await this.matchesService.getBySlug('football', match);
+    const matchEntity = await this.matchesService.getBySlug(match);
 
     const oddSelectQueryBuilder = this.getTopOddSelectQueryBuilder();
 
