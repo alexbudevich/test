@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { League } from '../../leagues/entities/league.entity';
-import { Venue } from '../../venues/entities/venue.entity';
+import { Venue } from '../../../venues/entities/venue.entity';
 import { Country } from '../../../countries/entities/country.entity';
 import { Match } from '../../matches/entities/match.entity';
 import { Player } from '../../players/entities/player.entity';
@@ -86,7 +86,7 @@ export class Team {
   @JoinColumn([{ name: 'sport_type_id', referencedColumnName: 'id' }])
   sportType: SportType;
 
-  @ManyToOne(() => Venue, (venue) => venue.teams)
+  @ManyToOne(() => Venue)
   @JoinColumn([{ name: 'venue_id', referencedColumnName: 'id' }])
   venue: Venue;
 

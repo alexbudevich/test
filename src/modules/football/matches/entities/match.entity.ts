@@ -8,8 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { League } from '../../leagues/entities/league.entity';
-import { Player } from '../../players/entities/player.entity';
-import { Venue } from '../../venues/entities/venue.entity';
+import { Venue } from '../../../venues/entities/venue.entity';
 import { Team } from '../../teams/entities/team.entity';
 import { Odd } from '../../odds/entities/odd.entity';
 import { Round } from '../../rounds/entities/round.entity';
@@ -108,7 +107,7 @@ export class Match {
   ])
   teamHome: Team;
 
-  @ManyToOne(() => Venue, (venue) => venue.matches)
+  @ManyToOne(() => Venue)
   @JoinColumn([{ name: 'venue_id', referencedColumnName: 'id' }])
   venue: Venue;
 

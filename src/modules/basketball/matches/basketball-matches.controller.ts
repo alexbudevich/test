@@ -58,10 +58,21 @@ export class BasketballMatchesController {
     return this.matchesService.getBySlug(match);
   }
 
+  @Post(':match/date')
+  @UseInterceptors(NotFoundInterceptor)
+  @ApiQuery({ type: QueryDTO, required: false })
+  getMatchesBySlugAndDate(
+    @Param('match') match: string,
+    @Paginate() query: PaginateQuery,
+    @Body() criteria: TeamMatchDto,
+  ) {
+    return this.matchesService.getMatchesBySlugAndDate(match, query, criteria);
+  }
+
   @Post('team/:team')
   @UseInterceptors(NotFoundInterceptor)
   @ApiQuery({ type: QueryDTO, required: false })
-  getLastMatchesBySlug(
+  getLastMatchesByTeam(
     @Param('team') match: string,
     @Paginate() query: PaginateQuery,
     @Body() criteria: TeamMatchDto,

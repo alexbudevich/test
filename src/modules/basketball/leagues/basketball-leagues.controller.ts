@@ -2,7 +2,7 @@ import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { BasketballLeaguesService } from './basketball-leagues.service';
-import {NotFoundInterceptor} from "../../../common/interseptor/not-found-interceptor";
+import { NotFoundInterceptor } from '../../../common/interseptor/not-found-interceptor';
 
 @Controller('basketball/leagues')
 @ApiTags('Basketball')

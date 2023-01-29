@@ -2,10 +2,10 @@ import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { VenuesService } from './venues.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { NotFoundInterceptor } from '../../../common/interseptor/not-found-interceptor';
+import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
-@Controller('football/venues')
-@ApiTags('Football')
+@Controller('venues')
+@ApiTags('Common')
 export class VenuesController {
   constructor(private readonly venuesService: VenuesService) {}
 

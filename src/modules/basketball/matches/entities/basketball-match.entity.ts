@@ -13,6 +13,7 @@ import { BasketballLeague } from '../../leagues/entities/basketball-league.entit
 import { SportType } from '../../../../common/entities/sport-type.entity';
 import { BasketballOdd } from '../../odds/entities/basketball-odd.entity';
 import { BasketballTeam } from '../../teams/entities/basketball-team.entity';
+import {Venue} from "../../../venues/entities/venue.entity";
 
 @Index('basketball_match_slug_idx', ['slug'], {})
 @Entity('basketball_match', { schema: 'public' })
@@ -60,6 +61,10 @@ export class BasketballMatch {
 
   @Column('text', { name: 'slug', nullable: true })
   slug: string | null;
+
+  @ManyToOne(() => Venue)
+  @JoinColumn([{ name: 'venue_id', referencedColumnName: 'id' }])
+  venue: Venue;
 
   @ManyToOne(() => BasketballLeague, (league) => league.matches)
   @JoinColumn([{ name: 'league_id', referencedColumnName: 'id' }])

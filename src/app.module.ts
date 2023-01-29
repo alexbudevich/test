@@ -9,7 +9,7 @@ import { PlayersModule } from './modules/football/players/players.module';
 import { RoundsModule } from './modules/football/rounds/rounds.module';
 import { SeasonsModule } from './modules/seasons/seasons.module';
 import { TeamsModule } from './modules/football/teams/teams.module';
-import { VenuesModule } from './modules/football/venues/venues.module';
+import { VenuesModule } from './modules/venues/venues.module';
 import { HealthcheckModule } from './healthcheck/healthcheck.module';
 import { LoggerMiddleware } from './common/middlewares/logger-middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';

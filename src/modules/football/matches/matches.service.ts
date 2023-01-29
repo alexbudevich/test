@@ -161,7 +161,14 @@ export class MatchesService {
     await this.updateStatistic(match);
 
     return this.repository.findOne({
-      relations: ['teamAway', 'teamHome', 'league', 'round'],
+      relations: [
+        'teamAway',
+        'teamHome',
+        'round',
+        'venue',
+        'league',
+        'league.country',
+      ],
       where: { id: match.id },
     });
   }
