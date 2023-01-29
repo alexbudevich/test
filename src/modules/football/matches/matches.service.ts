@@ -10,6 +10,7 @@ import { League } from '../leagues/entities/league.entity';
 import { SportType } from '../../../common/entities/sport-type.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MatchCriteriaDto } from '../../../common/dto/match-criteria.dto';
+import { TeamMatchDto } from '../../basketball/matches/dto/team-match.dto';
 
 @Injectable()
 export class MatchesService {
@@ -266,6 +267,73 @@ export class MatchesService {
     }
 
     return matchQueryBuilder;
+  }
+
+  async getMatchesByTeam(
+    team: string,
+    query: PaginateQuery,
+    criteria: TeamMatchDto,
+  ) {
+    const matchQueryBuilder = this.repository
+      .createQueryBuilder('match')
+      .leftJoinAndSelect('match.teamHome', 'teamHome')
+      .leftJoinAndSelect('match.teamAway', 'teamAway')
+      .leftJoinAndSelect('match.league', 'league')
+      .leftJoinAndSelect('league.country', 'country')
+      .where('(teamHome.slug = :teamHome OR teamAway.slug = :teamAway)', {
+        teamHome: team,
+        teamAway: team,
+      });
+
+    criteria.latestThen &&
+      matchQueryBuilder.andWhere(
+        'CAST(match.date as date) <= CAST(:latestThen as date)',
+        { latestThen: criteria.latestThen },
+      );
+
+    criteria.greatestThen &&
+      matchQueryBuilder.andWhere(
+        'CAST(match.date as date) >= CAST(:greatestThen as date)',
+        { greatestThen: criteria.greatestThen },
+      );
+
+    return await paginate(query, matchQueryBuilder, {
+      sortableColumns: ['date'],
+      defaultSortBy: [['date', OrderType.DESC]],
+    });
+  }
+
+  async getMatchesBySlugAndDate(
+    match: string,
+    query: PaginateQuery,
+    criteria: TeamMatchDto,
+  ) {
+    const matchQueryBuilder = this.repository
+      .createQueryBuilder('match')
+      .leftJoinAndSelect('match.teamHome', 'teamHome')
+      .leftJoinAndSelect('match.teamAway', 'teamAway')
+      .leftJoinAndSelect('match.league', 'league')
+      .leftJoinAndSelect('league.country', 'country')
+      .where('(match.slug = :match)', {
+        match: match,
+      });
+
+    criteria.latestThen &&
+      matchQueryBuilder.andWhere(
+        'CAST(match.date as date) <= CAST(:latestThen as date)',
+        { latestThen: criteria.latestThen },
+      );
+
+    criteria.greatestThen &&
+      matchQueryBuilder.andWhere(
+        'CAST(match.date as date) >= CAST(:greatestThen as date)',
+        { greatestThen: criteria.greatestThen },
+      );
+
+    return await paginate(query, matchQueryBuilder, {
+      sortableColumns: ['date'],
+      defaultSortBy: [['date', OrderType.DESC]],
+    });
   }
 
   private async checkFor404Error(criteria: MatchCriteriaDto) {
