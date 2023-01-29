@@ -29,8 +29,8 @@ export class BasketballMatch {
   @Column('smallint', { name: 'match_score_away', nullable: true })
   matchScoreAway: number | null;
 
-  @Column('smallint', { name: 'elapsed', nullable: true })
-  elapsed: number | null;
+  @Column('character varying', { name: 'elapsed', nullable: true })
+  elapsed: string | null;
 
   @Column('character varying', {
     name: 'status_short',
