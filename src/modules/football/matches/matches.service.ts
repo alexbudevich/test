@@ -313,6 +313,8 @@ export class MatchesService {
       .leftJoinAndSelect('match.teamAway', 'teamAway')
       .leftJoinAndSelect('match.league', 'league')
       .leftJoinAndSelect('league.country', 'country')
+      .leftJoinAndSelect('match.round', 'round')
+      .leftJoinAndSelect('match.venue', 'venue')
       .where('(match.slug = :match)', {
         match: match,
       });
