@@ -1,25 +1,25 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class basketbollAdded1674775927439 implements MigrationInterface {
-    name = 'basketbollAdded1674775927439'
+export class addedBasketball1675058459753 implements MigrationInterface {
+    name = 'addedBasketball1675058459753'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`ALTER TABLE "match" DROP CONSTRAINT "FK_450109bebd37f9a6041fd81ffcc"`);
         await queryRunner.query(`ALTER TABLE "match" DROP CONSTRAINT "FK_77a6478dc4ec1407dea056e3a64"`);
         await queryRunner.query(`ALTER TABLE "match" DROP CONSTRAINT "FK_98634db1f8faed5067d2c83cab3"`);
         await queryRunner.query(`ALTER TABLE "match" DROP CONSTRAINT "FK_1ba149d91bd88bf216f27a84ef8"`);
-        await queryRunner.query(`CREATE TABLE "basketball_player" ("id" SERIAL NOT NULL, "name" character varying(50), "firstname" character varying(50), "lastname" character varying(50), "age" smallint, "birth" date, "place" character varying(50), "nationality" character varying(50), "is_injured" boolean, "photo_url" text, "statistics" json, "is_coach" boolean, "career" json, "provider_id" character varying(50), "height" text, "weight" text, "timestamp" TIMESTAMP WITH TIME ZONE DEFAULT now(), "slug" text, "s3_photo_url" text, CONSTRAINT "PK_9e89f77ac786492c703766cae42" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE INDEX "basketball_player_slug_idx" ON "basketball_player" ("slug") `);
-        await queryRunner.query(`CREATE TABLE "basketball_team" ("id" SERIAL NOT NULL, "name" character varying(50), "code" character varying(50), "logo_url" text, "provider_id" character varying(50), "founded" smallint, "national" boolean, "timestamp" TIMESTAMP WITH TIME ZONE DEFAULT now(), "slug" text, "s3_logo_url" text, "league_id" integer, CONSTRAINT "PK_71910025a462d40e18d4ae6e480" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE INDEX "basketball_team_slug_idx" ON "basketball_team" ("slug") `);
-        await queryRunner.query(`CREATE TABLE "basketball_league" ("id" SERIAL NOT NULL, "name" text, "type" character varying(50), "logo_url" text, "provider_id" character varying(50), "timestamp" TIMESTAMP WITH TIME ZONE DEFAULT now(), "standings" json, "slug" text, "s3_logo_url" text, "description" text, "season_start" TIMESTAMP WITH TIME ZONE, "season_end" TIMESTAMP WITH TIME ZONE, "country_id" integer, "sport_type_id" integer, CONSTRAINT "PK_382dceb7656d1d14c679d2e4cd8" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE INDEX "basketball_league_slug_idx" ON "basketball_league" ("slug") `);
         await queryRunner.query(`CREATE TABLE "basketball_odd" ("id" SERIAL NOT NULL, "match_id" integer, "bookmaker_id" integer, "name" character varying(50), "value" character varying(50), "handicap" integer, "is_main" boolean, "is_suspended" boolean, "odd" numeric, "provider_id" character varying(50), "timestamp" TIMESTAMP WITH TIME ZONE DEFAULT now(), CONSTRAINT "PK_93cba20d95abd69c45462836f3f" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE INDEX "basketball_odd_match_id_idx" ON "basketball_odd" ("match_id") `);
         await queryRunner.query(`CREATE INDEX "basketball_odd_match_id_bookmaker_id_idx" ON "basketball_odd" ("bookmaker_id", "match_id") `);
         await queryRunner.query(`CREATE INDEX "basketball_odd_bookmaker_id_idx" ON "basketball_odd" ("bookmaker_id") `);
-        await queryRunner.query(`CREATE TABLE "basketball_match" ("id" SERIAL NOT NULL, "date" TIMESTAMP WITH TIME ZONE, "match_score_home" smallint, "match_score_away" smallint, "elapsed" smallint, "status_short" character varying(5), "status_long" character varying, "statistics" json, "is_live" boolean, "provider_id" character varying(50), "slug" text, "created_at" TIMESTAMP NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, "updated_at" TIMESTAMP NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, "league_id" integer, "sport_type_id" integer, "team_away_id" integer, "team_home_id" integer, CONSTRAINT "PK_1aec3c92ffbcfa174b0f74f2303" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "basketball_player" ("id" SERIAL NOT NULL, "name" character varying(50), "firstname" character varying(50), "lastname" character varying(50), "age" smallint, "birth" date, "place" character varying(50), "nationality" character varying(50), "is_injured" boolean, "photo_url" text, "statistics" json, "is_coach" boolean, "career" json, "provider_id" character varying(50), "height" text, "weight" text, "timestamp" TIMESTAMP WITH TIME ZONE DEFAULT now(), "slug" text, "s3_photo_url" text, CONSTRAINT "PK_9e89f77ac786492c703766cae42" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "basketball_player_slug_idx" ON "basketball_player" ("slug") `);
+        await queryRunner.query(`CREATE TABLE "basketball_team" ("id" SERIAL NOT NULL, "name" character varying(50), "code" character varying(50), "logo_url" text, "provider_id" character varying(50), "founded" smallint, "national" boolean, "timestamp" TIMESTAMP WITH TIME ZONE DEFAULT now(), "slug" text, "s3_logo_url" text, "league_id" integer, CONSTRAINT "PK_71910025a462d40e18d4ae6e480" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "basketball_team_slug_idx" ON "basketball_team" ("slug") `);
+        await queryRunner.query(`CREATE TABLE "basketball_match" ("id" SERIAL NOT NULL, "date" TIMESTAMP WITH TIME ZONE, "match_score_home" smallint, "match_score_away" smallint, "elapsed" character varying, "status_short" character varying(5), "status_long" character varying, "statistics" json, "is_live" boolean, "provider_id" character varying(50), "slug" text, "created_at" TIMESTAMP NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, "updated_at" TIMESTAMP NOT NULL DEFAULT ('now'::text)::timestamp(6) with time zone, "venue_id" integer, "league_id" integer, "sport_type_id" integer, "team_away_id" integer, "team_home_id" integer, CONSTRAINT "PK_1aec3c92ffbcfa174b0f74f2303" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE INDEX "basketball_match_slug_idx" ON "basketball_match" ("slug") `);
+        await queryRunner.query(`CREATE TABLE "basketball_league" ("id" SERIAL NOT NULL, "name" text, "type" character varying(50), "logo_url" text, "provider_id" character varying(50), "timestamp" TIMESTAMP WITH TIME ZONE DEFAULT now(), "standings" json, "slug" text, "s3_logo_url" text, "description" text, "metadata" text, "season_start" TIMESTAMP WITH TIME ZONE, "season_end" TIMESTAMP WITH TIME ZONE, "country_id" integer, "sport_type_id" integer, CONSTRAINT "PK_382dceb7656d1d14c679d2e4cd8" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "basketball_league_slug_idx" ON "basketball_league" ("slug") `);
         await queryRunner.query(`CREATE TABLE "new_team_player" ("player_id" integer NOT NULL, "team_id" integer NOT NULL, CONSTRAINT "PK_da5fdc900e0ec429d3a87f69729" PRIMARY KEY ("player_id", "team_id"))`);
         await queryRunner.query(`CREATE INDEX "IDX_9bac60099331177bb58993656b" ON "new_team_player" ("player_id") `);
         await queryRunner.query(`CREATE INDEX "IDX_a5b483ee3815f2ce7bebcdf2b7" ON "new_team_player" ("team_id") `);
@@ -66,14 +66,14 @@ export class basketbollAdded1674775927439 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "season" ALTER COLUMN "id" SET DEFAULT nextval('"season_id_seq"')`);
         await queryRunner.query(`ALTER TABLE "season" DROP COLUMN "year"`);
         await queryRunner.query(`ALTER TABLE "season" ADD "year" character varying`);
-        await queryRunner.query(`ALTER TABLE "week" DROP CONSTRAINT "FK_cd8d2ec41a3bc36d3e0a2f4c570"`);
         await queryRunner.query(`ALTER TABLE "team" DROP CONSTRAINT "FK_61d5f175df34e436f88cb7f2859"`);
-        await queryRunner.query(`ALTER TABLE "match" DROP CONSTRAINT "FK_5243e7f168b381cf979cd039ec9"`);
         await queryRunner.query(`ALTER TABLE "round" DROP CONSTRAINT "FK_f57b2632b8f4bea753a691f7469"`);
+        await queryRunner.query(`ALTER TABLE "match" DROP CONSTRAINT "FK_5243e7f168b381cf979cd039ec9"`);
+        await queryRunner.query(`ALTER TABLE "week" DROP CONSTRAINT "FK_cd8d2ec41a3bc36d3e0a2f4c570"`);
         await queryRunner.query(`CREATE SEQUENCE IF NOT EXISTS "league_id_seq" OWNED BY "league"."id"`);
         await queryRunner.query(`ALTER TABLE "league" ALTER COLUMN "id" SET DEFAULT nextval('"league_id_seq"')`);
-        await queryRunner.query(`ALTER TABLE "odd" DROP CONSTRAINT "FK_1d526a5f8195521a289b0d2c3a2"`);
         await queryRunner.query(`ALTER TABLE "football_statistic" DROP CONSTRAINT "FK_c0b223bee71d6581003b654cb3d"`);
+        await queryRunner.query(`ALTER TABLE "odd" DROP CONSTRAINT "FK_1d526a5f8195521a289b0d2c3a2"`);
         await queryRunner.query(`CREATE SEQUENCE IF NOT EXISTS "match_id_seq" OWNED BY "match"."id"`);
         await queryRunner.query(`ALTER TABLE "match" ALTER COLUMN "id" SET DEFAULT nextval('"match_id_seq"')`);
         await queryRunner.query(`ALTER TABLE "odd" ADD CONSTRAINT "FK_ece636d6e3aed167e62448b5b67" FOREIGN KEY ("bookmaker_id") REFERENCES "bookmaker"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -96,15 +96,16 @@ export class basketbollAdded1674775927439 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "football_statistic" ADD CONSTRAINT "FK_c0b223bee71d6581003b654cb3d" FOREIGN KEY ("match_id") REFERENCES "match"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "football_statistic" ADD CONSTRAINT "FK_0b876e3a4ee26868cacaf4732f7" FOREIGN KEY ("player_id") REFERENCES "player"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "football_statistic" ADD CONSTRAINT "FK_9a41f7c20d8221fa75ba5d02b94" FOREIGN KEY ("team_id") REFERENCES "team"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "basketball_team" ADD CONSTRAINT "FK_4055e8a8e663180073297b2fbdb" FOREIGN KEY ("league_id") REFERENCES "basketball_league"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "basketball_league" ADD CONSTRAINT "FK_f9e0836a9b8227bd82dfef9113a" FOREIGN KEY ("country_id") REFERENCES "country"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "basketball_league" ADD CONSTRAINT "FK_bb0a1dd370a2f97352c2a7c6fc4" FOREIGN KEY ("sport_type_id") REFERENCES "sport_type"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "basketball_odd" ADD CONSTRAINT "FK_9c51f26c6c872f124b4bc69e70c" FOREIGN KEY ("bookmaker_id") REFERENCES "bookmaker"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "basketball_odd" ADD CONSTRAINT "FK_e612cadc97dc301b8efbaf60d08" FOREIGN KEY ("match_id") REFERENCES "basketball_match"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "basketball_team" ADD CONSTRAINT "FK_4055e8a8e663180073297b2fbdb" FOREIGN KEY ("league_id") REFERENCES "basketball_league"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "basketball_match" ADD CONSTRAINT "FK_612ff2f22c5244fbb2de7bb2ea9" FOREIGN KEY ("venue_id") REFERENCES "venue"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "basketball_match" ADD CONSTRAINT "FK_eb8c8fbf233e6409ea7399e045c" FOREIGN KEY ("league_id") REFERENCES "basketball_league"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "basketball_match" ADD CONSTRAINT "FK_33c89dda40804885c2ae94a246f" FOREIGN KEY ("sport_type_id") REFERENCES "sport_type"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "basketball_match" ADD CONSTRAINT "FK_afb192a5c667f2638aedff86e47" FOREIGN KEY ("team_away_id") REFERENCES "basketball_team"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "basketball_match" ADD CONSTRAINT "FK_a4554ea55d171fc9f35a61d4ae2" FOREIGN KEY ("team_home_id") REFERENCES "basketball_team"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "basketball_league" ADD CONSTRAINT "FK_f9e0836a9b8227bd82dfef9113a" FOREIGN KEY ("country_id") REFERENCES "country"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "basketball_league" ADD CONSTRAINT "FK_bb0a1dd370a2f97352c2a7c6fc4" FOREIGN KEY ("sport_type_id") REFERENCES "sport_type"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "new_team_player" ADD CONSTRAINT "FK_9bac60099331177bb58993656b7" FOREIGN KEY ("player_id") REFERENCES "player"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
         await queryRunner.query(`ALTER TABLE "new_team_player" ADD CONSTRAINT "FK_a5b483ee3815f2ce7bebcdf2b78" FOREIGN KEY ("team_id") REFERENCES "team"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "new_league_season" ADD CONSTRAINT "FK_9a93fe65000dc6aa136019201e1" FOREIGN KEY ("league_id") REFERENCES "league"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
@@ -124,15 +125,16 @@ export class basketbollAdded1674775927439 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "new_league_season" DROP CONSTRAINT "FK_9a93fe65000dc6aa136019201e1"`);
         await queryRunner.query(`ALTER TABLE "new_team_player" DROP CONSTRAINT "FK_a5b483ee3815f2ce7bebcdf2b78"`);
         await queryRunner.query(`ALTER TABLE "new_team_player" DROP CONSTRAINT "FK_9bac60099331177bb58993656b7"`);
+        await queryRunner.query(`ALTER TABLE "basketball_league" DROP CONSTRAINT "FK_bb0a1dd370a2f97352c2a7c6fc4"`);
+        await queryRunner.query(`ALTER TABLE "basketball_league" DROP CONSTRAINT "FK_f9e0836a9b8227bd82dfef9113a"`);
         await queryRunner.query(`ALTER TABLE "basketball_match" DROP CONSTRAINT "FK_a4554ea55d171fc9f35a61d4ae2"`);
         await queryRunner.query(`ALTER TABLE "basketball_match" DROP CONSTRAINT "FK_afb192a5c667f2638aedff86e47"`);
         await queryRunner.query(`ALTER TABLE "basketball_match" DROP CONSTRAINT "FK_33c89dda40804885c2ae94a246f"`);
         await queryRunner.query(`ALTER TABLE "basketball_match" DROP CONSTRAINT "FK_eb8c8fbf233e6409ea7399e045c"`);
+        await queryRunner.query(`ALTER TABLE "basketball_match" DROP CONSTRAINT "FK_612ff2f22c5244fbb2de7bb2ea9"`);
+        await queryRunner.query(`ALTER TABLE "basketball_team" DROP CONSTRAINT "FK_4055e8a8e663180073297b2fbdb"`);
         await queryRunner.query(`ALTER TABLE "basketball_odd" DROP CONSTRAINT "FK_e612cadc97dc301b8efbaf60d08"`);
         await queryRunner.query(`ALTER TABLE "basketball_odd" DROP CONSTRAINT "FK_9c51f26c6c872f124b4bc69e70c"`);
-        await queryRunner.query(`ALTER TABLE "basketball_league" DROP CONSTRAINT "FK_bb0a1dd370a2f97352c2a7c6fc4"`);
-        await queryRunner.query(`ALTER TABLE "basketball_league" DROP CONSTRAINT "FK_f9e0836a9b8227bd82dfef9113a"`);
-        await queryRunner.query(`ALTER TABLE "basketball_team" DROP CONSTRAINT "FK_4055e8a8e663180073297b2fbdb"`);
         await queryRunner.query(`ALTER TABLE "football_statistic" DROP CONSTRAINT "FK_9a41f7c20d8221fa75ba5d02b94"`);
         await queryRunner.query(`ALTER TABLE "football_statistic" DROP CONSTRAINT "FK_0b876e3a4ee26868cacaf4732f7"`);
         await queryRunner.query(`ALTER TABLE "football_statistic" DROP CONSTRAINT "FK_c0b223bee71d6581003b654cb3d"`);
@@ -155,14 +157,14 @@ export class basketbollAdded1674775927439 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "odd" DROP CONSTRAINT "FK_ece636d6e3aed167e62448b5b67"`);
         await queryRunner.query(`ALTER TABLE "match" ALTER COLUMN "id" DROP DEFAULT`);
         await queryRunner.query(`DROP SEQUENCE "match_id_seq"`);
-        await queryRunner.query(`ALTER TABLE "football_statistic" ADD CONSTRAINT "FK_c0b223bee71d6581003b654cb3d" FOREIGN KEY ("match_id") REFERENCES "match"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "odd" ADD CONSTRAINT "FK_1d526a5f8195521a289b0d2c3a2" FOREIGN KEY ("match_id") REFERENCES "match"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "football_statistic" ADD CONSTRAINT "FK_c0b223bee71d6581003b654cb3d" FOREIGN KEY ("match_id") REFERENCES "match"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "league" ALTER COLUMN "id" DROP DEFAULT`);
         await queryRunner.query(`DROP SEQUENCE "league_id_seq"`);
-        await queryRunner.query(`ALTER TABLE "round" ADD CONSTRAINT "FK_f57b2632b8f4bea753a691f7469" FOREIGN KEY ("league_id") REFERENCES "league"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "match" ADD CONSTRAINT "FK_5243e7f168b381cf979cd039ec9" FOREIGN KEY ("league_id") REFERENCES "league"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "team" ADD CONSTRAINT "FK_61d5f175df34e436f88cb7f2859" FOREIGN KEY ("league_id") REFERENCES "league"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "week" ADD CONSTRAINT "FK_cd8d2ec41a3bc36d3e0a2f4c570" FOREIGN KEY ("league_id") REFERENCES "league"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "match" ADD CONSTRAINT "FK_5243e7f168b381cf979cd039ec9" FOREIGN KEY ("league_id") REFERENCES "league"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "round" ADD CONSTRAINT "FK_f57b2632b8f4bea753a691f7469" FOREIGN KEY ("league_id") REFERENCES "league"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "team" ADD CONSTRAINT "FK_61d5f175df34e436f88cb7f2859" FOREIGN KEY ("league_id") REFERENCES "league"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "season" DROP COLUMN "year"`);
         await queryRunner.query(`ALTER TABLE "season" ADD "year" smallint`);
         await queryRunner.query(`ALTER TABLE "season" ALTER COLUMN "id" DROP DEFAULT`);
@@ -209,18 +211,18 @@ export class basketbollAdded1674775927439 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX "public"."IDX_a5b483ee3815f2ce7bebcdf2b7"`);
         await queryRunner.query(`DROP INDEX "public"."IDX_9bac60099331177bb58993656b"`);
         await queryRunner.query(`DROP TABLE "new_team_player"`);
-        await queryRunner.query(`DROP INDEX "public"."basketball_match_slug_idx"`);
-        await queryRunner.query(`DROP TABLE "basketball_match"`);
-        await queryRunner.query(`DROP INDEX "public"."basketball_odd_bookmaker_id_idx"`);
-        await queryRunner.query(`DROP INDEX "public"."basketball_odd_match_id_bookmaker_id_idx"`);
-        await queryRunner.query(`DROP INDEX "public"."basketball_odd_match_id_idx"`);
-        await queryRunner.query(`DROP TABLE "basketball_odd"`);
         await queryRunner.query(`DROP INDEX "public"."basketball_league_slug_idx"`);
         await queryRunner.query(`DROP TABLE "basketball_league"`);
+        await queryRunner.query(`DROP INDEX "public"."basketball_match_slug_idx"`);
+        await queryRunner.query(`DROP TABLE "basketball_match"`);
         await queryRunner.query(`DROP INDEX "public"."basketball_team_slug_idx"`);
         await queryRunner.query(`DROP TABLE "basketball_team"`);
         await queryRunner.query(`DROP INDEX "public"."basketball_player_slug_idx"`);
         await queryRunner.query(`DROP TABLE "basketball_player"`);
+        await queryRunner.query(`DROP INDEX "public"."basketball_odd_bookmaker_id_idx"`);
+        await queryRunner.query(`DROP INDEX "public"."basketball_odd_match_id_bookmaker_id_idx"`);
+        await queryRunner.query(`DROP INDEX "public"."basketball_odd_match_id_idx"`);
+        await queryRunner.query(`DROP TABLE "basketball_odd"`);
         await queryRunner.query(`ALTER TABLE "match" ADD CONSTRAINT "FK_1ba149d91bd88bf216f27a84ef8" FOREIGN KEY ("player_2_id") REFERENCES "player"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "match" ADD CONSTRAINT "FK_98634db1f8faed5067d2c83cab3" FOREIGN KEY ("player_1_id") REFERENCES "player"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "match" ADD CONSTRAINT "FK_77a6478dc4ec1407dea056e3a64" FOREIGN KEY ("team_home_id") REFERENCES "team"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);

@@ -55,7 +55,6 @@ export class MatchesService {
     query: PaginateQuery,
     criteria: MatchCriteriaDto,
   ) {
-    await this.checkFor404Error(criteria);
 
     const matchCriteria = await this.getMatchCriteria(criteria);
 
@@ -334,54 +333,5 @@ export class MatchesService {
       sortableColumns: ['date'],
       defaultSortBy: [['date', OrderType.DESC]],
     });
-  }
-
-  private async checkFor404Error(criteria: MatchCriteriaDto) {
-    if (criteria.sport) {
-      const sportType = await this.sportTypeRepository.findOne({
-        where: {
-          slug: criteria.sport,
-        },
-      });
-      if (!sportType) {
-        throw new NotFoundException('sportType');
-      }
-    }
-
-    if (criteria.country || criteria.league) {
-      if (criteria.country && criteria.league) {
-        const leagueCountry = await this.leagueRepository
-          .createQueryBuilder('league')
-          .leftJoin('league.country', 'country')
-          .where('league.slug = :leagueSlug', { leagueSlug: criteria.league })
-          .andWhere('country.slug = :countrySlug', {
-            countrySlug: criteria.country,
-          })
-          .getOne();
-        if (!leagueCountry) {
-          throw new NotFoundException('leagueCountry');
-        }
-      } else {
-        if (criteria.country) {
-          const country = await this.countryRepository.findOne({
-            where: {
-              slug: criteria.country,
-            },
-          });
-          if (!country) {
-            throw new NotFoundException('country');
-          }
-        } else {
-          const league = await this.leagueRepository.findOne({
-            where: {
-              slug: criteria.league,
-            },
-          });
-          if (!league) {
-            throw new NotFoundException('league');
-          }
-        }
-      }
-    }
   }
 }

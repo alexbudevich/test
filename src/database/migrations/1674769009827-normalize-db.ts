@@ -359,6 +359,26 @@ export class normalizeDb1674769009827 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "league_season" ADD CONSTRAINT "FK_60a080e4eb5604bc67fe37a3d0e" FOREIGN KEY ("season_id") REFERENCES "season"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
+    await queryRunner.query(
+      `DELETE FROM league_season WHERE ID NOT IN(SELECT MAX(ID) FROM league_season GROUP BY league_id, season_id)`,
+    );
+    await queryRunner.query(
+      `alter table league_season drop constraint league_season_pkey`,
+    );
+    await queryRunner.query(`alter table league_season drop column id`);
+    await queryRunner.query(
+      `alter table league_season add constraint league_season_pk primary key (league_id, season_id)`,
+    );
+    await queryRunner.query(
+      `DELETE FROM team_player WHERE ID NOT IN(SELECT MAX(ID) FROM team_player GROUP BY team_id, player_id)`,
+    );
+    await queryRunner.query(
+      `alter table team_player drop constraint team_player_pkey`,
+    );
+    await queryRunner.query(`alter table team_player drop column id`);
+    await queryRunner.query(
+      `alter table team_player add constraint team_player_pk primary key (team_id, player_id)`,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
