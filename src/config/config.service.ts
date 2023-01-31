@@ -45,6 +45,7 @@ export class ApiConfigService {
       database: this.database,
       synchronize: false,
       migrationsRun: this.migrationsRun,
+      logging: true,
     };
   }
 }

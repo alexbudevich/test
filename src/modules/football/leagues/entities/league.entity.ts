@@ -58,6 +58,9 @@ export class League {
   @Column('text', { name: 'description', nullable: true })
   description: string | null;
 
+  @Column('numeric', { name: 'prior', nullable: true })
+  prior: number | null;
+
   @Column('timestamp with time zone', { name: 'season_start', nullable: true })
   seasonStart: Date | null;
 

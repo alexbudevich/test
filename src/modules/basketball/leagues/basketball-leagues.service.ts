@@ -49,11 +49,16 @@ export class BasketballLeaguesService {
     private repository: Repository<BasketballLeague>,
   ) {}
 
-  findAll(query: PaginateQuery) {
-    return paginate(query, this.repository, {
+  async findAll(query: PaginateQuery) {
+    const leagues = await paginate(query, this.repository, {
       relations: ['country'],
-      sortableColumns: ['id'],
+      sortableColumns: ['prior'],
     });
+
+    leagues.data = leagues.data.map((league) => {
+      return { ...league, standings: null, description: null };
+    });
+    return leagues;
   }
 
   getBySlug(country: string, league: string) {

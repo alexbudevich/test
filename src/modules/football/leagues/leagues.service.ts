@@ -49,11 +49,22 @@ export class LeaguesService {
     private repository: Repository<League>,
   ) {}
 
-  findAll(query: PaginateQuery) {
-    return paginate(query, this.repository, {
+  async findAll(query: PaginateQuery) {
+    const leagues1 = await this.repository
+      .createQueryBuilder('league')
+      .leftJoinAndSelect('league.matches', 'match')
+      .where('match.date <= NOW() + 30')
+      .getMany();
+
+    const leagues = await paginate(query, this.repository, {
       relations: ['country'],
-      sortableColumns: ['id'],
+      sortableColumns: ['prior'],
     });
+
+    leagues.data = leagues.data.map((league) => {
+      return { ...league, standings: null, description: null };
+    });
+    return leagues;
   }
 
   getById(id: number) {
@@ -91,13 +102,5 @@ export class LeaguesService {
     return leagues.map((league) => {
       return { ...league, standings: null };
     });
-  }
-
-  async getGroupedByCountry() {
-    await this.repository
-      .createQueryBuilder('league')
-      .leftJoinAndSelect('league.country', 'country')
-      .groupBy('country.name')
-      .getRawMany();
   }
 }
