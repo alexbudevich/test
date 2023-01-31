@@ -16,9 +16,9 @@ export class BasketballLeaguesController {
     return this.leaguesService.findAll(query);
   }
 
-  @Get('/top-leagues')
-  findTopLeagues() {
-    return this.leaguesService.findTopLeagues();
+  @Get('/country-leagues')
+  getCountryLeagues() {
+    return this.leaguesService.getCountryLeagues();
   }
 
   @Get(':country/:league')

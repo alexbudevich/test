@@ -18,8 +18,13 @@ export class LeaguesController {
 
   @Get('/top-leagues')
   @ApiOperation({ deprecated: true })
-  findTopLeagues() {
+  getTopLeagues() {
     return this.leaguesService.findTopLeagues();
+  }
+
+  @Get('/country-leagues')
+  getCountryLeagues() {
+    return this.leaguesService.getCountryLeagues();
   }
 
   @Get(':id')
@@ -29,7 +34,7 @@ export class LeaguesController {
     return this.leaguesService.getById(id);
   }
 
-  @Get('slug/:country/:league')
+  @Get(':country/:league')
   @UseInterceptors(NotFoundInterceptor)
   getBySlug(
     @Param('country') country: string,

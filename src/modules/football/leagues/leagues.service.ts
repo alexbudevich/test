@@ -3,6 +3,8 @@ import { Repository } from 'typeorm';
 import { League } from './entities/league.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Country } from '../../countries/entities/country.entity';
+import { CountryFootballEntity } from '../../countries/entities/country-football.entity';
 
 @Injectable()
 export class LeaguesService {
@@ -46,17 +48,20 @@ export class LeaguesService {
   ];
   constructor(
     @InjectRepository(League)
-    private repository: Repository<League>,
+    private leagueRepository: Repository<League>,
+    @InjectRepository(CountryFootballEntity)
+    private countryRepository: Repository<CountryFootballEntity>,
   ) {}
 
   async findAll(query: PaginateQuery) {
-    const leagues1 = await this.repository
+    const queryBuilder = await this.leagueRepository
       .createQueryBuilder('league')
-      .leftJoinAndSelect('league.matches', 'match')
-      .where('match.date <= NOW() + 30')
-      .getMany();
+      .leftJoin('league.matches', 'match')
+      .where(
+        "match.date between now() and CAST((now() + INTERVAL '30 days') as date)",
+      );
 
-    const leagues = await paginate(query, this.repository, {
+    const leagues = await paginate(query, queryBuilder, {
       relations: ['country'],
       sortableColumns: ['prior'],
     });
@@ -68,14 +73,14 @@ export class LeaguesService {
   }
 
   getById(id: number) {
-    return this.repository.findOne({
+    return this.leagueRepository.findOne({
       where: { id },
       relations: ['country'],
     });
   }
 
   getBySlug(country: string, league: string) {
-    return this.repository
+    return this.leagueRepository
       .createQueryBuilder('league')
       .leftJoinAndSelect('league.country', 'country')
       .where('league.slug = :leagueSlug', {
@@ -88,7 +93,7 @@ export class LeaguesService {
   }
 
   async findTopLeagues() {
-    const leagues = await this.repository
+    const leagues = await this.leagueRepository
       .createQueryBuilder('league')
       .leftJoinAndSelect('league.country', 'country')
       .where('league.name in (:...leagues)', {
@@ -102,5 +107,20 @@ export class LeaguesService {
     return leagues.map((league) => {
       return { ...league, standings: null };
     });
+  }
+
+  async getCountryLeagues() {
+    const countryFootballEntities = await this.countryRepository.find({
+      order: {
+        name: 'ASC',
+      },
+      relations: ['leagues'],
+    });
+    countryFootballEntities.map((country) => {
+      country.leagues = country.leagues.map((league) => {
+        return { ...league, standings: null, description: null };
+      });
+    });
+    return countryFootballEntities;
   }
 }

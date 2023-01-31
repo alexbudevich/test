@@ -3,6 +3,8 @@ import { Repository } from 'typeorm';
 import { BasketballLeague } from './entities/basketball-league.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { InjectRepository } from '@nestjs/typeorm';
+import {CountryFootballEntity} from "../../countries/entities/country-football.entity";
+import {CountryBasketballEntity} from "../../countries/entities/country-basketball.entity";
 
 @Injectable()
 export class BasketballLeaguesService {
@@ -47,10 +49,20 @@ export class BasketballLeaguesService {
   constructor(
     @InjectRepository(BasketballLeague)
     private repository: Repository<BasketballLeague>,
+
+    @InjectRepository(CountryBasketballEntity)
+    private countryRepository: Repository<CountryBasketballEntity>,
   ) {}
 
   async findAll(query: PaginateQuery) {
-    const leagues = await paginate(query, this.repository, {
+    const queryBuilder = await this.repository
+      .createQueryBuilder('league')
+      .leftJoin('league.matches', 'match')
+      .where(
+        "match.date between now() and CAST((now() + INTERVAL '30 days') as date)",
+      );
+
+    const leagues = await paginate(query, queryBuilder, {
       relations: ['country'],
       sortableColumns: ['prior'],
     });
@@ -74,20 +86,18 @@ export class BasketballLeaguesService {
       .getOne();
   }
 
-  async findTopLeagues() {
-    const leagues = await this.repository
-      .createQueryBuilder('league')
-      .leftJoinAndSelect('league.country', 'country')
-      .where('league.name in (:...leagues)', {
-        leagues: this.topLeagues,
-      })
-      .andWhere('country.name in (:...countries)', {
-        countries: this.topCountries,
-      })
-      .getMany();
-
-    return leagues.map((league) => {
-      return { ...league, standings: null };
+  async getCountryLeagues() {
+    const countryFootballEntities = await this.countryRepository.find({
+      order: {
+        name: 'ASC',
+      },
+      relations: ['leagues'],
     });
+    countryFootballEntities.map((country) => {
+      country.leagues = country.leagues.map((league) => {
+        return { ...league, standings: null, description: null };
+      });
+    });
+    return countryFootballEntities;
   }
 }
