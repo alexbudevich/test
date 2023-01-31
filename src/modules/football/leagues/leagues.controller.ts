@@ -36,4 +36,10 @@ export class LeaguesController {
   ) {
     return this.leaguesService.getBySlug(country, league);
   }
+
+  @Get('grouped/groupedByCountry')
+  @UseInterceptors(NotFoundInterceptor)
+  getGroupedByCountry() {
+    return this.leaguesService.getGroupedByCountry();
+  }
 }

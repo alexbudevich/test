@@ -92,4 +92,12 @@ export class LeaguesService {
       return { ...league, standings: null };
     });
   }
+
+  async getGroupedByCountry() {
+    await this.repository
+      .createQueryBuilder('league')
+      .leftJoinAndSelect('league.country', 'country')
+      .groupBy('country.name')
+      .getRawMany();
+  }
 }

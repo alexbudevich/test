@@ -74,7 +74,7 @@ export class League {
 
   @ManyToMany(() => Season)
   @JoinTable({
-    name: 'new_league_season',
+    name: 'league_season',
     joinColumn: {
       name: 'league_id',
       referencedColumnName: 'id',
