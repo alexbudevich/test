@@ -55,7 +55,6 @@ export class MatchesService {
     query: PaginateQuery,
     criteria: MatchCriteriaDto,
   ) {
-
     const matchCriteria = await this.getMatchCriteria(criteria);
 
     const matches = await paginate(query, matchCriteria, {
@@ -285,16 +284,14 @@ export class MatchesService {
       });
 
     criteria.latestThen &&
-      matchQueryBuilder.andWhere(
-        'CAST(match.date as date) <= CAST(:latestThen as date)',
-        { latestThen: criteria.latestThen },
-      );
+      matchQueryBuilder.andWhere('match.date <= :latestThen', {
+        latestThen: criteria.latestThen,
+      });
 
     criteria.greatestThen &&
-      matchQueryBuilder.andWhere(
-        'CAST(match.date as date) >= CAST(:greatestThen as date)',
-        { greatestThen: criteria.greatestThen },
-      );
+      matchQueryBuilder.andWhere('match.date >= :greatestThen', {
+        greatestThen: criteria.greatestThen,
+      });
 
     return await paginate(query, matchQueryBuilder, {
       sortableColumns: ['date'],
@@ -320,16 +317,14 @@ export class MatchesService {
       });
 
     criteria.latestThen &&
-      matchQueryBuilder.andWhere(
-        'CAST(match.date as date) <= CAST(:latestThen as date)',
-        { latestThen: criteria.latestThen },
-      );
+      matchQueryBuilder.andWhere('match.date <= :latestThen', {
+        latestThen: criteria.latestThen,
+      });
 
     criteria.greatestThen &&
-      matchQueryBuilder.andWhere(
-        'CAST(match.date as date) >= CAST(:greatestThen as date)',
-        { greatestThen: criteria.greatestThen },
-      );
+      matchQueryBuilder.andWhere('match.date >= :greatestThen', {
+        greatestThen: criteria.greatestThen,
+      });
 
     return await paginate(query, matchQueryBuilder, {
       sortableColumns: ['date'],

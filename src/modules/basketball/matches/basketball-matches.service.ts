@@ -142,16 +142,14 @@ export class BasketballMatchesService {
       });
 
     criteria.latestThen &&
-      matchQueryBuilder.andWhere(
-        'CAST(match.date as date) <= CAST(:latestThen as date)',
-        { latestThen: criteria.latestThen },
-      );
+      matchQueryBuilder.andWhere('match.date <= :latestThen', {
+        latestThen: criteria.latestThen,
+      });
 
     criteria.greatestThen &&
-      matchQueryBuilder.andWhere(
-        'CAST(match.date as date) >= CAST(:greatestThen as date)',
-        { greatestThen: criteria.greatestThen },
-      );
+      matchQueryBuilder.andWhere('match.date >= :greatestThen', {
+        greatestThen: criteria.greatestThen,
+      });
 
     return await paginate(query, matchQueryBuilder, {
       sortableColumns: ['date'],
@@ -175,16 +173,14 @@ export class BasketballMatchesService {
       });
 
     criteria.latestThen &&
-      matchQueryBuilder.andWhere(
-        'CAST(match.date as date) <= CAST(:latestThen as date)',
-        { latestThen: criteria.latestThen },
-      );
+      matchQueryBuilder.andWhere('match.date <= :latestThen', {
+        latestThen: criteria.latestThen,
+      });
 
     criteria.greatestThen &&
-      matchQueryBuilder.andWhere(
-        'CAST(match.date as date) >= CAST(:greatestThen as date)',
-        { greatestThen: criteria.greatestThen },
-      );
+      matchQueryBuilder.andWhere('match.date >= :greatestThen', {
+        greatestThen: criteria.greatestThen,
+      });
 
     return await paginate(query, matchQueryBuilder, {
       sortableColumns: ['date'],
