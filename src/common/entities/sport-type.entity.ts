@@ -1,17 +1,5 @@
-import {
-  Column,
-  Entity,
-  Index,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { League } from '../../modules/leagues/entities/league.entity';
-import { Match } from '../../modules/matches/entities/match.entity';
-import { Odd } from '../../modules/odds/entities/odd.entity';
-import { Player } from '../../modules/players/entities/player.entity';
-import { Team } from '../../modules/teams/entities/team.entity';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
-@Index('sport_type_pkey', ['id'], { unique: true })
 @Index('sport_type_slug_idx', ['slug'], {})
 @Entity('sport_type', { schema: 'public' })
 export class SportType {
@@ -23,19 +11,4 @@ export class SportType {
 
   @Column('text', { name: 'slug', nullable: true })
   slug: string | null;
-
-  @OneToMany(() => League, (league) => league.sportType)
-  leagues: League[];
-
-  @OneToMany(() => Match, (match) => match.sportType)
-  matches: Match[];
-
-  @OneToMany(() => Odd, (odd) => odd.sportType)
-  odds: Odd[];
-
-  @OneToMany(() => Player, (player) => player.sportType)
-  players: Player[];
-
-  @OneToMany(() => Team, (team) => team.sportType)
-  teams: Team[];
 }

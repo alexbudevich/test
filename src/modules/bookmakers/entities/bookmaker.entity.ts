@@ -8,9 +8,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Country } from '../../countries/entities/country.entity';
-import { Odd } from '../../odds/entities/odd.entity';
+import { Odd } from '../../football/odds/entities/odd.entity';
 
-@Index('pk_1', ['id'], { unique: true })
 @Index('bookmaker_slug_idx', ['slug'], {})
 @Entity('bookmaker', { schema: 'public' })
 export class Bookmaker {

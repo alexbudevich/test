@@ -8,10 +8,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Country } from '../../countries/entities/country.entity';
-import { Team } from '../../teams/entities/team.entity';
-import { Match } from '../../matches/entities/match.entity';
+import { Team } from '../../football/teams/entities/team.entity';
+import { Match } from '../../football/matches/entities/match.entity';
 
-@Index('venue_pkey', ['id'], { unique: true })
 @Index('venue_slug_idx', ['slug'], {})
 @Entity('venue', { schema: 'public' })
 export class Venue {
@@ -56,13 +55,7 @@ export class Venue {
   @Column('text', { name: 's3_image_url', nullable: true })
   s3ImageUrl: string | null;
 
-  @OneToMany(() => Match, (match) => match.venue)
-  matches: Match[];
-
-  @OneToMany(() => Team, (team) => team.venue)
-  teams: Team[];
-
-  @ManyToOne(() => Country, (country) => country.venues)
+  @ManyToOne(() => Country)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
 }

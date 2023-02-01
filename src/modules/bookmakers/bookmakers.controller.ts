@@ -8,12 +8,13 @@ import {
 } from '@nestjs/common';
 import { BookmakersService } from './bookmakers.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { ApiQuery } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { BookmakerCriteriaDto } from './dto/bookmaker-criteria.dto';
 import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
 @Controller('bookmakers')
 @UseInterceptors(NotFoundInterceptor)
+@ApiTags('Common')
 export class BookmakersController {
   constructor(private readonly bookmakersService: BookmakersService) {}
 
@@ -28,6 +29,7 @@ export class BookmakersController {
   }
 
   @Get(':id')
+  @ApiOperation({ deprecated: true })
   getById(@Param('id') id: number) {
     return this.bookmakersService.getById(id);
   }
