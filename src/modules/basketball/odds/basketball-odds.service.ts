@@ -5,15 +5,15 @@ import { OddCriteriaDto } from './dto/odd-criteria.dto';
 import { BasketballMatchesService } from '../matches/basketball-matches.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BasketballOdd } from './entities/basketball-odd.entity';
-import { Bookmaker } from '../../bookmakers/entities/bookmaker.entity';
+import { BasketballBookmakerEntity } from '../../bookmakers/entities/basketball-bookmaker.entity';
 
 @Injectable()
 export class BasketballOddsService {
   constructor(
     @InjectRepository(BasketballOdd)
     private repository: Repository<BasketballOdd>,
-    @InjectRepository(Bookmaker)
-    private bookmakerRepository: Repository<Bookmaker>,
+    @InjectRepository(BasketballBookmakerEntity)
+    private bookmakerRepository: Repository<BasketballBookmakerEntity>,
     private matchesService: BasketballMatchesService,
   ) {}
 

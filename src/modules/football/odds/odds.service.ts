@@ -4,16 +4,16 @@ import { Odd } from './entities/odd.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { OddCriteriaDto } from './dto/odd-criteria.dto';
 import { MatchesService } from '../matches/matches.service';
-import { Bookmaker } from '../../bookmakers/entities/bookmaker.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FootballBookmakerEntity } from '../../bookmakers/entities/football-bookmaker.entity';
 
 @Injectable()
 export class OddsService {
   constructor(
     @InjectRepository(Odd)
     private repository: Repository<Odd>,
-    @InjectRepository(Bookmaker)
-    private bookmakerRepository: Repository<Bookmaker>,
+    @InjectRepository(FootballBookmakerEntity)
+    private bookmakerRepository: Repository<FootballBookmakerEntity>,
     private matchesService: MatchesService,
   ) {}
 
