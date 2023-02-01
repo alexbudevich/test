@@ -7,8 +7,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BasketballMatch } from '../../matches/entities/basketball-match.entity';
-import { Bookmaker } from '../../../bookmakers/entities/bookmaker.entity';
 import { SportType } from '../../../../common/entities/sport-type.entity';
+import { BasketballBookmakerEntity } from '../../../bookmakers/entities/basketball-bookmaker.entity';
 
 @Index('basketball_odd_bookmaker_id_idx', ['bookmakerId'], {})
 @Index(
@@ -60,9 +60,9 @@ export class BasketballOdd {
   })
   timestamp: Date | null;
 
-  @ManyToOne(() => Bookmaker, (bookmaker) => bookmaker.odds)
+  @ManyToOne(() => BasketballBookmakerEntity, (bookmaker) => bookmaker.odds)
   @JoinColumn([{ name: 'bookmaker_id', referencedColumnName: 'id' }])
-  bookmaker: Bookmaker;
+  bookmaker: BasketballBookmakerEntity;
 
   @ManyToOne(() => BasketballMatch, (match) => match.odds)
   @JoinColumn([{ name: 'match_id', referencedColumnName: 'id' }])

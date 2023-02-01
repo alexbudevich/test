@@ -4,14 +4,14 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { BasketballOdd } from '../../basketball/odds/entities/basketball-odd.entity';
 import { Country } from '../../countries/entities/country.entity';
-import { Odd } from '../../football/odds/entities/odd.entity';
-
 @Index('bookmaker_slug_idx', ['slug'], {})
 @Entity('bookmaker', { schema: 'public' })
-export class Bookmaker {
+export class BasketballBookmakerEntity {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
 
@@ -107,4 +107,7 @@ export class Bookmaker {
   @ManyToOne(() => Country, (country) => country.bookmakers)
   @JoinColumn([{ name: 'country_id', referencedColumnName: 'id' }])
   country: Country;
+
+  @OneToMany(() => BasketballOdd, (odd) => odd.bookmaker)
+  odds: BasketballOdd[];
 }

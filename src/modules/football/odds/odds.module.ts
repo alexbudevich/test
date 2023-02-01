@@ -5,11 +5,11 @@ import { MatchesModule } from '../matches/matches.module';
 import { BookmakersModule } from '../../bookmakers/bookmakers.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Odd } from './entities/odd.entity';
-import { Bookmaker } from '../../bookmakers/entities/bookmaker.entity';
+import { FootballBookmakerEntity } from '../../bookmakers/entities/football-bookmaker.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Odd, Bookmaker]),
+    TypeOrmModule.forFeature([Odd, FootballBookmakerEntity]),
     MatchesModule,
     BookmakersModule,
   ],

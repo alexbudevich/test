@@ -3,13 +3,13 @@ import { BasketballOddsService } from './basketball-odds.service';
 import { BasketballOddsController } from './basketball-odds.controller';
 import { BasketballMatchesModule } from '../matches/basketball-matches.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Bookmaker } from '../../bookmakers/entities/bookmaker.entity';
 import { BookmakersModule } from '../../bookmakers/bookmakers.module';
 import { BasketballOdd } from './entities/basketball-odd.entity';
+import { BasketballBookmakerEntity } from '../../bookmakers/entities/basketball-bookmaker.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([BasketballOdd, Bookmaker]),
+    TypeOrmModule.forFeature([BasketballOdd, BasketballBookmakerEntity]),
     BasketballMatchesModule,
     BookmakersModule,
   ],
