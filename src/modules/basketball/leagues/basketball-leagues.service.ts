@@ -3,8 +3,7 @@ import { Repository } from 'typeorm';
 import { BasketballLeague } from './entities/basketball-league.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { InjectRepository } from '@nestjs/typeorm';
-import {CountryFootballEntity} from "../../countries/entities/country-football.entity";
-import {CountryBasketballEntity} from "../../countries/entities/country-basketball.entity";
+import { CountryBasketballEntity } from '../../countries/entities/country-basketball.entity';
 
 @Injectable()
 export class BasketballLeaguesService {
@@ -87,12 +86,15 @@ export class BasketballLeaguesService {
   }
 
   async getCountryLeagues() {
-    const countryFootballEntities = await this.countryRepository.find({
-      order: {
-        name: 'ASC',
-      },
-      relations: ['leagues'],
-    });
+    const countryFootballEntities = await this.countryRepository
+      .createQueryBuilder('country')
+      .leftJoinAndSelect('country.leagues', 'league')
+      .leftJoin('league.matches', 'match')
+      .where(
+        "match.date between now() and CAST((now() + INTERVAL '30 days') as date)",
+      )
+      .getMany();
+
     countryFootballEntities.map((country) => {
       country.leagues = country.leagues.map((league) => {
         return { ...league, standings: null, description: null };
