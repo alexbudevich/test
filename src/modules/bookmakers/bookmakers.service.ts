@@ -1,13 +1,14 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Bookmaker } from './entities/bookmaker.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { BookmakerCriteriaDto } from './dto/bookmaker-criteria.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class BookmakersService {
   constructor(
-    @Inject('BOOKMAKER_REPOSITORY')
+    @InjectRepository(Bookmaker)
     private repository: Repository<Bookmaker>,
   ) {}
 

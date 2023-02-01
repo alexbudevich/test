@@ -7,17 +7,16 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Week } from '../../../common/entities/week.entity';
-import { League } from '../../leagues/entities/league.entity';
+import { League } from '../../football/leagues/entities/league.entity';
 
-@Index('season_pkey', ['id'], { unique: true })
 @Index('season_slug_idx', ['slug'], {})
 @Entity('season', { schema: 'public' })
 export class Season {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
 
-  @Column('smallint', { name: 'year', nullable: true })
-  year: number | null;
+  @Column('character varying', { name: 'year', nullable: true })
+  year: string | null;
 
   @Column('character varying', { name: 'start', nullable: true, length: 50 })
   start: string | null;

@@ -1,10 +1,11 @@
 import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { CountriesService } from './countries.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { ApiQuery } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
 @Controller('countries')
+@ApiTags('Common')
 export class CountriesController {
   constructor(private readonly countriesService: CountriesService) {}
 
@@ -27,6 +28,7 @@ export class CountriesController {
 
   @Get(':id')
   @UseInterceptors(NotFoundInterceptor)
+  @ApiOperation({ deprecated: true })
   getById(@Param('id') id: number) {
     return this.countriesService.getById(id);
   }

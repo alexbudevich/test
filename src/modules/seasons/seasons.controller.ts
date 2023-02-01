@@ -1,10 +1,11 @@
 import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { SeasonsService } from './seasons.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { ApiQuery } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { NotFoundInterceptor } from '../../common/interseptor/not-found-interceptor';
 
 @Controller('seasons')
+@ApiTags('Common')
 export class SeasonsController {
   constructor(private readonly seasonsService: SeasonsService) {}
 
@@ -16,6 +17,7 @@ export class SeasonsController {
   }
 
   @Get(':id')
+  @ApiOperation({ deprecated: true })
   @UseInterceptors(NotFoundInterceptor)
   getById(@Param('id') id: number) {
     return this.seasonsService.getById(id);
