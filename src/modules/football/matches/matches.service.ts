@@ -157,19 +157,26 @@ export class MatchesService {
       throw new NotFoundException();
     }
 
-    await this.updateStatistic(match);
+    const matchEntity = await this.repository
+      .createQueryBuilder('match')
+      .leftJoinAndSelect('match.teamAway', 'teamAway')
+      .leftJoinAndSelect('match.teamHome', 'teamHome')
+      .leftJoinAndSelect('match.round', 'round')
+      .leftJoinAndSelect('match.venue', 'venue')
+      .leftJoinAndSelect('match.league', 'league')
+      .where('match.id = :id', { id: match.id })
+      .getOne();
 
-    return this.repository.findOne({
-      relations: [
-        'teamAway',
-        'teamHome',
-        'round',
-        'venue',
-        'league',
-        'league.country',
-      ],
-      where: { id: match.id },
-    });
+    matchEntity.league = await this.leagueRepository
+      .createQueryBuilder('league')
+      .leftJoinAndSelect('league.country', 'country')
+      .select('league.standings')
+      .where('league.id = :id', {
+        id: matchEntity.league.id,
+      })
+      .getOne();
+
+    return matchEntity;
   }
 
   private async updateStatistic(match: Match) {
