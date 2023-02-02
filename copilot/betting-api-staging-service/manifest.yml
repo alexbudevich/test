@@ -1,0 +1,68 @@
+# The manifest for the "betting-api-staging-service" service.
+# Read the full specification for the "Load Balanced Web Service" type at:
+#  https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/
+
+# Your service name will be used in naming your resources like log groups, ECS services, etc.
+name: betting-api-staging-service
+type: Load Balanced Web Service
+
+# Distribute traffic to your service.
+http:
+  # Requests to this path will be forwarded to your service.
+  # To match all requests you can use the "/" path.
+  path: '/'
+  # You can specify a custom health check path. The default is "/".
+  healthcheck: '/healthcheck'
+
+# Configuration for your containers and service.
+image:
+  # Docker build arguments. For additional overrides: https://aws.github.io/copilot-cli/docs/manifest/lb-web-service/#image-build
+  build: Dockerfile
+  # Port exposed through your container to route traffic to it.
+  port: 3000
+
+cpu: 2048
+memory: 4096
+count: 1
+storage:
+  ephemeral: 100
+exec: true     # Enable running commands in your container.
+
+# Optional fields for more advanced use-cases.
+#
+#variables:                    # Pass environment variables as key value pairs.
+#  LOG_LEVEL: info
+
+#secrets:                      # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
+secrets: # Pass secrets from AWS Systems Manager (SSM) Parameter Store.
+  DATABASE_HOST:
+    secretsmanager: 'betting-api-staging:DATABASE_HOST::'
+  DATABASE_PORT:
+    secretsmanager: 'betting-api-staging:DATABASE_PORT::'
+  DATABASE_USERNAME:
+    secretsmanager: 'betting-api-staging:DATABASE_USERNAME::'
+  DATABASE_PASSWORD:
+    secretsmanager: 'betting-api-staging:DATABASE_PASSWORD::'
+  DATABASE_DATABASE:
+    secretsmanager: 'betting-api-staging:DATABASE_DATABASE::'
+  RKEY:
+    secretsmanager: 'betting-api-staging:RKEY::'
+  RHOST:
+    secretsmanager: 'betting-api-staging:RHOST::'
+  PROXY_HOST:
+    secretsmanager: 'betting-api-staging:PROXY_HOST::'
+  PROXY_PORT:
+    secretsmanager: 'betting-api-staging:PROXY_PORT::'
+  PROXY_USER:
+    secretsmanager: 'betting-api-staging:PROXY_USER::'
+  PROXY_PASSWORD:
+    secretsmanager: 'betting-api-staging:PROXY_PASSWORD::'
+  BD_MIGRATION_RUN:
+    secretsmanager: 'betting-api-staging:BD_MIGRATION_RUN::'
+
+# You can override any of the values defined above by environment.
+#environments:
+#  test:
+#    count: 2               # Number of tasks to run for the "test" environment.
+#    deployment:            # The deployment strategy for the "test" environment.
+#       rolling: 'recreate' # Stops existing tasks before new ones are started for faster deployments.
