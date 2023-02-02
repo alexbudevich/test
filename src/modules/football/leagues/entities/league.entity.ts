@@ -46,7 +46,7 @@ export class League {
   })
   timestamp: Date | null;
 
-  @Column('json', { name: 'standings', nullable: true })
+  @Column('json', { name: 'standings', nullable: true, select: false })
   standings: object | null;
 
   @Column('text', { name: 'slug', nullable: true })
@@ -55,7 +55,7 @@ export class League {
   @Column('text', { name: 's3_logo_url', nullable: true })
   s3LogoUrl: string | null;
 
-  @Column('text', { name: 'description', nullable: true })
+  @Column('text', { name: 'description', nullable: true, select: false })
   description: string | null;
 
   @Column('numeric', { name: 'prior', nullable: true })
