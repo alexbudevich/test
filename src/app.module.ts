@@ -24,7 +24,6 @@ import { Country } from './modules/countries/entities/country.entity';
 import { BasketballLeague } from './modules/basketball/leagues/entities/basketball-league.entity';
 import { League } from './modules/football/leagues/entities/league.entity';
 import { FootballUrlValidatorMiddleware } from './common/middlewares/football-url-valitador.middleware';
-import { SportsModule } from './modules/sports/sports.module';
 import {APP_GUARD} from '@nestjs/core';
 import {ThrottlerGuard, ThrottlerModule} from '@nestjs/throttler';
 
