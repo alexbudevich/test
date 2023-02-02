@@ -82,7 +82,27 @@ export class LeaguesService {
     return this.leagueRepository
       .createQueryBuilder('league')
       .leftJoinAndSelect('league.country', 'country')
-      .select(['league.standings', 'league.description'])
+      .select([
+        'league.id',
+        'league.name',
+        'league.type',
+        'league.logoUrl',
+        'league.providerId',
+        'league.timestamp',
+        'league.standings',
+        'league.slug',
+        'league.s3LogoUrl',
+        'league.description',
+        'league.prior',
+        'league.seasonStart',
+        'league.seasonEnd',
+        'country.id',
+        'country.name',
+        'country.code',
+        'country.flagUrl',
+        'country.slug',
+        'country.s3FlagUrl',
+      ])
       .where('league.slug = :leagueSlug', {
         leagueSlug: league,
       })
