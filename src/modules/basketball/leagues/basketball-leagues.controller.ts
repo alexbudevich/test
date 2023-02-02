@@ -29,4 +29,9 @@ export class BasketballLeaguesController {
   ) {
     return this.leaguesService.getBySlug(country, league);
   }
+
+  @Get(':country')
+  getByCountry(@Param('country') country: string) {
+    return this.leaguesService.getByCountry(country);
+  }
 }

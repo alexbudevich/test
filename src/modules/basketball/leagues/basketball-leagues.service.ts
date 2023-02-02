@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { BasketballLeague } from './entities/basketball-league.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -59,7 +59,8 @@ export class BasketballLeaguesService {
       .leftJoin('league.matches', 'match')
       .where(
         "match.date between now() and CAST((now() + INTERVAL '30 days') as date)",
-      );
+      )
+      .andWhere('league.metadata IS NULL');
 
     const leagues = await paginate(query, queryBuilder, {
       relations: ['country'],
@@ -101,5 +102,23 @@ export class BasketballLeaguesService {
       });
     });
     return countryFootballEntities;
+  }
+
+  async getByCountry(country: string) {
+    const basketballLeagues = await this.repository.find({
+      where: {
+        country: {
+          slug: country,
+        },
+        metadata: IsNull(),
+      },
+      order: {
+        prior: 'ASC',
+      },
+    });
+
+    return basketballLeagues.map((league) => {
+      return { ...league, standings: null, description: null };
+    });
   }
 }
