@@ -170,7 +170,7 @@ export class MatchesService {
     matchEntity.league = await this.leagueRepository
       .createQueryBuilder('league')
       .leftJoinAndSelect('league.country', 'country')
-      .select('league.standings')
+      .select(['league.standings', 'league.description'])
       .where('league.id = :id', {
         id: matchEntity.league.id,
       })

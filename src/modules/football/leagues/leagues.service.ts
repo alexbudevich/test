@@ -82,7 +82,7 @@ export class LeaguesService {
     return this.leagueRepository
       .createQueryBuilder('league')
       .leftJoinAndSelect('league.country', 'country')
-      .select('league.standings')
+      .select(['league.standings', 'league.description'])
       .where('league.slug = :leagueSlug', {
         leagueSlug: league,
       })
