@@ -24,14 +24,27 @@ import { Country } from './modules/countries/entities/country.entity';
 import { BasketballLeague } from './modules/basketball/leagues/entities/basketball-league.entity';
 import { League } from './modules/football/leagues/entities/league.entity';
 import { FootballUrlValidatorMiddleware } from './common/middlewares/football-url-valitador.middleware';
+import { SportsModule } from './modules/sports/sports.module';
+import {APP_GUARD} from '@nestjs/core';
+import {ThrottlerGuard, ThrottlerModule} from '@nestjs/throttler';
 
 @Module({
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }
+  ],
   imports: [
     TypeOrmModule.forRootAsync({
       imports: [AppConfigModule],
       useFactory: (configService: ApiConfigService) =>
         configService.postgresConfig,
       inject: [ApiConfigService],
+    }),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 120,
     }),
     ConfigModule.forRoot({
       isGlobal: true,
