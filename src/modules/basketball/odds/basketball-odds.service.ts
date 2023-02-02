@@ -63,17 +63,12 @@ export class BasketballOddsService {
       .setParameter('value', 'Home')
       .getOne();
 
-    const oddDraw = await oddSelectQueryBuilder
-      .setParameter('matchId', matchEntity.id)
-      .setParameter('value', 'Draw')
-      .getOne();
-
     const oddAway = await oddSelectQueryBuilder
       .setParameter('matchId', matchEntity.id)
       .setParameter('value', 'Away')
       .getOne();
 
-    return [oddHome, oddDraw, oddAway];
+    return [oddHome, oddAway];
   }
 
   private getTopOddSelectQueryBuilder() {
