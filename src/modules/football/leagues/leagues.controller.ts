@@ -27,11 +27,9 @@ export class LeaguesController {
     return this.leaguesService.getCountryLeagues();
   }
 
-  @Get(':id')
-  @ApiOperation({ deprecated: true })
-  @UseInterceptors(NotFoundInterceptor)
-  getById(@Param('id') id: number) {
-    return this.leaguesService.getById(id);
+  @Get(':country')
+  getByCountry(@Param('country') country: string) {
+    return this.leaguesService.getByCountry(country);
   }
 
   @Get(':country/:league')

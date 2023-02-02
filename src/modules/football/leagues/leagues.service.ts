@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { League } from './entities/league.entity';
 import { paginate, PaginateQuery } from 'nestjs-paginate';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -124,5 +124,22 @@ export class LeaguesService {
       });
     });
     return countryFootballEntities;
+  }
+
+  async getByCountry(country: string) {
+    const basketballLeagues = await this.leagueRepository.find({
+      where: {
+        country: {
+          slug: country,
+        },
+      },
+      order: {
+        prior: 'ASC',
+      },
+    });
+
+    return basketballLeagues.map((league) => {
+      return { ...league, standings: null, description: null };
+    });
   }
 }
