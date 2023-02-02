@@ -21,9 +21,9 @@ image:
   # Port exposed through your container to route traffic to it.
   port: 3000
 
-cpu: 2048
-memory: 4096
-count: 3
+cpu: 4096
+memory: 8192
+count: 1
 storage:
   ephemeral: 100
 exec: true     # Enable running commands in your container.
