@@ -91,9 +91,6 @@ export class BasketballLeaguesService {
       .createQueryBuilder('country')
       .leftJoinAndSelect('country.leagues', 'league')
       .leftJoin('league.matches', 'match')
-      .where(
-        "match.date between now() and CAST((now() + INTERVAL '30 days') as date)",
-      )
       .getMany();
 
     countryFootballEntities.map((country) => {
