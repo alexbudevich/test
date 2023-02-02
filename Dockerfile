@@ -27,18 +27,18 @@ COPY . .
 
 
 FROM source as dev
-ENV NODE_OPTIONS="--max-old-space-size=8192"
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 CMD ["npm", "run", "start:dev"]
 
 
 FROM source as build
-ENV NODE_OPTIONS="--max-old-space-size=8192"
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 RUN npm run build
 
 
 FROM base as prod
-ENV NODE_OPTIONS="--max-old-space-size=8192"
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 COPY --from=build /app/dist /app/dist
 
 CMD ["node", "dist/main"]
